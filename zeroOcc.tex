@@ -141,7 +141,7 @@
 \tableofcontents
 \newpage
 
-\chapter{Bunched Incoming Zero-Occupancy Treatment}
+\chapter{Treatment of Incoming Bunched Zero-Occupancy Scenarios}
 \section{Assumptions, Terminology}
 For starters, we will assume that only $m_K = 0$. This shall be denoted as \emph{single zero occupancy} or \emph{SZO}.
 
@@ -305,7 +305,7 @@ in eqn. (\ref{eqn:BSA_Int_BZO}) gives:
 		\sqrt{m_j! \; n_k!}
 		\oint_{\gamma}
 			\frac
-				{ (\iunit \sqrt{m_j}) \; (\iunit \sqrt{n_k}) \; \dd{\theta_j} \dd{\chi_k}}
+				{ \sqrt{{\color{blue}-}m_j} \; \sqrt{{\color{blue}-}n_k} \; \dd{\theta_j} \dd{\chi_k}}
 				{\sqrt{m_j}^{m_j+1}  \sqrt{n_j}^{n_k+1}}
 			\exp( \Big. \iunit(\theta_j - \chi_k))
 \\
@@ -316,11 +316,25 @@ in eqn. (\ref{eqn:BSA_Int_BZO}) gives:
 	)
 	\exp( \Big. \vec{x} \, \mathbb{U} \, \vec{y})
 \end{multline}
+(the negative arguments in the roots $\sqrt{-m_j}, \sqrt{-n_k}$ ensure correct counting of imaginary units $\iunit$, which, in turn, stem from substituting 
+$(\vec{x}, \vec{y}) \to (\vec{\theta}, \vec{\chi})$:
+\begin{align}
+	\dd{x_j}
+&=
+	\dv{x_j}{\theta_j} \dd{\theta_j}
+=
+	\iunit \, \sqrt{m_j} \, \exp(\iunit \theta_j) \dd{\theta_j}
+=
+	\sqrt{-m_j} \, \exp(\iunit \theta_j) \dd{\theta_j}
+\end{align}
+and likewise for $y_k \to \chi_k$.
+
+With this, get:
 \begin{multline}
-	\qquad\qquad
+	A_F(\vec{m}, \vec{n})
 =
 	\qty(
-		\frac{\iunit}{2\pi\iunit}
+		\frac{{\color{blue}\iunit}}{2\pi\iunit}
 	)^{K + b^*}
 	\prod_{k=1}^{K}
 	\prod_{j=1}^{b^*}
@@ -402,7 +416,7 @@ gives
 	)
 	\exp(
 		\sum_{k,l=1}^{K}
-		\sqrt{m_k, n_l}
+		\sqrt{m_k, n_l} \;
 		u_{k,l}
 		\exp(\Big.
 			\iunit(\theta_k - \chi_l)
@@ -415,6 +429,7 @@ Note
 \item although there are zeros in $\vec{m}$, this could still be written in terms of a dot product
 	$\vec{n} \cdot \vec{\chi} - \vec{m} \cdot \vec{\theta}$
 	, as contributions from $j > b^*$ simply vanish.
+\item because of this, no special treatment of the matrix multiplication $\vec{x} \, \mathbb{U} \, \vec{y}$ is needed.
 \end{itemize}
 
 \section{Integrating out the $\theta_1$ DoF}
@@ -440,23 +455,24 @@ and get
 		\int_{0}^{2\pi} {\color{blue} \dd{\theta_1}}
 			\exp(
 				\Big.
+				\iunit (
 				n_k \beta _k   -
 				m_j \alpha_j
-			)
+			))
 \\
 	\exp(
 		\iunit \qty(
 			\sum_{p=1}^{K}   n_p   -
-			\sum_{o=1}^{b^*} m_o
+			\sum_{q=1}^{b^*} m_q
 		)
 		{\color{blue} \theta_1}
 	)
 	\exp(
-		\sum_{o,p=1}^{K}
-		\sqrt{m_o, n_p} \;
-		u_{o,p}
+		\sum_{p,q=1}^{K}
+		\sqrt{m_p, n_q} \;
+		u_{p,q}
 		\exp(\Big.
-			\iunit(\alpha_o - \beta_p)
+			\iunit(\alpha_p - \beta_q)
 		)
 	)
 \end{multline}
@@ -473,16 +489,351 @@ As in Max' paper, get a Kronecker Delta from the $\theta_1$ exponential:
 \\
 	\exp(
 		\Big.
+		\iunit(
 		n_k \beta _k   -
 		m_j \alpha_j
-	)
+	))
 	\exp(
-		\sum_{o,p=1}^{K}
-		\sqrt{m_o, n_p} \;
-		u_{o,p}
+		\sum_{p,q=1}^{K}
+		\sqrt{m_p, n_q} \;
+		u_{p,q}
 		\exp(\Big.
-			\iunit(\alpha_o - \beta_p)
+			\iunit(\alpha_p - \beta_q)
 		)
 	)
 \end{multline}
+and resubstitute $(\vec{\alpha}, \vec{\beta}) \to (\vec{\theta}, \vec{\chi})$:
+\begin{multline}	
+	A_F(\vec{m}, \vec{n})
+=
+	2\pi \delta_{M,N} C
+	\prod_{k=1}^{K}
+	\prod_{j=2}^{b^*}
+		\oint_{\gamma}
+			\dd{\theta_j} \dd{\chi_k}
+\\
+	\exp(
+		\Big.
+		\iunit(
+		n_k \chi  _k   -
+		m_j \theta_j
+	))
+	\exp(
+		\sum_{p,q=1}^{K}
+		\sqrt{m_p, n_q} \;
+		u_{p,q}
+		\exp(\Big.
+			\iunit(\theta_p - \chi_q)
+		)
+	)
+\end{multline}
+with arbitrary def: $\theta_1 = 0$
+
+\section{Applying SPA}
+\subsection{Definitions}
+Using
+\begin{align}
+	\lambda
+&=
+	\prod_{k=1}^{K}
+	\prod_{j=1}^{b^*}
+		m_j \, n_k
+\\
+	f(
+		\underbrace{ \vec{\theta}, \vec{\chi} }_{\vec{z}}
+	)
+&=
+	\iunit
+	\lambda^{-1}
+	\qty[
+		\qty(
+			\sum_{j=1}^{b^*}
+				m_j \theta_j   -
+			\sum_{k=1}^{K}
+				n_k \chi  _k
+		)
+	-
+		\qty(
+			\sum_{s,t=1}^{K}
+			\sqrt{m_s, n_t} \;
+			u_{s,t}
+			\exp(\Big.
+				\iunit(\theta_s - \chi_t)
+			)
+		)
+	]
+\\
+	\oint_{\gamma} \dd[n]{\vec{z}}
+		\exp[-\lambda f(\vec{z})]
+&=
+	\qty( \frac
+		{2\pi}
+		{\lambda}
+	)^{\frac{n}{2}}
+	\sum_{r}
+		\frac
+		{\exp(-\lambda f(\vec{z}_r))}
+		{\sqrt{\det S_r}}
+\end{align}
+where $\vec{z}_r$ are the local extrema of $f$: $\eval{\dv{\vec{z}}f}_{\vec{z} = \vec{z}_r} = 0$\\
+and $S_r$ is the Hessian of $f$ evaluated in $\vec{z}_r$\\
+{\color{red} note that $\lambda$ differs from the fully occupied form.}
+
+\subsection{Saddle Points}
+\label{sec:saddles}
+Require:
+\begin{align}
+	\pdv{f}{\theta_p} &\equalCond 0
+&
+	\pdv{f}{\chi  _q} &\equalCond 0 
+\end{align}
+with $p \in \{2, \ldots, b^*\}$ and $q \in \{1, \ldots, K\}$
+
+Find:
+\begin{gather}
+	\pdv{f}{\theta_p}
+=
+	\iunit \lambda^{-1}
+	\qty[
+		m_p
+		-
+		\sum_{l=1}^{K}
+			\sqrt{m_p n_l} \; u_{p,l} \; \exp[ \Big. \iunit(\theta_p - \chi_l)]
+	]
+	\label{eqn:Jacobiantheta}
+\equalCond
+	0 \\
+\Thus
+	m_p
+\equalCond
+	\sum_{l=1}^{K}
+		\sqrt{m_p n_l} \; u_{p,l} \; \exp[ \Big. \iunit(\theta_p - \chi_l) ] \\
+\Thus
+	\sqrt{m_p} \exp(-\iunit \theta_p)
+\equalCond
+	\sum_{l=1}^{K} \sqrt{n_l} \; u_{p,l} \; \exp(-\iunit\chi_l)
+	\label{eqn:FourierLinkForward}
+\end{gather}
+with $p \in \{2, \ldots, K\}$ where $\theta_1 = 0$. Implicitly also holds for $p=1$ {\color{red}(Does it?)}, but the derivatives only start at $p=2$.
+
+Likewise:
+\begin{gather}
+	\pdv{f}{\chi_q}
+=
+	\iunit\lambda^{-1}
+	\qty[
+		- n_q
+		+
+		\sum_{k=1}^{K}
+			\sqrt{m_k n_q} \; u_{k,q} \; \exp[ \Big. \iunit(\theta_k - \chi_q) ]
+	]
+	\label{eqn:JacobianChi}
+\equalCond
+	0 \\
+\Thus
+	\sqrt{n_q} \exp(+\iunit \chi_q)
+\equalCond
+	\sum_{k=1}^{K}
+	\sqrt{m_k} \; u_{k,q} \; \exp(+\iunit\theta_k)
+	\label{eqn:FourierLinkBackward}
+\end{gather}
+with $q \in \{1, \ldots, K\}$ where again $\theta_1 = 0$
+
+Compactly:
+\begin{align}
+	\vec{x}^{*} &= \mathbb{U} \vec{y}
+&
+	\vec{y}^{*} &= \mathbb{U}\transp \vec{x}
+	\label{eqn:MatrixCondition}
+\end{align}
+
+\subsection{Main Results up to here}
+\begin{itemize}
+\item The phase relation still holds for BZO scenarios!
+\item normalization constants need to be adjusted:
+	\begin{itemize}
+	\item $C =
+	\qty(
+		\frac{\iunit}{2\pi\iunit}
+	)^{K + b^*}
+	\prod_{k=1}^{K}
+	\prod_{j=1}^{b^*}
+		\sqrt{\frac
+			{m_j! \; n_k!}
+			{m_j^{m_j}  n_j^{n_k}}
+		}$
+	\item $\lambda =
+	\prod_{k=1}^{K}
+	\prod_{j=1}^{b^*}
+		m_j \, n_k$
+	\end{itemize}
+\item The formulae up to here should not be applied to ZO modes, albeit behaviour for such $m_p$
+	implies that they are even valid there.
+\item strictly speaking, the matrix sum over $k$ should be adjusted such that no $\theta_k$ with
+	$k > b^*$ are referenced. However, all instances where this happens are weighted with a
+	$\sqrt{m_k} = 0$.
+\end{itemize}
+
+\section{Hessian}
+Recall: We start from
+\begin{align}
+	S_r
+=
+	\eval{
+		\pdv{f(\vec{z})}%
+			{z_\alpha}{z_\beta}
+	}_{\vec{z} = \vec{z}_r}
+\end{align}
+but only true DoFs are relevant. Hence, regard $m_j, n_j$ and $\theta_1$ as const. \\
+\Thus $(K + b^* - 1)^{2}$ derivatives wrt. $\theta_2, \ldots \theta_{b^*}, \chi_1, \ldots, \chi_K$
+
+Compactly: Use $\vec{z}_j = \vec{\theta} \oplus \vec{\chi}$, \ie the entire Fourier pair. Re-use eqns (\ref{eqn:Jacobiantheta}) and (\ref{eqn:JacobianChi}) from \ref{sec:saddles} by introducing (remembering the constraint $\theta_1 = 0$):
+
+\begin{align}
+	\mathbb{J} = \qty( \grad_{\vec{z}_j} f )
+\end{align}
+\begin{align}
+	J_{\theta, p} 
+&= 
+	\pdv{f}{\theta_p}
+=
+	\iunit \lambda^{-1}
+	\qty[
+		+m_p
+		-
+		\sum_{l=1}^{K}
+			\sqrt{m_p n_l} \; u_{p,l} \; \exp[\Big. \iunit(\theta_p - \chi_l)]
+	]
+\qfor{} p = 2, \ldots, b^*
+\\
+	J_{\chi, q} 
+&= 
+	\pdv{f}{\chi_q}
+=
+	\iunit \lambda^{-1}
+	\qty[
+		-n_q
+		+
+		\sum_{k=1}^{K}
+			\sqrt{m_k n_q} \; u_{k,q} \; \exp[\Big. \iunit(\theta_k - \chi_q)]
+	]
+\qfor{} q = 1, \ldots, K
+\end{align}
+Understand $\mathbb{J}$ as a \emph{column vector}. In spite of it having two indices here, there is only one dimension. $\theta, \chi$ refer to subblocks in the vector rather than degrees of freedom.
+
+Total dimension of $\mathbb{J}$ is $(K + b^* - 1) \times 1$ due to constraint $\theta_1 = 0$
+
+Get Hessian matrix elements:
+\begin{align}
+	\qty( S_j )
+&=
+	\begin{pmatrix}
+		\pdv{J_{\theta}}{\vec{\theta}} &
+		\pdv{J_{\theta}}{\vec{\chi  }} 
+		\\
+		\pdv{J_{\chi  }}{\vec{\theta}} &
+		\pdv{J_{\chi  }}{\vec{\chi  }} 
+	\end{pmatrix}
+\end{align}
+\begin{align}
+	\pdv{J_{\theta, p}}{\theta_{\alpha}}
+&=
+	+
+	\lambda^{-1}
+	\delta_{p,\alpha}
+	\sum_{l=1}^{K}
+		\sqrt{m_p n_l} \; u_{p,l} \; \exp[\Big. \iunit(\theta_p - \chi_l)]
+&\text{for } \alpha = 2, \ldots, b^*
+\\
+	\pdv{J_{\theta, p}}{\chi_{\alpha}}
+&=
+	-
+	\lambda^{-1}
+	\sqrt{m_p n_\alpha} \; u_{p,\alpha} \; \exp[\Big. \iunit(\theta_p - \chi_\alpha)]
+&\text{for } \alpha = 1, \ldots, K
+\\
+	\pdv{J_{\chi, q}}{\theta_{\alpha}}
+&=
+	-
+	\lambda^{-1}
+	\sqrt{m_\alpha n_q} \; u_{\alpha,q} \; \exp[\Big. \iunit(\theta_\alpha - \chi_q)]
+&\text{for } \alpha = 2, \ldots, b^*
+\\
+	\pdv{J_{\chi, q}}{\chi_{\alpha}}
+&=
+	+
+	\lambda^{-1}
+	\delta_{q,\alpha}
+	\sum_{k=1}^{K}
+		\sqrt{m_k n_q} \; u_{k,q} \; \exp[\Big. \iunit(\theta_k - \chi_q)]
+&\text{for } \alpha = 1, \ldots, K
+\end{align}
+Dimensions:
+\begin{align}
+	\dim S_j
+&=
+	\begin{pmatrix}
+		(b^* - 1) \times (b^* - 1)	& (b^* - 1) \times K \\
+		K \times (b^* - 1)			& K \times K
+	\end{pmatrix}
+=
+	(K + b^* - 1) \times (K + b^* - 1)
+\end{align}
+
+The Kronecker Delta is due to the fact that the derived-for variable is present only once at the stage of Jacobian $\mathbb{J}$.
+
+Using the eqns (\ref{eqn:FourierLinkForward}) and (\ref{eqn:FourierLinkBackward}), we can further collapse the diagonal elements:
+\begin{align}
+	\pdv{J_{\theta, p}}{\theta_{\alpha}}
+&=
+	\lambda^{-1}
+	\delta_{p,\alpha}
+	m_p
+&
+	p \in \{2, \ldots, b^*\}
+\\
+	\pdv{J_{\chi, q}}{\chi_{\alpha}}
+&=
+	\lambda^{-1}
+	\delta_{q,\alpha}
+	n_q
+&
+	q \in \{1, \ldots, K\}
+\end{align}
+
+Thus:
+\begin{align}
+	(S_j)
+&=
+	\lambda^{-1}
+	\diag(\vec{m}', \vec{n})
+	+
+	\begin{pmatrix}
+		\mathds{O}_{b^*-1} & 
+		\pdv{J_{\theta, p}}{\chi_{\alpha}}
+		\\
+		\pdv{J_{\chi, q}}{\theta_{\alpha}} &
+		\mathds{O}_{K}
+	\end{pmatrix}
+=
+	\lambda^{-1}
+	\begin{pmatrix}
+		\diag(\vec{m}') & F 			\\
+		F\transp & \diag(\vec{n})
+	\end{pmatrix}
+\end{align}
+where
+\begin{align}
+	F
+&:=
+	\lambda \qty( \pdv{J_{\theta}}{\vec{\chi}} ) 
+	= \lambda \qty( \pdv{J_{\chi}}{\vec{\theta}} )\transp
+	= \qty( -\sqrt{m_p n_q} \; u_{p,q} \; \exp[\Big. \iunit(\theta_p - \chi_q)] )_{
+		\substack{p = 2, \ldots, K \\ q = 1, \ldots, K}
+	}	
+\label{eqn:defDetOffDiagonalF}
+\end{align}
+where $\mathds{O}_{D}$ is a $D \times D$ null-matrix, and $\vec{m}' = (m_2, \ldots, m_K)\transp$
+
+The implied symmetry of the off-diagonal blocks is guaranteed by this being a Hessian matrix.
 \end{document}
