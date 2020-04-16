@@ -143,21 +143,21 @@
 
 \chapter{Bunched Incoming Zero-Occupancy Treatment}
 \section{Assumptions, Terminology}
-For starters, we will assume that only $m_1 = 0$. This shall be denoted as \emph{single zero occupancy} or \emph{SZO}.
+For starters, we will assume that only $m_K = 0$. This shall be denoted as \emph{single zero occupancy} or \emph{SZO}.
 
 From there on, the \emph{bunched zero occupancy} (\emph{BZO}) can be treated:
 \begin{align}
-	\exists b^{*} : \forall j > b^{*} : m_j > 0 \\
-	\forall m_j \leq b^{*} : m_j = 0
+	\exists b^{*} : \forall j > b^{*} : m_j = 0 \\
+	\qquad \forall j \leq b^* : m_j > 0
 \end{align}
-This means, the \emph{incoming modes} $j = 1 \ldots b^{*}$ have occupancy zero. 
+This means, the \emph{incoming modes} $j = 1 \ldots b^{*}$ are occupied at least once while all higher modes are not occupied. The case $b^* = K$ corresponds to all modes occupied.
 
 In both, SZO and BZO, we will further assume that the outgoing modes are still all occupied:
 \begin{align}
 	\forall j : n_j > 0
 \end{align}
 
-For the first cases, assume further only one mode to be of zero occupancy, \ie $b^* = 1$. This will be denoted as \emph{single zero occupancy} or \emph{SZO}.
+So, SZO translates to $b^* = K - 1$.
 
 From there on, the generic case follows:
 \begin{itemize}
@@ -194,7 +194,6 @@ Notes:
 \item was given
 \end{itemize}
 
-
 Split into BZO form:
 \begin{align}
 	A_F(\vec{m}, \vec{n})
@@ -204,15 +203,15 @@ Split into BZO form:
 			\prod_{j=1}^{b^*}
 			\frac
 				{1}
-				{\sqrt{n_j!}}
+				{\sqrt{m_j! \; n_j!}}
+			\pdv[m_j]{x_j}
 			\pdv[n_j]{y_j}
-		) 
+		)
 		\qty(
 			\prod_{j=b^* + 1}^{K}
 			\frac
 				{1}
-				{\sqrt{m_j! \; n_j!}}
-			\pdv[m_j]{x_j}
+				{\sqrt{n_j!}}
 			\pdv[n_j]{y_j}
 		)
 		\exp(\vec{x} \, \mathbb{U} \, \vec{y})
@@ -233,112 +232,58 @@ Equation:
 &=
 	\qty(
 		\prod_{j=1}^{b^*}
-		\frac
-			{\sqrt{n_j !}}
-			{2\pi\iunit}
-		\oint_{\gamma}
-			\frac
-				{\dd{y_j}}
-				{y_j^{n_j + 1}}
-	)
-	\underbrace{
-		\qty(
-			\prod_{j=b^* + 1}^{K}
 			\frac
 				{\sqrt{m_j! \; n_j!}}
 				{-4\pi^{2}}
-		)
-		\oint_{\gamma}
-			\qty(
+			\oint_{\gamma}
 				\frac
-				{\dd{x_j} \dd{y_j}}
-				{x_j^{m_j+1}  y_j^{n_j+1}}
-			)
-			\exp(\vec{x} \, \mathbb{U} \, \vec{y})
-		}_{=A^*}
+					{\dd{x_j} \dd{y_j}}
+					{x_j^{m_j+1}  y_j^{n_j+1}}
+	)
+	\qty(
+		\prod_{j=b^* + 1}^{K}
+			\frac
+				{\sqrt{n_j !}}
+				{2\pi\iunit}
+			\oint_{\gamma}
+				\frac
+					{\dd{y_j}}
+					{y_j^{n_j + 1}}
+	)
+	\exp( \Big. \vec{x} \, \mathbb{U} \, \vec{y}) \\
+&=
+	\qty(
+		\frac{1}{2\pi\iunit}
+	)^{K + b^*}
+		\prod_{j=1}^{b^*}
+			\sqrt{m_j! \; n_j!}
+			\oint_{\gamma}
+				\frac
+					{\dd{x_j} \dd{y_j}}
+					{x_j^{m_j+1}  y_j^{n_j+1}}
+		\prod_{j=b^* + 1}^{K}
+			\sqrt{n_j !}
+			\oint_{\gamma}
+				\frac
+					{\dd{y_j}}
+					{y_j^{n_j + 1}}
+	\exp( \Big. \vec{x} \, \mathbb{U} \, \vec{y}) \\
+&=
+	\qty(
+		\frac{1}{2\pi\iunit}
+	)^{K + b^*}
+	\prod_{k=1}^{K}
+	\prod_{j=1}^{b^*}
+		\sqrt{m_j! \; n_k!}
+		\oint_{\gamma}
+			\frac
+				{\dd{x_j} \dd{y_k}}
+				{x_j^{m_j+1}  y_k^{n_k+1}}
+	\exp( \Big. \vec{x} \, \mathbb{U} \, \vec{y})
 	\label{eqn:BSA_Int_BZO}
 \end{align}
 
-Holds because:
-\begin{itemize}
-\item principles of the generic derivation with applied with setting some $m_j$ to zero.
-\end{itemize}
-
-
-\chapter{Backup}
-The below has not lead (yet) to any usable results. Keep in stock, just in case
-\section{BSA in Integral From}
-Statement:
-\begin{align}
-	A_F(\vec{m}, \vec{n})
-&=
-	\qty(
-		\prod_{j=1}^{K}
-		\frac
-			{\sqrt{m_j! \; n_j!}}
-			{-4\pi^{2}}
-	)
-	\oint_{\gamma}
-		\qty(
-			\frac
-			{\dd{x_j} \dd{y_j}}
-			{x_j^{m_j+1}  y_j^{n_j+1}}
-		)
-		\exp(\vec{x} \, \mathbb{U} \, \vec{y})
-	\label{eqn:BSA_Int}
-\end{align}
-
-Notes
-\begin{itemize}
-\item Copy \& Paste from Max
-\item Zero in any $m_j$ does not affect this, as rewriting is based on Cauchy's formula, which initially
-	does not involve derivatives after all:
-	\begin{equation}
-		f(0)
-	=
-		\frac{1}{2\pi \iunit}
-		\oint_{\gamma} \dd{z}
-			\frac{f(z)}{z}
-	\end{equation}
-\end{itemize}
-
-\section{Change of Variables I: how not to do it}
-\subsection{Absorbing Prefactors in BSA}
-Statement:
-\begin{multline}
-	A_F(\vec{m}, \vec{n})
-=
-	\qty(
-		\prod_{j=1}^{K}
-		\frac
-			{\sqrt{m_j! \; n_j!}}
-			{-4\pi^{2}}
-	)
-	\oint_{\gamma}
-		\qty(
-			\prod_{j=1}^{K}
-			\dd{x_j} \dd{y_j}
-		)  \cdot \ldots
-\\
-		\ldots \exp[
-			-\sum_{j=1}^{K} 
-			\qty[ \Big.
-				(m_j + 1) \log(x_j) +
-				(n_j + 1) \log(y_j)
-			]
-		]
-		\exp(\vec{x} \, \mathbb{U} \, \vec{y})
-	\label{eqn:BSA_IntAbsorbed}
-\end{multline}
-
-Notes:
-\begin{itemize}
-\item Copy \& Paste from Max
-\item This form is not affected by setting either variable to zero
-\item But there already exists no solution to $\log(0)$
-\end{itemize}
-
-\subsection{Apply Change of Coordinates}
+\section{Change of Variables}
 Using polar coordinates:
 \begin{align}
 	\begin{cases}
@@ -348,283 +293,196 @@ Using polar coordinates:
 	\label{eqn:DefXY}
 \end{align}
 
-in eqn. (\ref{eqn:BSA_IntAbsorbed}) gives:
+in eqn. (\ref{eqn:BSA_Int_BZO}) gives:
 \begin{multline}
 	A_F(\vec{m}, \vec{n})
 =
 	\qty(
-		\prod_{j=1}^{K}
-		\frac
-			{1}
-			{-4\pi^{2}}
+		\frac{1}{2\pi\iunit}
+	)^{K + b^*}
+	\prod_{k=1}^{K}
+	\prod_{j=1}^{b^*}
+		\sqrt{m_j! \; n_k!}
+		\oint_{\gamma}
+			\frac
+				{ (\iunit \sqrt{m_j}) \; (\iunit \sqrt{n_k}) \; \dd{\theta_j} \dd{\chi_k}}
+				{\sqrt{m_j}^{m_j+1}  \sqrt{n_j}^{n_k+1}}
+			\exp( \Big. \iunit(\theta_j - \chi_k))
+\\
+	\exp(
+		\Big.
+		-\iunit (m_j + 1) \theta_j
+		+\iunit (n_k + 1) \chi  _k
+	)
+	\exp( \Big. \vec{x} \, \mathbb{U} \, \vec{y})
+\end{multline}
+\begin{multline}
+	\qquad\qquad
+=
+	\qty(
+		\frac{\iunit}{2\pi\iunit}
+	)^{K + b^*}
+	\prod_{k=1}^{K}
+	\prod_{j=1}^{b^*}
+		\sqrt{m_j! \; n_k!}
+		\oint_{\gamma}
+			\frac
+				{\dd{\theta_j} \dd{\chi_k}}
+				{\sqrt{m_j}^{m_j}  \sqrt{n_j}^{n_k}}
+\\
+	\exp(
+		\Big.
+		-\iunit m_j \theta_j
+		+\iunit n_k \chi  _k
+	)
+	\exp( \Big. \vec{x} \, \mathbb{U} \, \vec{y})
+\end{multline}
+\begin{multline}
+	\qquad\qquad
+=
+	\qty(
+		\frac{\iunit}{2\pi\iunit}
+	)^{K + b^*}
+	\prod_{k=1}^{K}
+	\prod_{j=1}^{b^*}
 		\sqrt{\frac
-			{m_j!      \; n_j!}
-			{m_j^{m_j} \; n_j^{n_j} }
+			{m_j! \; n_k!}
+			{m_j^{m_j}  n_j^{n_k}}
 		}
+		\oint_{\gamma}
+			\dd{\theta_j} \dd{\chi_k}
+	\exp(
+		\Big.
+		-\iunit m_j \theta_j
+		+\iunit n_k \chi  _k
 	)
-	\int_{0}^{2\pi} \dd{\vec{\theta}}
-	\int_{0}^{2\pi} \dd{\vec{\chi}}\ \ldots \\
-		\ldots		
-		\exp[\iunit (\vec{n} \cdot \vec{\chi}  -  \vec{m} \cdot \vec{\theta})] \cdot 
-		\exp[\sum_{k,l=1}^{K} \sqrt{m_k n_l} \; u_{k,l} \; \exp[\Big.\iunit(\theta_k - \chi_l)] ]
+	\exp( \Big. \vec{x} \, \mathbb{U} \, \vec{y})
 \end{multline}
 
-Notes:
-\begin{itemize}
-\item Copy \& Paste from Max
-\item This cannot be used here since setting any $m_j$ to zero would yield several undefined expressions:
-	\begin{itemize}
-	\item $\frac{\text{const}}{0}$ contribution in the prefactor 
-	\item $0^0$ component in denominator of prefactor
-	\item $\log(0)$ in eqn. \ref{eqn:BSA_IntAbsorbed}
-	\end{itemize}
-	
-\end{itemize}
-
-
-\section{Change of variables II: electric boogaloo}
-\subsection{Plug in substitution}
-Use same coordinates as in eqn. \ref{eqn:DefXY}, but in \ref{eqn:BSA_Int}. Get:
+using
+\begin{align}
+	C
+&=
+	\qty(
+		\frac{\iunit}{2\pi\iunit}
+	)^{K + b^*}
+	\prod_{k=1}^{K}
+	\prod_{j=1}^{b^*}
+		\sqrt{\frac
+			{m_j! \; n_k!}
+			{m_j^{m_j}  n_j^{n_k}}
+		}
+\end{align}
+({\color{red}keep in mind that this definition of $C$ differs from the fully-occupied scenario!})
+gives
 \begin{align}
 	A_F(\vec{m}, \vec{n})
 &=
-	\qty(
-		\prod_{j=1}^{K}
-		\frac
-			{\sqrt{m_j! \; n_j!}}
-			{-4\pi^{2}}
+	C
+	\prod_{k=1}^{K}
+	\prod_{j=1}^{b^*}
+		\oint_{\gamma}
+			\dd{\theta_j} \dd{\chi_k}
+	\exp(
+		\Big.
+		-\iunit m_j \theta_j
+		+\iunit n_k \chi  _k
 	)
-	\oint_{\gamma}
-		\qty(
-			\frac
-			{\dd{x_j} \dd{y_j}}
-			{[\sqrt{m_j} \exp( \iunit \theta_j)]^{m_j+1}
-			 [\sqrt{n_j} \exp(-\iunit \chi  _j)]^{n_j+1}}
+	\exp( \Big. \vec{x} \, \mathbb{U} \, \vec{y}) \\
+&=
+	C
+	\prod_{k=1}^{K}
+	\prod_{j=1}^{b^*}
+		\oint_{\gamma}
+			\dd{\theta_j} \dd{\chi_k}
+	\exp(
+		\Big.
+		-\iunit m_j \theta_j
+		+\iunit n_k \chi  _k
+	)
+	\exp(
+		\sum_{k,l=1}^{K}
+		\sqrt{m_k, n_l}
+		u_{k,l}
+		\exp(\Big.
+			\iunit(\theta_k - \chi_l)
 		)
-		\exp(\vec{x} \, \mathbb{U} \, \vec{y})
+	)
+	\label{eqn:BSA_Int_BZO_Polar}
 \end{align}
+Note
+\begin{itemize}
+\item although there are zeros in $\vec{m}$, this could still be written in terms of a dot product
+	$\vec{n} \cdot \vec{\chi} - \vec{m} \cdot \vec{\theta}$
+	, as contributions from $j > b^*$ simply vanish.
+\end{itemize}
 
-separate the components $j=1 \ldots b^{*}$, assuming $m_j = 0$:
+\section{Integrating out the $\theta_1$ DoF}
+split eqn. (\ref{eqn:BSA_Int_BZO_Polar}) into $\theta_1$ dependent terms and rest. Use temporary variables:
+\begin{align}
+	\vec{\alpha} &= \vec{\theta} - (\theta_1, \ldots, \theta_1)\transp
+	&
+	\vec{\theta} &= \vec{\alpha} + (\theta_1, \ldots, \theta_1)\transp
+\\
+	\vec{\beta } &= \vec{\chi  } - (\theta_1, \ldots, \theta_1)\transp
+	&
+	\vec{\chi  } &= \vec{\beta } + (\theta_1, \ldots, \theta_1)\transp
+\end{align}
+and get
 \begin{multline}
 	A_F(\vec{m}, \vec{n})
 =
-	\qty[
-		\prod_{j=1}^{b^*}
-		\frac{1}{-4\pi^{2}}
-		\frac
-			{m_j! \; n_k!}
-			{[\sqrt{m_j} \exp( \iunit \theta_1)]^{m_1 + 1}
-			 [\sqrt{n_j} \exp(-\iunit \chi  _1)]^{n_1 + 1}
-			}
-	]
-	\qty(
-		\prod_{j=b^{*} + 1}^{K}
-		\frac
-			{\sqrt{m_j! \; n_j!}}
-			{-4\pi^{2}}
-	)
+	C
+	\prod_{k=1}^{K}
+	\prod_{{\color{blue} j=2}}^{b^*}
+		\oint_{\gamma}
+			\dd{\alpha_j} \dd{\beta_k}
+		\int_{0}^{2\pi} {\color{blue} \dd{\theta_1}}
+			\exp(
+				\Big.
+				n_k \beta _k   -
+				m_j \alpha_j
+			)
 \\
-	\oint_{\gamma}
-		\qty(
-			\frac
-			{\dd{x_j} \dd{y_j}}
-			{[\sqrt{m_j} \exp( \iunit \theta_j)]^{m_j+1}
-			 [\sqrt{n_j} \exp(-\iunit \chi  _j)]^{n_j+1}}
+	\exp(
+		\iunit \qty(
+			\sum_{p=1}^{K}   n_p   -
+			\sum_{o=1}^{b^*} m_o
 		)
-		\exp(\vec{x} \, \mathbb{U} \, \vec{y})
+		{\color{blue} \theta_1}
+	)
+	\exp(
+		\sum_{o,p=1}^{K}
+		\sqrt{m_o, n_p} \;
+		u_{o,p}
+		\exp(\Big.
+			\iunit(\alpha_o - \beta_p)
+		)
+	)
 \end{multline}
 
-\subsection{Do L'Hopital}
-Focus on the prefactor, denote non-singular contribution (\ie the part where $j > b^{*}$) as $A^{*}$:
-\begin{align}
+As in Max' paper, get a Kronecker Delta from the $\theta_1$ exponential:
+\begin{multline}	
 	A_F(\vec{m}, \vec{n})
 =
-	\qty[
-		\prod_{j=1}^{b^*}
-		\frac{1}{-4\pi^{2}}
-		\frac
-			{m_j! \; n_k!}
-			{[\sqrt{m_j} \exp( \iunit \theta_1)]^{m_1 + 1}
-			 [\sqrt{n_j} \exp(-\iunit \chi  _1)]^{n_1 + 1}
-			}
-	] A^*
-\end{align}
-
-\subsubsection{Theorem}
-\begin{displayquote}
-L'Hôpital's rule states that for functions $f$ and $g$ which are differentiable on an open interval $I$ except possibly at a point $c$ contained in $I$, if 
-$\lim _{x\to c}f(x)=\lim _{x\to c}g(x) = 0 \text{ or } \pm \infty$,
-$g'(x) \neq 0$ for all $x$ in $I$ with $x \neq c$, and 
-$\lim_{x \to c}
-	\frac
-		{f'(x)}
-		{g'(x)}$ 
-exists, then
-\[
-	\lim _{x\to c}{
-		\frac 
-			{f(x)}
-			{g(x)}
-	}
-=
-	\lim _{x\to c}{
-		\frac
-			{f'(x)}
-			{g'(x)}
-	}
-\]
-\end{displayquote}
-(Cf. \url{https://en.wikipedia.org/wiki/L%27H%C3%B4pital%27s_rule}.)
-
-\subsubsection{Applicability I: function form}
-\begin{itemize}
-\item $f$: differentiable on open interval:
-	\begin{itemize}
-	\item $f = \prod_{j=1}^{b^*} m_j! \; n_j! = 0$
-	\item continuous wrt. $m_j$, interpreted as real values
-	\end{itemize}
-\item $g$: differentiable on open interval:
-	\begin{itemize}
-	\item $g = [\sqrt{m_j} \exp( \iunit \theta_1)]^{m_1 + 1}
-			 [\sqrt{n_j} \exp(-\iunit \chi  _1)]^{n_1 + 1} = 0$
-	\item continuous wrt. $m_j$, interpreted as real values
-	\end{itemize}
-\item[\Thus] okay
-\end{itemize}
-
-\subsubsection{Appicabilty II: Derivative of $f$}
-Derivative $f'$: needs to exist
-\begin{itemize}
-\item Multivariate case will be treated later; regard only SZO
-\item $f' = \dv{m_1} (m_1! \; n_1!) = n_1! \dv{m_1}(m_1!)$
-\item Use real-value continuation of factorial: Gamma function: $\Gamma(n) = (n-1)!$
-\item $\Gamma(z) = \int_{0}^{\infty} \dd{x} x^{z-1} \exp(-x)$
-\item Hence:
-\begin{align}
-	f'
-&=
-	n_1! \dv{m_1}\qty[ \big. \Gamma(m_1 + 1) ] 
-	\qquad\text{(renaming } m_1 \thus z \text{ in the next lines for convenience)}
-	\\
-&=
-	n_1! \dv{z}
-	\int_{0}^{\infty} \dd{x} 
-		x^{z} \exp(-x)
-	\\
-&=
-	n_1!
-	\int_{0}^{\infty} \dd{x}
-		x^{z} \log(x) \exp(-x)
-\end{align}	
-\item Following this (or rather, using Wolfram Alpha: \\
-	\url{https://www.wolframalpha.com/input/?i=d%2Fdx+x%21})	 \\
-	we get
-\begin{align}
-	\dv{z}(z!) = \Gamma(z + 1) \Psi(z + 1)
-\end{align}
-	where $\Psi$ is the \emph{digamma function}\\
-	(cf. \url{https://mathworld.wolfram.com/DigammaFunction.html} and \\
-	     \url{https://mathworld.wolfram.com/PolygammaFunction.html}):
-\begin{align}
-	\Psi(n)
-&=
-	H_{n-1} - \gamma
-\end{align}
-where
-\begin{align}
-	H_{n}
-&=
-	\sum_{k=1}^{n}
-		\frac{1}{k}
-	\qfor{} n \in \setNaturals
-&
-	\text{\enquote{harmonic numbers}}
+	2\pi \delta_{M,N} C
+	\prod_{k=1}^{K}
+	\prod_{j=2}^{b^*}
+		\oint_{\gamma}
+			\dd{\alpha_j} \dd{\beta_k}
 \\
-	H_0
-&=
-	0
-\\
-	\gamma
-&=
-	\lim_{n \to \infty} \qty(
-		-\ln(n)
-		+ \sum_{k=0}^{n}
-			\frac{1}{k}
+	\exp(
+		\Big.
+		n_k \beta _k   -
+		m_j \alpha_j
 	)
-\approx
-	0.577215
-&
-	\text{\enquote{Euler–Mascheroni constant}}
-\end{align}
-
-\item maybe useful later: alternate form:
-\begin{align}
-	\Psi(z)
-&=
-	\sum_{n=0}^{\infty}
-		\frac{1}{n+1}
-	\sum_{k=0}^{n}
-		\qty(-1)^{k}
-		\begin{pmatrix}
-			n \\ k
-		\end{pmatrix}
-		\ln(z + k)
-\end{align}
-\item get
-\begin{align}
-	f'
-&=
-	n_1 ! \;
-	\Gamma(m_1 + 1) \,
-	\Psi  (m_1 + 1) \\
-&=
-	n_1 ! \; m_1 ! \;
-	\qty( H_{m_1} - \gamma )
-\end{align}
-\end{itemize}
-
-\subsubsection{Applicability of $g$}
-Derivative $g'$: need to exist, and be nonzero
-\begin{itemize}
-\item $g(z) = [\sqrt{z} \exp( \iunit \theta_1)]^{z + 1}
-			 [\sqrt{n_j} \exp(-\iunit \chi  _1)]^{n_1 + 1} = 0$
-	where $m_1$ was relabelled $z$ for convenience
-\item get
-\begin{align}
-	\underbrace{
-		[\sqrt{n_j} \exp(-\iunit \chi  _1)]^{n_1 + 1}
-	}_{\xi}
-	\dv{z}
-		[\sqrt{z} \exp( \iunit \theta_1)]^{z + 1}
-&=
-	\xi
-	\qty( \bigg.
-		\sqrt{z} \exp( \iunit \theta_1)
-	)^{z+1}
-	\qty(
-		\frac
-			{z+1}
-			{2z}
-		+
-		\log(\sqrt{z} \exp( \iunit \theta_1) )
-	) \\
-&=
-	\xi
-	\exp[ \big. \iunit (z+1) \theta_1 ]
-	\qty[
-		\frac{z+1}{2}
-		z^{\frac{z-1}{2}}
-		+
-		z^{\frac{z+1}{2}}
-		\log(\sqrt{z} \exp( \iunit \theta_1) )
-	]
-\end{align}
-
-\item L'Hopital could be applied again ($a \cdot b = \frac{a}{1/b}$), but this does not yield a solveable form.
-\item Problem is due to the $z^z$ term, which always gives a new $\log(z)$ term
-\end{itemize}		
-
-
-\subsection{Evaluate $m_1 = 0$}
-
+	\exp(
+		\sum_{o,p=1}^{K}
+		\sqrt{m_o, n_p} \;
+		u_{o,p}
+		\exp(\Big.
+			\iunit(\alpha_o - \beta_p)
+		)
+	)
+\end{multline}
 \end{document}
