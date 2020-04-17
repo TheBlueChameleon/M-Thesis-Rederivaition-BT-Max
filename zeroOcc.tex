@@ -184,7 +184,7 @@ Statement:
 				{\sqrt{m_j! \; n_j!}}
 			\pdv[m_j]{x_j}
 			\pdv[n_j]{y_j}
-		) \exp(\vec{x} \, \mathbb{U} \, \vec{y})
+		) \exp(\vec{x}\transp \, \mathbb{U} \, \vec{y})
 	}_{\vec{x} = \vec{y} = \vec{0}}
 \label{eqn:BSA_raw}
 \end{align}
@@ -574,6 +574,7 @@ Using
 		\frac
 		{\exp(-\lambda f(\vec{z}_r))}
 		{\sqrt{\det S_r}}
+\label{eqn:def_SPA}
 \end{align}
 where $\vec{z}_r$ are the local extrema of $f$: $\eval{\dv{\vec{z}}f}_{\vec{z} = \vec{z}_r} = 0$\\
 and $S_r$ is the Hessian of $f$ evaluated in $\vec{z}_r$\\
@@ -1172,8 +1173,26 @@ Statement:
 	)^{\frac{K + b^*}{2}}
 	\sum_r
 		\frac
-		{\exp[-\lambda f(\vec{z}_r)]}
+		{\overbrace{
+			\exp[-\lambda f(\vec{z}_r)]
+		}^{\mathcal{E}}}
 		{\sqrt{\det S_r}}
+\end{align}
+from SPA formula eqn. (\ref{eqn:def_SPA}) with
+\begin{align}
+	\mathcal{E}
+&=
+	\exp[ 
+		\qty(- \sum_{k=2}^{K} \iunit m_k \theta_k) + 
+		\qty(  \sum_{k=1}^{K} \iunit n_k \chi_k)   +
+		\vec{x}\transp \, \mathbb{U} \, \vec{y}
+	] \\
+&=
+	\exp[ 
+		\qty(- \sum_{k=2}^{K} \iunit m_k \theta_k) + 
+		\qty(  \sum_{k=1}^{K} \iunit n_k \chi_k)   +
+		N
+	]
 \end{align}
 
 \section{Specialization: 2x2}

@@ -154,7 +154,7 @@ Statement:
 				{\sqrt{m_j! \; n_j!}}
 			\pdv[m_j]{x_j}
 			\pdv[n_j]{y_j}
-		) \exp(\vec{x} \, \mathbb{U} \, \vec{y})
+		) \exp(\vec{x}\transp \, \mathbb{U} \, \vec{y})
 	}_{\vec{x} = \vec{y} = \vec{0}}
 \label{eqn:BSA_raw}
 \end{align}
@@ -249,7 +249,7 @@ Statement:
 			{\dd{x_j} \dd{y_j}}
 			{x_j^{m_j+1}  y_j^{n_j+1}}
 		)
-		\exp(\vec{x} \, \mathbb{U} \, \vec{y})
+		\exp(\vec{x}\transp \, \mathbb{U} \, \vec{y})
 \end{align}
 
 Symbols
@@ -293,7 +293,7 @@ Statement:
 				(n_j + 1) \log(y_j)
 			]
 		]
-		\exp(\vec{x} \, \mathbb{U} \, \vec{y})
+		\exp(\vec{x}\transp \, \mathbb{U} \, \vec{y})
 \label{eqn:BSA_IntAbsorbed}
 \end{align}
 
@@ -1627,7 +1627,7 @@ Statement:
 	A_F
 &\propto
 	\frac{1}{N!}
-	\qty( \big. \vec{x} \; \mathbb{U} \; \vec{y} )^{N}
+	\qty( \big. \vec{x}\transp \; \mathbb{U} \; \vec{y} )^{N}
 \end{align}
 
 Holds because:
@@ -1644,38 +1644,38 @@ Holds because:
 				{\sqrt{m_j! \; n_j!}}
 			\pdv[m_j]{x_j}
 			\pdv[n_j]{y_j}
-		) \exp(\vec{x} \, \mathbb{U} \, \vec{y})
+		) \exp(\vec{x}\transp \, \mathbb{U} \, \vec{y})
 	}_{\vec{x} = \vec{y} = \vec{0}}
 \end{align*}
 and write $\exp$ as its Taylor expansion:
 \begin{align}
 	\exp
-	( \underbrace{\vec{x} \, \mathbb{U} \, \vec{y}}_{a} )
+	( \underbrace{\vec{x}\transp \, \mathbb{U} \, \vec{y}}_{a} )
 &=
-	T_{a_0 = 0}^{\exp} ( \vec{x} \, \mathbb{U} \, \vec{y} )
+	T_{a_0 = 0}^{\exp} ( \vec{x}\transp \, \mathbb{U} \, \vec{y} )
 =
 	\sum_{k=1}^{\infty}
 		\frac{1}{k!}
-		\underbrace{ \exp( \vec{x}_0 \, \mathbb{U} \, \vec{y}_0 ) }_{=\exp(a_0) = 1}
-		\qty( \vec{x} \, \mathbb{U} \, \vec{y} - 0 )^{k}
+		\underbrace{ \exp( \vec{x}_0\transp \, \mathbb{U} \, \vec{y}_0 ) }_{=\exp(a_0) = 1}
+		\qty( \vec{x}\transp \, \mathbb{U} \, \vec{y} - 0 )^{k}
 	\\
 &=
 	\sum_{k=1}^{\infty}
 		\frac{1}{k!}
-		\qty( \vec{x} \, \mathbb{U} \, \vec{y} )^{k}
+		\qty( \vec{x}\transp \, \mathbb{U} \, \vec{y} )^{k}
 \end{align}
 
 \item apply derivatives:
 \begin{align}
 	\pdv[m_j]{x_j}
 	\pdv[n_j]{y_j}
-	\exp(\vec{x} \, \mathbb{U} \, \vec{y})
+	\exp(\vec{x}\transp \, \mathbb{U} \, \vec{y})
 &=
 	\pdv[m_j]{x_j}
 	\pdv[n_j]{y_j}
 	\sum_{k=1}^{\infty}
 		\frac{1}{k!}
-		\qty( \vec{x} \, \mathbb{U} \, \vec{y} )^{k}
+		\qty( \vec{x}\transp \, \mathbb{U} \, \vec{y} )^{k}
 	\\
 &=
 	\pdv[m_j]{x_j}
@@ -1692,7 +1692,7 @@ and note that summands vanish where exponent $k$ less than order of derivative $
 \begin{align}
 	\pdv[m_j]{x_j}
 	\pdv[n_j]{y_j}
-	\exp(\vec{x} \, \mathbb{U} \, \vec{y})
+	\exp(\vec{x}\transp \, \mathbb{U} \, \vec{y})
 &=
 	\pdv[n_j]{y_j}
 	\sum^{\infty}_{\color{red} k=m_j (?)}
@@ -1795,7 +1795,7 @@ Holds because
 \subsection{Apply Multinomial Theorem}
 Statement
 \begin{align}
-	\qty( \vec{x} \; \mathbb{U} \; \vec{y} )^{N}
+	\qty( \vec{x}\transp \; \mathbb{U} \; \vec{y} )^{N}
 &=
 	\sum_{\sum_{k_j}^K = N}
 		\begin{pmatrix}
