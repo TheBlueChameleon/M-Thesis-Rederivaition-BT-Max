@@ -829,11 +829,353 @@ where
 	\lambda \qty( \pdv{J_{\theta}}{\vec{\chi}} ) 
 	= \lambda \qty( \pdv{J_{\chi}}{\vec{\theta}} )\transp
 	= \qty( -\sqrt{m_p n_q} \; u_{p,q} \; \exp[\Big. \iunit(\theta_p - \chi_q)] )_{
-		\substack{p = 2, \ldots, K \\ q = 1, \ldots, K}
+		\substack{p = 2, \ldots, b^* \\ q = 1, \ldots, K}
 	}	
-\label{eqn:defDetOffDiagonalF}
 \end{align}
-where $\mathds{O}_{D}$ is a $D \times D$ null-matrix, and $\vec{m}' = (m_2, \ldots, m_K)\transp$
+where $\mathds{O}_{D}$ is a $D \times D$ null-matrix, and $\vec{m}' = (m_2, \ldots, m_{b^*})\transp$
 
-The implied symmetry of the off-diagonal blocks is guaranteed by this being a Hessian matrix.
+The implied symmetry of the off-diagonal blocks is guaranteed by this being a Hessian matrix and can be read from the off-diagonal blocks by comparing the position of indices.
+
+Note:
+\begin{itemize}
+\item $(S_j)$ is of dimension $(K + b^* - 1)^{2}$.
+\item $F$ is of dimension $(b^* - 1) \times K$
+\end{itemize}
+
+\section{Determinant of the Hessian}
+\subsection{Determinant-Preserving Expansion}
+\subsubsection{Theorem: Determinant-perserving expansion by unity block}
+Let there be a matrix $M \in \setReals^{D \times D}$, as well as a matrix $M'$:
+\begin{align}
+	M'
+&=
+	\begin{pmatrix}
+		\mathds{1}_{E} & \mathds{O}_{E \times D} \\
+		\mathds{O}_{D \times E} & M
+	\end{pmatrix}
+\end{align}
+where $\mathds{1}_{E}$ is the unit matrix of dimension $E$ and $\mathds{O}_{E \times D}$ is a null matrix of dimension $E \times D$.
+
+Then,
+\begin{equation}
+	\forall E \in \setNaturals : \det M = \det M'
+\end{equation}
+
+\textbf{Proof:}\\
+Regard the Matrix $M^{(n)}$:
+\begin{align}
+	M^{(n)}
+&=
+	\begin{pmatrix}
+		\mathds{1}_{n} & \mathds{O}_{n \times D} \\
+		\mathds{O}_{D \times n} & M
+	\end{pmatrix}
+\end{align}
+\ie $M^{(E)} = M'$. The determinant of $M^{(1)}$ can be easily found from the Laplace expansion:
+
+For an $n \times n$ matrix $B = (b_{i,j})$, and an arbitrary, fixed $r = 1, \ldots, n$, the determinant is given by:
+\begin{align}
+	\det B
+&=
+	\sum_{j=1}^{n}
+		b_{rj} C_{rj}
+\end{align}
+where $C_{ij}$ is the cofactor to the $i^{\text{th}}$ row and $j^{\text{th}}$ column, \ie the determinant of the submatrix with the indexed row and column removed, times $(-1)^{i+j}$.
+
+So for the given $M^{(1)}$, and choosing $r = 1$, the determinant reads:
+\begin{align}
+	\det M^{(1)}
+&=
+	1 \det M^{(0)} + 0 \\
+&=
+	\det M
+\end{align}
+
+Further, it can easily be seen that
+\begin{align}
+	\det M^{(n)} = \det M^{(n-1)} = \det M
+\end{align}
+and from this follows the claim.
+\begin{flushright}
+	\emph{q.e.d.}
+\end{flushright}
+
+\subsubsection{Theorem: Determinant-perserving expansion by unity infix}
+Let $M$ be as above, with the blocks:
+\begin{align}
+	M
+&=
+	\begin{pmatrix}
+		A & B \\ C & D
+	\end{pmatrix}
+\end{align}
+and
+\begin{align}
+	M'
+&=
+	\begin{pmatrix}
+		A & \mathds{O} & B \\
+		\mathds{O} & \mathds{1}_{E} & \mathds{O} \\
+		C & \mathds{O} & D
+	\end{pmatrix}
+\end{align}
+
+Then
+\[ \forall E \in \setNaturals : \det M = \det M' \]
+
+\textbf{Proof:}\\
+From the same arguments as in the last theorem, but choosing $r$ such that it denotes the row above $D$.
+\begin{flushright}
+	\emph{q.e.d.}
+\end{flushright}
+
+
+\subsection{Definitions: $2K \times 2K$ form}
+Let $\tilde{S}$ be the expansion of $S$ to dimension $2K \times 2K$ of the same determinant:
+\begin{align}
+	\tilde{S}
+&=
+	\lambda^{-1}
+	\begin{pmatrix}
+		\mqty{	1 & \mathds{O}_{1 \times (b^* - 1)} \\ 
+				\mathds{O}_{(b^* - 1) \times 1} & \diag(\vec{m'})} &
+		\mathds{O}_{b^* \times (K - b^*)}	& 
+		\mqty{\mathds{O}_{1 \times K} \\ F}
+	\\
+		\mathds{O}_{(K - b^*) \times b^*}  &  \mathds{1}_{K - b^*}  &  \mathds{O}_{(K - b^*) \times K}
+	\\
+		\mqty{\mathds{O}_{K \times 1} & F\transp} & 
+		\mathds{O}_{K \times (K - b^*)} & \diag(\vec{n})
+	\end{pmatrix}
+\end{align}
+(overview form without dimensions):
+\begin{align}
+	\tilde{S}
+&=
+	\lambda^{-1}
+	\begin{pmatrix}
+		1			& \mathds{O} 		& \mathds{O}		& \mathds{O} \\
+		\mathds{O}	& \diag(\vec{m'})	& \mathds{O}		& F          \\
+		\mathds{O}	& \mathds{O}			& \mathds{1}		& \mathds{O} \\
+		\mathds{O}	& F\transp			& \mathds{O}		& \diag(\vec{n})
+	\end{pmatrix}
+\end{align}
+
+where still:
+\begin{align}
+	F
+&:=
+	\lambda \qty( \pdv{J_{\theta}}{\vec{\chi}} ) 
+	= \lambda \qty( \pdv{J_{\chi}}{\vec{\theta}} )\transp
+	= \qty( -\sqrt{m_p n_q} \; u_{p,q} \; \exp[\Big. \iunit(\theta_p - \chi_q)] )_{
+		\substack{p = 2, \ldots, b^* \\ q = 1, \ldots, K}
+	}
+\label{eqn:defDetOffDiagonalF}
+\\
+	\vec{m}'
+&=
+	(m_2, \ldots, m_{b^*})\transp
+\end{align}
+
+With this, implicitly using the infix theorem:
+\begin{align}
+	\det S
+&=
+	\lambda^{-K - b^* + 1}
+	\underbrace{\mqty|
+		1			& \mathds{O} 		& \mathds{O}		& \mathds{O} \\
+		\mathds{O}	& \diag(\vec{m'})	& \mathds{O}		& F          \\
+		\mathds{O}	& \mathds{O}			& \mathds{1}		& \mathds{O} \\
+		\mathds{O}	& F\transp			& \mathds{O}		& \diag(\vec{n})
+	|}_{= S'}
+=
+	\lambda^{-K - b^* + 1}
+	\mqty|
+		\diag(\tilde{\vec{m}})	& \tilde{F}			\\
+		\tilde{F}\transp			& \diag(\vec{n})
+	|
+\label{eqn:detS_protoform}
+\end{align}
+explicit:
+\begin{itemize}
+\item $\tilde{\vec{m}} = (
+	1,
+	\underbrace{m_2, \ldots, m_{b^*}}_{b^* -1 \text{ items}},
+	\underbrace{1, \ldots, 1}_{K - b^* \text{ times}}
+	~)\transp$ is of dimension $K$
+\item $\tilde{F} = \begin{pmatrix}
+		\mathds{O}_{1 \times K} \\ 
+		F \\ 
+		\mathds{O}_{K - b^* \times K}
+	\end{pmatrix}$
+	is of dimension $K \times K$
+\end{itemize}
+
+\subsection{Alternative Form}
+Statement:
+\begin{align}
+	\det S'
+&=
+	\mqty|
+		\underbrace{\begin{pmatrix}
+			\diag(\tilde{\vec{m}})	& \mathds{O}			\\
+			\tilde{F}\transp			& \mathds{1}
+		\end{pmatrix}}_{2K \times 2K}
+		\cdot
+		\underbrace{\begin{pmatrix}
+			\mathds{1}	&	\qty(\diag(\tilde{\vec{m}}))^{-1} \tilde{F}		\\
+			\mathds{O}	&	\diag(\vec{n}) - \tilde{F}\transp \qty(\diag(\tilde{\vec{m}}))^{-1}\tilde{F}
+		\end{pmatrix}}_{2K \times 2K}
+	|
+	\label{eqn:detProto}
+\end{align}
+Holds because:
+\begin{itemize}
+\item Multiplication yields identity
+\end{itemize}
+
+\subsection{Partial Evaluation of the determinant}
+Statement
+\begin{align}
+	\det S'
+&=
+	\underbrace{
+		\qty( \prod_{j=1}^{K} \tilde{m}_j n_j )
+	}_{= \mathcal{N} }
+	\det[
+		\mathds{1} -
+		\tilde{F}\transp \cdot \qty( \diag(\tilde{\vec{m}}) )^{-1}
+		\cdot
+		\tilde{F} \cdot \qty( \diag(\tilde{\vec{n}}) )^{-1}
+	]
+\label{eqn:detSPrimePartial}
+\end{align}
+Note: $\lambda \neq \mathcal{N}$, but $\lambda = m_1 \mathcal{N}$ {\color{red} and $\lambda$ is still different from the fully occupied form}.
+
+Explicit:
+\begin{align}
+	\mathcal{N}
+&=
+	\prod_{k=1}^{K}
+	\prod_{j=2}^{b^*}
+		m_j n_k
+\end{align}
+
+Holds because
+\begin{itemize}
+\item directly taken from rederivation.
+\end{itemize}
+
+\subsection{Reforming $\tilde{F}$}
+Statement:
+\begin{align}
+	\tilde{F}
+&=
+	\diag\qty[ \sqrt{ \tilde{\vec{m}}} * \exp(+\iunit \vec{\theta}) ]
+	\cdot \tilde{\mathbb{U}} \cdot
+	\diag\qty[ \sqrt{        \vec{n} } * \exp(-\iunit \vec{\chi  }) ]
+\end{align}
+(where $*$ denotes component-wise multiplication. Likewise, $\sqrt{.}$ and $\exp(.)$ are understood to act on the components of the vectors individually.)
+
+Where:
+\begin{equation}
+	\tilde{u}_{i,j} = \begin{cases}
+		-u_{i,j}		&\qq*{for } 2 \leq i \leq b^* \\
+		0			&\qotherwise*
+	\end{cases}
+\end{equation}
+{\color{red} This alters from the original definition of $\tilde{\mathbb{U}}$}.
+
+Note that this suppresses the necessity of the condition $\theta_1 = 0$. Likewise, the phases of nonoccupied modes ($i > b^*$) are ignored.
+
+
+Holds because:
+\begin{itemize}
+\item see definition of F in eqn. (\ref{eqn:defDetOffDiagonalF})
+\end{itemize}
+
+\subsection{Reformed $\tilde{F}$ in the determinant}
+Statement:
+\begin{align}
+	\det S'
+&=
+	\mathcal{N}
+	\qty( \prod_{j=1}^{K} \exp(-2\iunit \chi_j) )
+	\det\qty[\bigg.
+		\diag\qty(\exp(\Big.2\iunit\vec{\chi}))
+		-
+		\tilde{\mathbb{U}}\transp
+		\diag\qty(\exp(2\iunit\vec{\theta}))
+		\tilde{\mathbb{U}}
+	]
+\end{align}
+where, again, $\exp(.)$ is understood to act on the individual components of a vector.
+
+Holds because:
+\begin{itemize}
+\item taken from rederivation
+\item tested superficially for compatibility with new vector $\tilde{\vec{m}}$
+\end{itemize}
+
+\subsection{Complete Det of the Hessian}
+Statement:
+\begin{align}
+	\det S
+&=
+	\frac{ \lambda^{-K - b^* + 2} }{ m_1 }
+	\qty( \prod_{j=1}^{K} \exp(-2\iunit \chi_j) )
+	\det\qty[\bigg.
+		\diag\qty(\exp(\Big.2\iunit\vec{\chi}))
+		-
+		\tilde{\mathbb{U}}\transp
+		\diag\qty(\exp(2\iunit\vec{\theta}))
+		\tilde{\mathbb{U}}
+	]
+\label{eqn:detComplete}
+\end{align}
+
+Holds because:
+\begin{itemize}
+\item Phase term as found in rederivation
+\item magnitude:
+	\begin{itemize}
+	\item Start from eqn. (\ref{eqn:detS_protoform}) : $\det S = \lambda^{-K - b^* + 1} \det S'$
+	\item $
+	\frac
+		{\mathcal{N}}
+		{\lambda^{K + b^* - 1}}
+%=
+%	\frac
+%		{ \prod_{k=1}^{K} \prod_{j=2}^{b^*} m_j \, n_k}
+%		{(\prod_{k=1}^{K} \prod_{j=1}^{b^*} m_j \, n_k)^{K + b^* - 1}}
+%=
+%	\frac
+%		{     \mathcal{N}}
+%		{(m_1 \mathcal{N})^{K + b^* - 1}}
+=
+	\frac
+		{\lambda / m_1}
+		{\lambda^{K + b^* - 1}}
+=
+	\frac{\lambda^{- K - b^* + 2}}{m_1}
+$	
+	\end{itemize}
+\end{itemize}
+
+\section{Complete Amplitude Formula}
+Statement:
+\begin{align}
+	A_F(\vec{m}, \vec{n})
+&=
+	\qty(
+		\frac{2\pi}{\lambda}
+	)^{\frac{K + b^*}{2}}
+	\sum_r
+		\frac
+		{\exp[-\lambda f(\vec{z}_r)]}
+		{\sqrt{\det S_r}}
+\end{align}
+
+\section{Specialization: 2x2}
+
 \end{document}
