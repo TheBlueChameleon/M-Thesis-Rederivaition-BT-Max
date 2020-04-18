@@ -201,20 +201,17 @@ Split into BZO form:
 	\eval{
 		\qty(
 			\prod_{j=1}^{b^*}
-			\frac
-				{1}
-				{\sqrt{m_j! \; n_j!}}
+			\frac {1} {\sqrt{m_j!}}
 			\pdv[m_j]{x_j}
-			\pdv[n_j]{y_j}
 		)
 		\qty(
-			\prod_{j=b^* + 1}^{K}
+			\prod_{k=1}^{K}
 			\frac
 				{1}
-				{\sqrt{n_j!}}
-			\pdv[n_j]{y_j}
+				{\sqrt{n_k!}}
+			\pdv[n_j]{y_k}
 		)
-		\exp(\vec{x} \, \mathbb{U} \, \vec{y})
+		\exp(\vec{x}\transp \, \mathbb{U} \, \vec{y})
 	}_{\vec{x} = \vec{y} = \vec{0}}
 \label{eqn:BSA_raw_BZO}
 \end{align}
@@ -229,57 +226,61 @@ Holds because:
 Equation:
 \begin{align}
 	A_F(\vec{m}, \vec{n})
-&=
-	\qty(
-		\prod_{j=1}^{b^*}
-			\frac
-				{\sqrt{m_j! \; n_j!}}
-				{-4\pi^{2}}
-			\oint_{\gamma}
-				\frac
-					{\dd{x_j} \dd{y_j}}
-					{x_j^{m_j+1}  y_j^{n_j+1}}
-	)
-	\qty(
-		\prod_{j=b^* + 1}^{K}
-			\frac
-				{\sqrt{n_j !}}
-				{2\pi\iunit}
-			\oint_{\gamma}
-				\frac
-					{\dd{y_j}}
-					{y_j^{n_j + 1}}
-	)
-	\exp( \Big. \vec{x} \, \mathbb{U} \, \vec{y}) \\
+%&=
+%	\qty(
+%		\prod_{j=1}^{b^*}
+%			\frac
+%				{\sqrt{m_j! \; n_j!}}
+%				{-4\pi^{2}}
+%			\oint_{\gamma}
+%				\frac
+%					{\dd{x_j} \dd{y_j}}
+%					{x_j^{m_j+1}  y_j^{n_j+1}}
+%	)
+%	\qty(
+%		\prod_{j=b^* + 1}^{K}
+%			\frac
+%				{\sqrt{n_j !}}
+%				{2\pi\iunit}
+%			\oint_{\gamma}
+%				\frac
+%					{\dd{y_j}}
+%					{y_j^{n_j + 1}}
+%	)
+%	\exp( \Big. \vec{x}\transp \, \mathbb{U} \, \vec{y}) \\
+%&=
+%	\qty(
+%		\frac{1}{2\pi\iunit}
+%	)^{K + b^*}
+%		\prod_{j=1}^{b^*}
+%			\sqrt{m_j! \; n_j!}
+%			\oint_{\gamma}
+%				\frac
+%					{\dd{x_j} \dd{y_j}}
+%					{x_j^{m_j+1}  y_j^{n_j+1}}
+%		\prod_{j=b^* + 1}^{K}
+%			\sqrt{n_j !}
+%			\oint_{\gamma}
+%				\frac
+%					{\dd{y_j}}
+%					{y_j^{n_j + 1}}
+%	\exp( \Big. \vec{x}\transp \, \mathbb{U} \, \vec{y}) \\
 &=
 	\qty(
 		\frac{1}{2\pi\iunit}
 	)^{K + b^*}
-		\prod_{j=1}^{b^*}
-			\sqrt{m_j! \; n_j!}
-			\oint_{\gamma}
-				\frac
-					{\dd{x_j} \dd{y_j}}
-					{x_j^{m_j+1}  y_j^{n_j+1}}
-		\prod_{j=b^* + 1}^{K}
-			\sqrt{n_j !}
-			\oint_{\gamma}
-				\frac
-					{\dd{y_j}}
-					{y_j^{n_j + 1}}
-	\exp( \Big. \vec{x} \, \mathbb{U} \, \vec{y}) \\
-&=
-	\qty(
-		\frac{1}{2\pi\iunit}
-	)^{K + b^*}
-	\prod_{k=1}^{K}
-	\prod_{j=1}^{b^*}
-		\sqrt{m_j! \; n_k!}
-		\oint_{\gamma}
+	\oint_{\gamma}
+		\qty( \prod_{j=1}^{b^*}
 			\frac
-				{\dd{x_j} \dd{y_k}}
-				{x_j^{m_j+1}  y_k^{n_k+1}}
-	\exp( \Big. \vec{x} \, \mathbb{U} \, \vec{y})
+				{\sqrt{m_j!} \dd{x_j}}
+				{x_j^{m_j+1}}
+		)
+		\qty( \prod_{k=1}^{K}
+			\frac
+				{\sqrt{n_k!} \dd{y_k}}
+				{ y_k^{n_k+1} }
+		)
+		\exp( \Big. \vec{x}\transp \, \mathbb{U} \, \vec{y})
 	\label{eqn:BSA_Int_BZO}
 \end{align}
 
@@ -300,10 +301,10 @@ in eqn. (\ref{eqn:BSA_Int_BZO}) gives:
 	\qty(
 		\frac{1}{2\pi\iunit}
 	)^{K + b^*}
-	\prod_{k=1}^{K}
-	\prod_{j=1}^{b^*}
-		\sqrt{m_j! \; n_k!}
-		\oint_{\gamma}
+	\oint_{\gamma}
+		\prod_{k=1}^{K}
+		\prod_{j=1}^{b^*}
+			\sqrt{m_j! \; n_k!}
 			\frac
 				{ \sqrt{{\color{blue}-}m_j} \; \sqrt{{\color{blue}-}n_k} \; \dd{\theta_j} \dd{\chi_k}}
 				{\sqrt{m_j}^{m_j+1}  \sqrt{n_j}^{n_k+1}}
@@ -314,7 +315,7 @@ in eqn. (\ref{eqn:BSA_Int_BZO}) gives:
 		-\iunit (m_j + 1) \theta_j
 		+\iunit (n_k + 1) \chi  _k
 	)
-	\exp( \Big. \vec{x} \, \mathbb{U} \, \vec{y})
+	\exp( \Big. \vec{x}\transp \, \mathbb{U} \, \vec{y})
 \end{multline}
 (the negative arguments in the roots $\sqrt{-m_j}, \sqrt{-n_k}$ ensure correct counting of imaginary units $\iunit$, which, in turn, stem from substituting 
 $(\vec{x}, \vec{y}) \to (\vec{\theta}, \vec{\chi})$:
@@ -336,41 +337,40 @@ With this, get:
 	\qty(
 		\frac{{\color{blue}\iunit}}{2\pi\iunit}
 	)^{K + b^*}
-	\prod_{k=1}^{K}
-	\prod_{j=1}^{b^*}
-		\sqrt{m_j! \; n_k!}
-		\oint_{\gamma}
+	\oint_{\gamma}
+		\prod_{k=1}^{K}
+		\prod_{j=1}^{b^*}
 			\frac
 				{\dd{\theta_j} \dd{\chi_k}}
 				{\sqrt{m_j}^{m_j}  \sqrt{n_j}^{n_k}}
-\\
-	\exp(
-		\Big.
-		-\iunit m_j \theta_j
-		+\iunit n_k \chi  _k
-	)
-	\exp( \Big. \vec{x} \, \mathbb{U} \, \vec{y})
+			\sqrt{m_j! \; n_k!}
+			\exp(
+				\Big.
+				-\iunit m_j \theta_j
+				+\iunit n_k \chi  _k
+			)
+			\exp( \Big. \vec{x}\transp \, \mathbb{U} \, \vec{y})
 \end{multline}
 \begin{multline}
 	\qquad\qquad
 =
 	\qty(
-		\frac{\iunit}{2\pi\iunit}
+		\frac{1}{2\pi}
 	)^{K + b^*}
-	\prod_{k=1}^{K}
-	\prod_{j=1}^{b^*}
-		\sqrt{\frac
-			{m_j! \; n_k!}
-			{m_j^{m_j}  n_j^{n_k}}
-		}
-		\oint_{\gamma}
+	\oint_{\gamma}
+		\prod_{k=1}^{K}
+		\prod_{j=1}^{b^*}
+			\sqrt{\frac
+				{m_j! \; n_k!}
+				{m_j^{m_j}  n_j^{n_k}}
+			}
 			\dd{\theta_j} \dd{\chi_k}
-	\exp(
-		\Big.
-		-\iunit m_j \theta_j
-		+\iunit n_k \chi  _k
-	)
-	\exp( \Big. \vec{x} \, \mathbb{U} \, \vec{y})
+		\exp(
+			\Big.
+			-\iunit m_j \theta_j
+			+\iunit n_k \chi  _k
+		)
+		\exp( \Big. \vec{x}\transp \, \mathbb{U} \, \vec{y})
 \end{multline}
 
 using
@@ -378,7 +378,7 @@ using
 	C
 &=
 	\qty(
-		\frac{\iunit}{2\pi\iunit}
+		\frac{1}{2\pi}
 	)^{K + b^*}
 	\prod_{k=1}^{K}
 	\prod_{j=1}^{b^*}
@@ -393,35 +393,35 @@ gives
 	A_F(\vec{m}, \vec{n})
 &=
 	C
-	\prod_{k=1}^{K}
-	\prod_{j=1}^{b^*}
-		\oint_{\gamma}
+	\oint_{\gamma}
+		\prod_{k=1}^{K}
+		\prod_{j=1}^{b^*}
 			\dd{\theta_j} \dd{\chi_k}
-	\exp(
-		\Big.
-		-\iunit m_j \theta_j
-		+\iunit n_k \chi  _k
-	)
-	\exp( \Big. \vec{x} \, \mathbb{U} \, \vec{y}) \\
+			\exp(
+				\Big.
+				-\iunit m_j \theta_j
+				+\iunit n_k \chi  _k
+			)
+			\exp( \Big. \vec{x}\transp \, \mathbb{U} \, \vec{y}) \\
 &=
 	C
-	\prod_{k=1}^{K}
-	\prod_{j=1}^{b^*}
-		\oint_{\gamma}
+	\oint_{\gamma}
+		\prod_{k=1}^{K}
+		\prod_{j=1}^{b^*}
 			\dd{\theta_j} \dd{\chi_k}
-	\exp(
-		\Big.
-		-\iunit m_j \theta_j
-		+\iunit n_k \chi  _k
-	)
-	\exp(
-		\sum_{k,l=1}^{K}
-		\sqrt{m_k, n_l} \;
-		u_{k,l}
-		\exp(\Big.
-			\iunit(\theta_k - \chi_l)
-		)
-	)
+			\exp(
+				\Big.
+				-\iunit m_j \theta_j
+				+\iunit n_k \chi  _k
+			)
+			\exp(
+				\sum_{s,t=1}^{K}
+				\sqrt{m_s, n_t} \;
+				u_{s,t}
+				\exp(\Big.
+					\iunit(\theta_s - \chi_t)
+				)
+			)
 	\label{eqn:BSA_Int_BZO_Polar}
 \end{align}
 Note
@@ -448,11 +448,11 @@ and get
 	A_F(\vec{m}, \vec{n})
 =
 	C
-	\prod_{k=1}^{K}
-	\prod_{{\color{blue} j=2}}^{b^*}
-		\oint_{\gamma}
+	\int_{0}^{2\pi} {\color{blue} \dd{\theta_1}}
+	\oint_{\gamma}
+		\prod_{k=1}^{K}
+		\prod_{{\color{blue} j=2}}^{b^*}
 			\dd{\alpha_j} \dd{\beta_k}
-		\int_{0}^{2\pi} {\color{blue} \dd{\theta_1}}
 			\exp(
 				\Big.
 				\iunit (
@@ -468,11 +468,11 @@ and get
 		{\color{blue} \theta_1}
 	)
 	\exp(
-		\sum_{p,q=1}^{K}
-		\sqrt{m_p, n_q} \;
-		u_{p,q}
+		\sum_{s,t=1}^{K}
+		\sqrt{m_s, n_t} \;
+		u_{s,t}
 		\exp(\Big.
-			\iunit(\alpha_p - \beta_q)
+			\iunit(\alpha_s - \beta_t)
 		)
 	)
 \end{multline}
@@ -482,9 +482,9 @@ As in Max' paper, get a Kronecker Delta from the $\theta_1$ exponential:
 	A_F(\vec{m}, \vec{n})
 =
 	2\pi \delta_{M,N} C
-	\prod_{k=1}^{K}
-	\prod_{j=2}^{b^*}
-		\oint_{\gamma}
+	\oint_{\gamma}
+		\prod_{k=1}^{K}
+		\prod_{j=2}^{b^*}
 			\dd{\alpha_j} \dd{\beta_k}
 \\
 	\exp(
@@ -494,11 +494,11 @@ As in Max' paper, get a Kronecker Delta from the $\theta_1$ exponential:
 		m_j \alpha_j
 	))
 	\exp(
-		\sum_{p,q=1}^{K}
-		\sqrt{m_p, n_q} \;
-		u_{p,q}
+		\sum_{s,t=1}^{K}
+		\sqrt{m_s, n_t} \;
+		u_{s,t}
 		\exp(\Big.
-			\iunit(\alpha_p - \beta_q)
+			\iunit(\alpha_s - \beta_t)
 		)
 	)
 \end{multline}
@@ -507,9 +507,9 @@ and resubstitute $(\vec{\alpha}, \vec{\beta}) \to (\vec{\theta}, \vec{\chi})$:
 	A_F(\vec{m}, \vec{n})
 =
 	2\pi \delta_{M,N} C
-	\prod_{k=1}^{K}
-	\prod_{j=2}^{b^*}
-		\oint_{\gamma}
+	\oint_{\gamma}
+		\prod_{k=1}^{K}
+		\prod_{j=2}^{b^*}
 			\dd{\theta_j} \dd{\chi_k}
 \\
 	\exp(
@@ -519,11 +519,11 @@ and resubstitute $(\vec{\alpha}, \vec{\beta}) \to (\vec{\theta}, \vec{\chi})$:
 		m_j \theta_j
 	))
 	\exp(
-		\sum_{p,q=1}^{K}
-		\sqrt{m_p, n_q} \;
-		u_{p,q}
+		\sum_{s,t=1}^{K}
+		\sqrt{m_s, n_t} \;
+		u_{s,t}
 		\exp(\Big.
-			\iunit(\theta_p - \chi_q)
+			\iunit(\theta_s - \chi_t)
 		)
 	)
 \end{multline}
@@ -655,7 +655,7 @@ Compactly:
 	\begin{itemize}
 	\item $C =
 	\qty(
-		\frac{\iunit}{2\pi\iunit}
+		\frac{1}{2\pi}
 	)^{K + b^*}
 	\prod_{k=1}^{K}
 	\prod_{j=1}^{b^*}
@@ -669,7 +669,8 @@ Compactly:
 		m_j \, n_k$
 	\end{itemize}
 \item The formulae up to here should not be applied to ZO modes, albeit behaviour for such $m_p$
-	implies that they are even valid there.
+	implies that they are even valid there. I.\,e. do not attempt to use eqn.
+	(\ref{eqn:FourierLinkForward}) for $p > b^*$, or double-check if it is valid use if you do.
 \item strictly speaking, the matrix sum over $k$ should be adjusted such that no $\theta_k$ with
 	$k > b^*$ are referenced. However, all instances where this happens are weighted with a
 	$\sqrt{m_k} = 0$.
@@ -831,10 +832,22 @@ where
 	= \lambda \qty( \pdv{J_{\chi}}{\vec{\theta}} )\transp
 	= \qty( -\sqrt{m_p n_q} \; u_{p,q} \; \exp[\Big. \iunit(\theta_p - \chi_q)] )_{
 		\substack{p = 2, \ldots, b^* \\ q = 1, \ldots, K}
-	}	
+	}
+\\
+	\mathds{O}_{D}
+&=	
+	\left.
+	\mqty(
+		0		& \ldots		& 0 \\
+		\vdots	& \ddots 	& \vdots \\
+		0		& \ldots		& 0
+	)
+	\right\} D \text{ rows}, D \text{ columns}
+\\
+	\vec{m}'
+&=
+	(m_2, \ldots, m_{b^*})\transp
 \end{align}
-where $\mathds{O}_{D}$ is a $D \times D$ null-matrix, and $\vec{m}' = (m_2, \ldots, m_{b^*})\transp$
-
 The implied symmetry of the off-diagonal blocks is guaranteed by this being a Hessian matrix and can be read from the off-diagonal blocks by comparing the position of indices.
 
 Note:
@@ -1169,8 +1182,62 @@ Statement:
 	A_F(\vec{m}, \vec{n})
 &=
 	\qty(
+		\frac{1}{2\pi\lambda}
+	)^{\frac{K + b^*}{2}}
+	\qty(
+		\prod_{k=1}^{K}
+		\prod_{j=1}^{b^*}
+			\sqrt{\frac
+				{m_j! \; n_k!}
+				{m_j^{m_j}  n_j^{n_k}}
+			}
+	)
+	\exp(N)
+	\sum_r
+		\frac
+		{\exp[
+			\qty(- \sum_{k=2}^{b^*} \iunit m_k \theta_k) + 
+			\qty(  \sum_{k=1}^{K}   \iunit n_k \chi  _k)
+		]}
+		{\sqrt{\det S_r}}
+\end{align}
+
+
+Holds because:
+\begin{align}
+	A_F(\vec{m}, \vec{n})
+&=
+	\underbrace{
+	\qty(
+		\frac{1}{2\pi}
+	)^{K + b^*}
+	\qty(
+		\prod_{k=1}^{K}
+		\prod_{j=1}^{b^*}
+			\sqrt{\frac
+				{m_j! \; n_k!}
+				{m_j^{m_j}  n_j^{n_k}}
+			}
+	)}_{C}
+	\qty(
 		\frac{2\pi}{\lambda}
 	)^{\frac{K + b^*}{2}}
+	\sum_r
+		\frac
+			{\exp[-\lambda f(\vec{z}_r)]}
+			{\sqrt{\det S_r}} \\
+&=
+	\qty(
+		\frac{1}{2\pi\lambda}
+	)^{\frac{K + b^*}{2}}
+	\qty(
+		\prod_{k=1}^{K}
+		\prod_{j=1}^{b^*}
+			\sqrt{\frac
+				{m_j! \; n_k!}
+				{m_j^{m_j}  n_j^{n_k}}
+			}
+	)
 	\sum_r
 		\frac
 		{\overbrace{
@@ -1183,18 +1250,144 @@ from SPA formula eqn. (\ref{eqn:def_SPA}) with
 	\mathcal{E}
 &=
 	\exp[ 
-		\qty(- \sum_{k=2}^{K} \iunit m_k \theta_k) + 
-		\qty(  \sum_{k=1}^{K} \iunit n_k \chi_k)   +
+		\qty(- \sum_{k=2}^{b^*} \iunit m_k \theta_k) + 
+		\qty(  \sum_{k=1}^{K}   \iunit n_k \chi  _k)   +
 		\vec{x}\transp \, \mathbb{U} \, \vec{y}
 	] \\
 &=
 	\exp[ 
-		\qty(- \sum_{k=2}^{K} \iunit m_k \theta_k) + 
-		\qty(  \sum_{k=1}^{K} \iunit n_k \chi_k)   +
+		\qty(- \sum_{k=2}^{b^*} \iunit m_k \theta_k) + 
+		\qty(  \sum_{k=1}^{K}   \iunit n_k \chi  _k)   +
 		N
 	]
 \end{align}
+where the second line follows from applying the definition in eqn. (\ref{eqn:DefXY})
+
+
 
 \section{Specialization: 2x2}
+\subsection{Unoccupied $m_2$ mode}
+\begin{align}
+	\lambda
+&=
+	\prod_{k=1}^{K}
+	\prod_{j=1}^{b^*}
+		m_j \, n_k
+=
+	m_1 \, n_1 \, n_2
+\end{align}
+\subsubsection{Determinant}
+\begin{align}
+	\det S
+&=
+	\frac{ \lambda^{-2 - 1 + 2} }{ m_1 }
+	\qty( \prod_{j=1}^{2} \exp(-2\iunit \chi_j) )
+	\det\qty[\bigg.
+		\diag\qty(\exp(\Big.2\iunit\vec{\chi}))
+		-
+		\tilde{\mathbb{U}}\transp
+		\diag\qty(\exp(2\iunit\vec{\theta}))
+		\tilde{\mathbb{U}}
+	] \\
+&=
+	\frac{1}{n_1 n_2}
+	\frac{1}{m_1^{2}}
+	\qty( \prod_{j=1}^{2} \exp(-2\iunit \chi_j) )
+	\det\qty[\bigg.
+		\diag\qty(\exp(\Big.2\iunit\vec{\chi}))
+		-
+		\tilde{\mathbb{U}}\transp
+		\diag\qty(\exp(2\iunit\vec{\theta}))
+		\tilde{\mathbb{U}}
+	]
+\end{align}
+for this specific case, $\tilde{\mathbb{U}}$ is actually a null matrix. Hence, the 
+$\exp(\pm \iunit \chi_j)$ terms cancel out:
+\begin{align}
+	\det S
+&=
+	\frac{1}{n_1 n_2}
+	\frac{1}{m_1^{2}}
+\end{align}
+
+\subsubsection{Amplitude}
+\begin{align}
+	A_F(m_1, n_1, n_2)
+&=
+	\qty(
+		\frac{1}{2\pi\lambda}
+	)^{\frac{2+1}{2}}
+	\qty(
+		\frac{m_1!}{m_1^{m_1}}
+		\prod_{k=1}^{2}
+			\sqrt{\frac
+				{n_k!}
+				{n_k^{n_k}}
+			}
+	)
+	\exp(N)
+	\sum_r
+		\frac
+		{\exp[
+			\qty(- \sum_{k=2}^{b^*} \iunit m_k \theta_k) + 
+			\qty(  \sum_{k=1}^{K}   \iunit n_k \chi  _k)
+		]}
+		{\sqrt{\det S_r}}
+\end{align}
+
+\subsection{Unoccupied $m_1$ mode}
+\subsubsection{Determinant}
+\subsubsection{Amplitude}
+
+\subsection{Comparision: Fully occupied}
+\subsubsection{Determinant}
+\begin{multline*}
+	\det S
+=
+	\frac{1}{m_1}
+	\qty( \prod_{j=1}^{2} m_j n_j)^{-2}
+	\qty( \prod_{j=1}^{2} \exp(-2\iunit \chi_j) )
+\\
+	\qty[
+		\exp( \Big. 2\iunit (\chi_1 + \chi_2) )
+		-\frac{1}{2} \qty[ \Big.
+			\exp[2\iunit (\theta_2 + \chi_1)] +
+			\exp[2\iunit (\theta_2 + \chi_2)]
+		]
+		-
+		\frac{1}{4}\exp( \Big. 4\iunit \theta_2 )
+	]
+\end{multline*}
+
+\subsubsection{Amplitude}
+\begin{multline}
+	A_F(\vec{m}, \vec{n})
+\approx
+	\qty(\frac
+		{2\pi}
+		{\prod_{j=1}^{K} m_j n_j}
+	)^{3/2}
+	\qty(
+		\prod_{j=1}^{2}
+		\frac
+			{1}
+			{-4\pi^{2}}
+		\sqrt{\frac
+			{m_j!      \; n_j!}
+			{m_j^{m_j} \; n_j^{n_j} }
+		}
+	)
+	2\pi \, \delta_{M,N}
+	\sum_{j}
+		\qty(\bigg. \mu_j^*)^{m_2}
+	\ldots
+\\
+	\ldots
+		\qty(\sqrt{\frac{m_1}{n_1}} u_{1,1}  +  \sqrt{\frac{m_2}{n_1}} u_{2,1} \mu_{j})^{n_1}
+		\qty(\sqrt{\frac{m_1}{n_2}} u_{1,2}  +  \sqrt{\frac{m_2}{n_2}} u_{2,2} \mu_{j})^{n_2}
+	\frac
+		{\exp(N)}
+		{\sqrt{\det S_j}}
+\end{multline}
 
 \end{document}
