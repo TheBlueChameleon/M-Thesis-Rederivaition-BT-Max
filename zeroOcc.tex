@@ -145,32 +145,22 @@
 
 \chapter{Treatment of Incoming Bunched Zero-Occupancy Scenarios}
 \section{Assumptions, Terminology}
-For starters, we will assume that only $m_K = 0$. This shall be denoted as \emph{single zero occupancy} or \emph{SZO}.
-
-From there on, the \emph{bunched zero occupancy} (\emph{BZO}) can be treated:
+Initially, we will assume \emph{bunched zero occupancy} (\emph{BZO}):
 \begin{align}
 	\exists b^{*} : \forall j > b^{*} : m_j = 0 \\
 	\qquad \forall j \leq b^* : m_j > 0
 \end{align}
 This means, the \emph{incoming modes} $j = 1 \ldots b^{*}$ are occupied at least once while all higher modes are not occupied. The case $b^* = K$ corresponds to all modes occupied.
 
-In both, SZO and BZO, we will further assume that the outgoing modes are still all occupied:
+We will further assume that the outgoing modes are still all occupied:
 \begin{align}
 	\forall j : n_j > 0
 \end{align}
 
-So, SZO translates to $b^* = K - 1$.
-
 From there on, the generic case follows:
 \begin{itemize}
-\item The scenario is assumed to be symmetric in $m, n$ -- verify!
 \item non-bunched configurations can be obtained by re-ordering coordinates -- verify!
-\end{itemize}
-
-\subsection{Notes on L'Hopital}
-\begin{itemize}
-\item It should be possible to obtain BZO solutions from SZO. Regard only one degree of freedom, treat the other ZO variables as fixed parameters.
-\item After obtaining a const factor pertaining the terms depending on the SZO-zero, proceed with the next DoF.
+\item The scenario is assumed to be symmetric in $m, n$ -- verify!
 \end{itemize}
 
 
@@ -224,49 +214,10 @@ Holds because:
 \item $\pdv[0]{z} = 1$
 \end{itemize}
 
-\section{BSA in integral form}
+\section{BSA in Integral Form}
 Equation:
 \begin{align}
 	A_F(\vec{m}, \vec{n})
-%&=
-%	\qty(
-%		\prod_{j=1}^{b^*}
-%			\frac
-%				{\sqrt{m_j! \; n_j!}}
-%				{-4\pi^{2}}
-%			\oint_{\gamma}
-%				\frac
-%					{\dd{x_j} \dd{y_j}}
-%					{x_j^{m_j+1}  y_j^{n_j+1}}
-%	)
-%	\qty(
-%		\prod_{j=b^* + 1}^{K}
-%			\frac
-%				{\sqrt{n_j !}}
-%				{2\pi\iunit}
-%			\oint_{\gamma}
-%				\frac
-%					{\dd{y_j}}
-%					{y_j^{n_j + 1}}
-%	)
-%	\exp( \Big. \vec{x}\transp \, \mathbb{U} \, \vec{y}) \\
-%&=
-%	\qty(
-%		\frac{1}{2\pi\iunit}
-%	)^{K + b^*}
-%		\prod_{j=1}^{b^*}
-%			\sqrt{m_j! \; n_j!}
-%			\oint_{\gamma}
-%				\frac
-%					{\dd{x_j} \dd{y_j}}
-%					{x_j^{m_j+1}  y_j^{n_j+1}}
-%		\prod_{j=b^* + 1}^{K}
-%			\sqrt{n_j !}
-%			\oint_{\gamma}
-%				\frac
-%					{\dd{y_j}}
-%					{y_j^{n_j + 1}}
-%	\exp( \Big. \vec{x}\transp \, \mathbb{U} \, \vec{y}) \\
 &=
 	\qty(
 		\frac{1}{2\pi\iunit}
@@ -307,14 +258,14 @@ in eqn. (\ref{eqn:BSA_Int_BZO}) gives:
 		\qty( \prod_{k=1}^{K}
 			\sqrt{n_k!}
 			\frac
-				{ \sqrt{{\color{blue}-} n_k}}
+				{ {\color{blue} \iunit} \sqrt{n_k}}
 				{ \sqrt{n_k}^{n_k + 1} }
 			\dd{\chi_k}
 		)
 		\qty( \prod_{j=1}^{b^*}
 			\sqrt{m_j!}
 			\frac
-				{ \sqrt{{\color{blue}-} m_j}}
+				{ {\color{blue} \iunit} \sqrt{m_j}}
 				{ \sqrt{m_j}^{m_j + 1} }
 			\dd{\theta_j}
 		)
@@ -330,16 +281,13 @@ in eqn. (\ref{eqn:BSA_Int_BZO}) gives:
 	)]
 	\exp( \Big. \vec{x}\transp \, \mathbb{U} \, \vec{y})
 \end{multline}
-(the negative arguments in the roots $\sqrt{-m_j}, \sqrt{-n_k}$ ensure correct counting of imaginary units $\iunit$, which, in turn, stem from substituting 
-$(\vec{x}, \vec{y}) \to (\vec{\theta}, \vec{\chi})$:
+where the imaginary units come from substitution $(\vec{x}, \vec{y}) \to (\vec{\theta}, \vec{\chi})$:
 \begin{align}
 	\dd{x_j}
 &=
 	\dv{x_j}{\theta_j} \dd{\theta_j}
 =
 	\iunit \, \sqrt{m_j} \, \exp(\iunit \theta_j) \dd{\theta_j}
-=
-	\sqrt{-m_j} \, \exp(\iunit \theta_j) \dd{\theta_j}
 \end{align}
 and likewise for $y_k \to \chi_k$.
 
@@ -354,7 +302,7 @@ With this, get:
 		\qty( \prod_{k=1}^{K}
 			\sqrt{\frac
 				{ n_k! }
-				{ n_j^{n_k} }
+				{ n_k^{n_k} }
 			}\dd{\chi_k}
 		)
 		\qty( \prod_{j=1}^{b^*}
@@ -381,7 +329,7 @@ With this, get:
 		\qty( \prod_{k=1}^{K}
 			\sqrt{\frac
 				{ n_k! }
-				{ n_j^{n_k} }
+				{ n_k^{n_k} }
 			} \dd{\chi_k}
 		)
 		\qty( \prod_{j=1}^{b^*}
@@ -406,7 +354,7 @@ using
 	\qty( \prod_{k=1}^{K}
 		\sqrt{\frac
 			{ n_k! }
-			{ n_j^{n_k} }
+			{ n_k^{n_k} }
 		}
 	)
 	\qty( \prod_{j=1}^{b^*}
@@ -667,7 +615,7 @@ Compactly:
 	\qty( \prod_{k=1}^{K}
 		\frac
 			{ \sqrt{n_k!} }
-			{ \sqrt{n_j}^{n_k} }
+			{ \sqrt{n_k}^{n_k} }
 	)
 	\qty( \prod_{j=1}^{b^*}
 		\frac
@@ -955,7 +903,7 @@ From the same arguments as in the last theorem, but choosing $r$ such that it de
 \end{flushright}
 
 
-\subsection{Definitions: $2K \times 2K$ form}
+\subsection{Definitions: $2K \times 2K$ Form}
 Let $\tilde{S}$ be the expansion of $S$ to dimension $2K \times 2K$ of the same determinant:
 \begin{align}
 	\tilde{S}
@@ -1060,7 +1008,7 @@ Holds because:
 \item Multiplication yields identity
 \end{itemize}
 
-\subsection{Partial Evaluation of the determinant}
+\subsection{Partial Evaluation of the Determinant}
 Statement
 \begin{align}
 	\det S'
@@ -1120,7 +1068,7 @@ Holds because:
 \item see definition of F in eqn. (\ref{eqn:DefDetOffDiagonalF})
 \end{itemize}
 
-\subsection{Reformed $\tilde{F}$ in the determinant}
+\subsection{Reformed $\tilde{F}$ in the Determinant}
 Statement:
 \begin{align}
 	\det S'
@@ -1200,7 +1148,7 @@ Statement:
 	\qty( \prod_{k=1}^{K}
 		\sqrt{\frac
 			{ n_k! }
-			{ n_j^{n_k} }
+			{ n_k^{n_k} }
 	})
 	\qty( \prod_{j=1}^{b^*}
 		\sqrt{\frac
@@ -1230,7 +1178,7 @@ Holds because:
 		\qty( \prod_{k=1}^{K}
 			\sqrt{\frac
 				{ n_k! }
-				{ n_j^{n_k} }
+				{ n_k^{n_k} }
 			}
 		)
 		\qty( \prod_{j=1}^{b^*}
@@ -1254,7 +1202,7 @@ Holds because:
 	\qty( \prod_{k=1}^{K}
 		\sqrt{\frac
 			{ n_k! }
-			{ n_j^{n_k} }
+			{ n_k^{n_k} }
 		}
 	)
 	\qty( \prod_{j=1}^{b^*}
@@ -1278,29 +1226,255 @@ from SPA formula eqn. (\ref{eqn:Def_SPA}) with
 		\qty(- \sum_{k=2}^{b^*} \iunit m_k \theta_k) + 
 		\qty(  \sum_{k=1}^{K}   \iunit n_k \chi  _k)   +
 		\vec{x}\transp \, \mathbb{U} \, \vec{y}
-	] \\
-&=
+	]
+=
 	\exp[ 
 		\qty(- \sum_{k=2}^{b^*} \iunit m_k \theta_k) + 
 		\qty(  \sum_{k=1}^{K}   \iunit n_k \chi  _k)   +
 		N
 	]
 \end{align}
-where the second line follows from applying the definition in eqn. (\ref{eqn:DefXY})
+where $\vec{x}\transp \, \mathbb{U} \, \vec{y} = N$ follows from applying the definition in eqn. (\ref{eqn:DefXY})
 
+
+\section{Non-BZO scenarios With Zero Occupancy}
+The above derivation assumes BZO with the unoccupied modes at the end of the list.
+Here I will consider whether it is possible to re-label modes such that the BZO scenario is obtained, and which changes are necessary, if any. The lines in column \emph{Operation} correspond to sections in this document.
+\begin{tabularx}
+	{\linewidth}
+	{p{.30\linewidth}
+	 p{.65\linewidth}}
+	\textbf{Operation} & \textbf{Comment} \tabcrlf
+	
+	BSA in Integral Form &
+		change definition of $\mathbb{U}, \vec{x}$ according to re-labelling.
+		For $\mathbb{U}$ this means swapping rows. \newline
+		Otherwise okay.
+	\tabcrlf
+	Change of Variables &
+		change accordance rules for $\vec{x}$, as already implied in the last step. This will affect 
+		$\vec{\theta}$. Also update the definition of $C$ and $\DD{\theta}$. \newline
+		Otherwise okay.
+	\tabcrlf
+	Integrating out the $\theta_1$ DoF &
+		Update definition of $\vec{\alpha}$. The re-labelling has already selected an occupied mode as
+		$j=1$ mode \newline
+		Otherwise okay.
+	\tabcrlf
+	Applying SPA: Definitions &
+		Update definition of $\lambda$. \newline
+		Otherwise okay.
+	\tabcrlf
+	Applying SPA: Saddle Points &
+		Recall update of $\mathbb{U}$ \newline
+		Otherwise okay.
+	\tabcrlf
+	Hessian &
+		Update $\mathbb{J}, \vec{m}', F$ \newline
+		Otherwise okay.
+	\tabcrlf
+	Determinant of the Hessian: Definitions: $2K \times 2K$ Form &
+		Update $\tilde{S}, \tilde{\vec{m}}, \tilde{F}$ \newline
+		Otherwise okay.
+	\tabcrlf
+	Determinant of the Hessian: Alternative Form &
+		Okay.
+	\tabcrlf
+	Determinant of the Hessian: Partial Evaluation of the Determinant &
+		Update $\mathcal{N}$ \newline
+		Otherwise okay.
+	\tabcrlf
+	Determinant of the Hessian: Reforming $\tilde{F}$ &
+		Okay.
+	\tabcrlf
+	Determinant of the Hessian: Reformed $\tilde{F}$ in the Determinant &
+		Okay.
+\end{tabularx}
+
+\subsection{Generalized Determinant}
+Following above considerations we turn now to the determinant of a non-BZO scenario.
+
+In this, we understand $b^*$ to be the \emph{number of occupied incoming modes}, rather than an upper index. The reordering of $\tilde{\mathbb{U}}, \vec{\theta}$ will implicitly be reversed. That means, the index $j$ represents the $j^{\text{th}}$ incoming mode and $\vec{\theta}$ is given in order of the modes. This is possible since all of the above operations were only reordering the system of equations but did not change any quality thereof.
+
+Instead of integrating out the $\theta_1$ DoF, any mode with nonzero occupancy can be chosen to be the reference mode. This mode shall be denoted $j^*$
+
+With this definition we get:
+\begin{align}
+	\lambda
+&=
+	\qty( \prod_{k=1}^{K}   n_k )
+	\qty( \prod_{j : m_j \neq 0} m_j )
+\label{eqn:DefLambdaGeneric}
+\\
+	\tilde{u}_{i,j} 
+&=
+	\begin{cases}
+		-u_{i,j}		&\qq*{for } i \neq j^* \land m_i \neq 0 \\
+		0			&\qotherwise*
+	\end{cases}
+\label{eqn:DefReducedDFTGeneric}
+\end{align}
+
+And with this the determinant:
+\begin{align}
+	\det S
+&=
+	\frac{ \lambda^{-K - b^* + 2} }{ m_{j^*} }
+	\qty( \prod_{j=1}^{K} \exp(-2\iunit \chi_j) )
+	\det\qty[\bigg.
+		\diag\qty(\exp(\Big.2\iunit\vec{\chi}))
+		-
+		\tilde{\mathbb{U}}\transp
+		\diag\qty(\exp(2\iunit\vec{\theta}))
+		\tilde{\mathbb{U}}
+	]
+\label{eqn:detSGeneralized}
+\end{align}
+
+\subsection{Generalized Amplitude}
+Definition of $b^*, j^*, \lambda$ as above.
+
+\begin{multline}
+	A_F(\vec{m}, \vec{n})
+=
+	2\pi \, \delta_{N,M} \, \qty(
+		\frac{1}{2\pi\lambda}
+	)^{\frac{K + b^*}{2}}
+	\exp(N)
+	\qty( \prod_{k=1}^{K}
+		\sqrt{\frac
+			{ n_k! }
+			{ n_k^{n_k} }
+	})
+	\qty( \prod_{j : m_j \neq 0}
+		\sqrt{\frac
+			{ m_j! }
+			{ m_j^{m_j} }
+	})
+\\
+	\sum_r
+		\frac
+		{\exp[
+			\qty(- \sum_{j\neq j^* \land m_j \neq 0} \iunit m_j \theta_j) + 
+			\qty(  \sum_{k=1}^{K}                    \iunit n_k \chi  _k)
+		]}
+		{\sqrt{\det S_r}}
+\end{multline}
 
 
 \section{Specialization: 2x2}
-\subsection{Unoccupied $m_2$ mode}
-Recall eqn. (\ref{eqn:DefLambda}):
+Using Definitions from eqn. (\ref{eqn:DefLambdaGeneric}) for $\lambda$ and eqn. (\ref{eqn:DefReducedDFTGeneric}) for $\tilde{\mathbb{U}}$.
+
+Recall eqn. (\ref{eqn:DefLambda}), which is equivalent to eqn. (\ref{eqn:DefLambdaGeneric}):
 \begin{align*}
 	\lambda
 &=
 	\qty( \prod_{k=1}^{K}   n_k )
-	\qty( \prod_{j=1}^{b^*} m_j )
+	\qty( \prod_{j : m_j \neq 0} m_j )
 =
-	m_1 \, n_1 \, n_2
+	m_{j^*} \, n_1 \, n_2
 \end{align*}
+
+\subsection{Unoccupied $m_1$ mode}
+\subsubsection{Determinant}
+\begin{align}
+	\det S
+&=
+	\frac{ \lambda^{-2 - 1 + 2} }{ m_2 }
+	\qty( \prod_{j=1}^{2} \exp(-2\iunit \chi_j) )
+	\det\qty[\bigg.
+		\diag\qty(\exp(\Big.2\iunit\vec{\chi}))
+		-
+		\tilde{\mathbb{U}}\transp
+		\diag\qty(\exp(2\iunit\vec{\theta}))
+		\tilde{\mathbb{U}}
+	]
+\end{align}
+for this specific case, $\tilde{\mathbb{U}}$ is actually a null matrix. Hence, the 
+$\exp(\pm 2\iunit \chi_j)$ terms cancel out:
+\begin{align}
+	\det S
+&=
+	\frac{1}{n_1 n_2}
+	\frac{1}{m_2^{2}}
+\end{align}
+
+\subsubsection{Amplitude}
+\begin{multline}
+	A_F(m_2, n_1, n_2)
+=
+	2\pi \, \delta_{N,M} \, \qty(
+		\frac{1}{2\pi\lambda}
+	)^{\frac{2 + 1}{2}}
+	\exp(N)
+	\qty( \prod_{k=1}^{2}
+		\sqrt{\frac
+			{ n_k! }
+			{ n_k^{n_k} }
+	})
+		\sqrt{\frac
+			{ m_2! }
+			{ m_2^{m_2} }
+	}
+\\
+	\sum_r
+		\frac
+		{\exp[
+			0+ \qty(  \sum_{k=1}^{2} \iunit n_k \chi  _k)
+		]}
+		{\sqrt{\det S_r}}
+\end{multline}
+\begin{align}
+&=
+	2\pi \, \delta_{N,M} \, \qty(
+		\frac{1}{2\pi\lambda}
+	)^{\smallfrac{3}{2}}
+	\exp(N)
+		\sqrt{\frac
+			{ n_1! \; n_2! \; m_2! }
+			{ n_1^{n_1} \; n_2^{n_2} \; m_2^{m_2}}
+	}
+	\sum_r
+		\frac
+		{\exp[
+			\iunit ( n_1 \chi_1 + n_2 \chi_2 )
+		]}
+		{\sqrt{\det S_r}} \\
+&=
+\nonumber
+	2\pi \, \delta_{N,M} \, \qty(
+		\frac{1}{2\pi \; m_2 n_1 n_2}
+	)^{\smallfrac{3}{2}}
+	(n_1 n_2)^{\smallfrac{1}{2}} m_2
+	\exp(N)
+	\\ & \qquad\qquad
+	\sqrt{\frac
+		{ n_1! \; n_2! \; m_2! }
+		{ n_1^{n_1} \; n_2^{n_2} \; m_2^{m_2}}
+	}
+	\sum_r
+		\exp[
+			\iunit ( n_1 \chi_1 + n_2 \chi_2 )
+		]
+\\
+	A_F(m_1, n_1, n_2)
+&=
+	\frac
+		{ \delta_{N,M} \exp(N) }
+		{ \sqrt{2\pi m_2} \; n_1 n_2 }
+	\sqrt{\frac
+		{ m_2! \; n_1! \; n_2! }
+		{ m_2^{m_2} n_1^{n_1} n_2^{n_2} }
+	}
+	\sum_r
+		\exp[ \Big.
+			\iunit \qty(  
+			n_1 \chi_1 + n_2 \chi_2)
+		]
+\end{align}
+
+\subsection{Unoccupied $m_2$ mode}
+These can be found directly from the BZO scenario.
 
 \subsubsection{Determinant}
 \begin{align}
@@ -1328,7 +1502,7 @@ Recall eqn. (\ref{eqn:DefLambda}):
 	]
 \end{align}
 for this specific case, $\tilde{\mathbb{U}}$ is actually a null matrix. Hence, the 
-$\exp(\pm \iunit \chi_j)$ terms cancel out:
+$\exp(\pm 2\iunit \chi_j)$ terms cancel out:
 \begin{align}
 	\det S
 &=
@@ -1410,9 +1584,6 @@ $\exp(\pm \iunit \chi_j)$ terms cancel out:
 		]
 \end{align}
 
-\subsection{Unoccupied $m_1$ mode}
-\subsubsection{Determinant}
-\subsubsection{Amplitude}
 
 \subsection{Comparision: Fully occupied}
 \subsubsection{Determinant}
@@ -1465,4 +1636,7 @@ $\exp(\pm \iunit \chi_j)$ terms cancel out:
 		{\sqrt{\det S_j}}
 \end{multline}
 
+\chapter{Treatment of Outgoing Zero-Occupancy Scenarios}
+
+\chapter{Treatment of Zero-Occupancy Scenarios in Both Ends}
 \end{document}
