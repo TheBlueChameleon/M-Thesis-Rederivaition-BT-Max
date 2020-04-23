@@ -851,7 +851,7 @@ Statement
 		\mathds{1} -
 		\tilde{F}\transp \cdot \qty( \diag(\tilde{\vec{m}}) )^{-1}
 		\cdot
-		\tilde{F} \cdot \qty( \diag(\tilde{\vec{n}}) )^{-1}
+		\tilde{F} \cdot \qty( \diag(\vec{n}) )^{-1}
 	]
 \label{eqn:detSPrimePartial}
 \end{align}
@@ -860,11 +860,24 @@ Note: $\lambda \neq \mathcal{N}$, but $\lambda = m_1 \mathcal{N}$
 Holds because:
 \begin{itemize}
 \item product separation in det: $\det(A \cdot B) = \det(A) \det(B)$
-\item first matrix yields $\det\qty( \diag(\tilde{\vec{m}}) )$
-\item second matrix yields $\det( \diag(\vec{n}) - \tilde{F}\transp \qty(\diag(\tilde{\vec{m}}))^{-1}\tilde{F} )$
-\item in second matrix: multiply from right with $\mathds{1} = \diag(\vec{n})^{-1} \cdot \diag(\vec{n})$
-\item again separate factor $\diag(\vec{n})$
-\item combine first matrix contribution and separated second matrix contribution to get $\lambda$
+\item both matrices are of triangular form. the determinant of triangular matrices is the product of
+	its diagonal elements.
+\item first matrix yields $\det[ \diag(\tilde{\vec{m}}) ]$
+\item second matrix yields 
+	\begin{align*}
+	\quad& \det[ \diag(\vec{n}) - \tilde{F}\transp \qty(\diag(\tilde{\vec{m}}))^{-1}\tilde{F} ] \\
+	=    &  \det[\Big. \diag(\vec{n}) ] 
+			\det[\Big. 
+				\mathds{1} - 
+				\tilde{F}\transp \cdot \qty( \diag(\tilde{\vec{m}}) )^{-1}
+				\cdot
+				\tilde{F} \cdot \qty( \diag(\tilde{\vec{n}}) )^{-1}
+			]
+	\end{align*}
+%\item in second matrix: multiply from right with 
+%	$\mathds{1} = \diag(\vec{n})^{-1} \cdot \diag(\vec{n})$
+%\item again separate factor $\diag(\vec{n})$
+%\item combine first matrix contribution and separated second matrix contribution to get $\mathcal{N}$
 \end{itemize}
 
 \subsection{Reforming $\tilde{F}$}
@@ -909,7 +922,6 @@ Statement:
 \end{align}
 where, again, $\exp(.)$ is understood to act on the individual components of a vector.
 
-\newpage
 Holds because:
 \begin{itemize}
 \item $(AB)\transp = B\transp A\transp$
@@ -924,6 +936,20 @@ Holds because:
 	\diag\qty[ \sqrt{        \vec{n} } * \exp(-\iunit \vec{\chi  }) ]
 	\cdot \tilde{\mathbb{U}}\transp \cdot
 	\diag\qty[ \sqrt{ \tilde{\vec{m}}} * \exp(+\iunit \vec{\theta}) ]$
+\item start from eqn. (\ref{eqn:detSPrimePartial}):
+	\begin{align*}
+		\det S'
+	&=
+		\underbrace{
+			\qty( \prod_{j=1}^{K} \tilde{m}_j n_j )
+		}_{= \mathcal{N} }
+		\det[
+			\mathds{1} -
+			\tilde{F}\transp \cdot \qty( \diag(\tilde{\vec{m}}) )^{-1}
+			\cdot
+			\tilde{F} \cdot \qty( \diag(\vec{n}) )^{-1}
+		]
+	\end{align*}
 \item contributions $\propto \sqrt{\tilde{\vec{m}}}, \sqrt{\vec{n}}$ cancel out due to inverses in eqn.
 	(\ref{eqn:detSPrimePartial})
 \item multiply from the right: $\exp(+2\iunit \vec{\chi})$ and its inverse from the left.
