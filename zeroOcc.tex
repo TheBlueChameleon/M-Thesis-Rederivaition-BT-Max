@@ -157,12 +157,7 @@ We will further assume that the outgoing modes are still all occupied:
 	\forall j : n_j > 0
 \end{align}
 
-From there on, the generic case follows:
-\begin{itemize}
-\item non-bunched configurations can be obtained by re-ordering coordinates -- verify!
-\item The scenario is assumed to be symmetric in $m, n$ -- verify!
-\end{itemize}
-
+From there on, the generic case follows: The non-bunched configurations can be obtained by re-ordering coordinates.
 
 \section{Starting Point}
 Statement:
@@ -1934,23 +1929,312 @@ Regard the form of $\tilde{U}$:
 		{ m_1^{m_1} \;m_2^{m_2} \; n_2^{n_2} }
 	}
 	\sum_r \frac
-		{\exp[
-			\qty(- \iunit m_2 \theta_2) + 
-			\qty(  \iunit n_2 \chi  _2)
+		{\exp[ \Big. \iunit
+			\qty( n_2 \chi_2 - m_2 \theta_2 )
 		]}
 		{\sqrt{1 - \frac{1}{2} \exp[\Big. 2\iunit (\theta_2 - \chi_2)]}}
 \end{align}
 
 \subsection{Unoccupied $n_2$ mode}
+\begin{align}
+	\lambda
+&=
+	m_1 \, m_2 \, n_1
+\end{align}
 
+\subsubsection{Determinant}
+Regard the form of $\tilde{U}$:
+\begin{align}
+	\tilde{U}
+&=
+	\begin{pmatrix}
+		0 & 0 \\ +\smallfrac{1}{\sqrt{2}} & 0
+	\end{pmatrix}
+&
+	\tilde{U}\transp
+&=
+	\begin{pmatrix}
+		0 & +\smallfrac{1}{\sqrt{2}} \\ 0 & 0
+	\end{pmatrix}
+\end{align}
+\begin{gather}
+	\Thus
+	\tilde{\mathbb{U}}\transp
+	\diag\qty(\exp(2\iunit\vec{\theta}))
+	\tilde{\mathbb{U}}
+=
+	\frac{1}{2} \exp(2\iunit \theta_2)
+	\begin{pmatrix}
+		1 & 0 \\ 0 & 0
+	\end{pmatrix}
+\\
+	\Thus
+	\diag\qty( \exp(\Big.2\iunit\vec{\chi}) )
+	-
+	\tilde{\mathbb{U}}\transp
+	\diag\qty(\exp(2\iunit\vec{\theta}))
+	\tilde{\mathbb{U}}
+=
+	\begin{pmatrix}
+		\exp(2\iunit \chi_1) - \frac{1}{2} \exp(2\iunit \theta_2) & 0 \\
+		0 & 1
+	\end{pmatrix}	
+\end{gather}
+\begin{align}
+	\det S
+&=
+	\frac{ \lambda^{-2 - 1 + 2} }{ m_1 }
+	\exp(-2\iunit \chi_1)
+	\qty[ 
+		\exp(2\iunit \chi_1) - \frac{1}{2} \exp(2\iunit \theta_2)
+	] \\
+&=
+	\frac
+		{1 - \frac{1}{2} \exp[\Big. 2\iunit (\theta_2 - \chi_1)]}
+		{m_1^2 \, m_2 \, n_1}
+\end{align}
+
+\subsubsection{Amplitude}
+\begin{align}
+	A_F(m_1, m_2, n_1)
+&=
+	2\pi \, \delta_{N,M} \, \qty(
+		\frac{1}{2\pi\lambda}
+	)^{\frac{2 + 1}{2}}
+	\exp(N)
+	\qty(
+		\sqrt{\frac
+			{ m_1!      \; m_2!     \; n_1! }
+			{ m_1^{m_1} \;m_2^{m_2} \; n_1^{n_1} }
+	})
+	\sum_r
+		\frac
+		{\exp[
+			\qty(- \iunit m_2 \theta_2) + 
+			\qty(  \iunit n_1 \chi  _1)
+		]}
+		{\sqrt{\det S_r}}
+	\\
+&=
+\nonumber
+	2\pi \, \delta_{N,M} \, \qty(
+		\frac{1}{2\pi m_1 \, m_2 \, n_1}
+	)^{\smallfrac{3}{2}}
+	\exp(N)
+	\sqrt{\frac
+		{ m_1!      \; m_2!     \; n_1! }
+		{ m_1^{m_1} \;m_2^{m_2} \; n_1^{n_1} }
+	}
+	\sqrt{m_1^2 \, m_2 \, n_1}
+\\ &\qquad
+	\sum_r
+		\frac
+		{\exp[
+			\qty(- \iunit m_2 \theta_2) + 
+			\qty(  \iunit n_1 \chi  _1)
+		]}
+		{\sqrt{1 - \frac{1}{2} \exp[\Big. 2\iunit (\theta_2 - \chi_1)]}}
+	\\
+&=
+	\frac
+		{\delta_{N,M} \exp(N)}
+		{\sqrt{2\pi m_1} m_2 n_2}
+	\sqrt{\frac
+		{ m_1!      \; m_2!     \; n_1! }
+		{ m_1^{m_1} \;m_2^{m_2} \; n_1^{n_1} }
+	}
+	\sum_r \frac
+		{\exp[ \Big. \iunit
+			\qty( n_1 \chi_1 - m_2 \theta_2 )
+		]}
+		{\sqrt{1 - \frac{1}{2} \exp[\Big. 2\iunit (\theta_2 - \chi_2)]}}
+\end{align}
 
 \chapter{Treatment of Zero-Occupancy Scenarios in Both Ends}
-Regarding the results of the last two chapters it is assumed
+Regarding the results of the last two chapters it is assumed that combining the results is valid and does not impose new rules.
+
+Again, $j^*$ shall denote the reference incoming mode. The number of incoming occupied modes is 
+$b_i^* < K$ and that of outgoing occupied modes is $b_o^* < K$.
+
 \section{Generalized Formulae}
+\begin{align}
+	\lambda
+&=
+	\qty( \prod_{k : n_k \neq 0} n_k )
+	\qty( \prod_{j : m_j \neq 0} m_j )
+\label{eqn:DefLambdaGeneric_mn}
+\\
+	\tilde{u}_{j,k} 
+&=
+	\begin{cases}
+		0			&\qq*{for } j = j^* \\
+		0			&\qq*{for } m_j = 0 \\
+		0			&\qq*{for } n_k = 0 \\
+		-u_{j,k}		&\qotherwise*
+	\end{cases}
+\label{eqn:DefReducedDFTGeneric_mn}
+\end{align}
+
 \subsection{Generalized Determinant}
+\begin{align}
+	\det S
+&=
+	\frac{ \lambda^{-b_i^* - b_o^* + 2} }{ m_{j^*} }
+	\qty( \prod_{k: n_k \neq 0} \exp(-2\iunit \chi_k) )
+	\det\qty[\bigg.
+		\diag\qty(\exp(\Big.2\iunit\vec{\chi}))
+		-
+		\tilde{\mathbb{U}}\transp
+		\diag\qty(\exp(2\iunit\vec{\theta}))
+		\tilde{\mathbb{U}}
+	]
+\label{eqn:detSGeneralized_mn}
+\end{align}
+
 \subsection{Generalized Amplitude}
+\begin{multline}
+	A_F(\vec{m}, \vec{n})
+=
+	2\pi \, \delta_{N,M} \, \qty(
+		\frac{1}{2\pi\lambda}
+	)^{\frac{b_i^* + b_o^*}{2}}
+	\exp(N)
+	\qty( \prod_{k : n_k \neq 0}
+		\sqrt{\frac
+			{ n_k! }
+			{ n_k^{n_k} }
+	})
+	\qty( \prod_{j : m_j \neq 0}
+		\sqrt{\frac
+			{ m_j! }
+			{ m_j^{m_j} }
+	})
+\\
+	\sum_r
+		\frac
+		{\exp[
+			\qty(- \sum_{j\neq j^* \land m_j \neq 0} \iunit m_j \theta_j) + 
+			\qty(  \sum_{k : n_k \neq 0}             \iunit n_k \chi  _k)
+		]}
+		{\sqrt{\det S_r}}
+\end{multline}
 
 \section{Specialization: 2x2}
-\subsection{Unoccupied $n_1$ mode}
-\subsection{Unoccupied $n_2$ mode}
+\begin{align}
+	\tilde{\mathbb{U}}
+&=
+	\begin{pmatrix}
+		0 & 0 \\ 0 & 0
+	\end{pmatrix}
+&
+	\det S
+&=
+	\frac{ \lambda^{-b_i^* - b_o^* + 2} }{ m_{j^*} }
+=
+	\frac{1}{m_{j^*}}
+\end{align}
+
+\subsection{Unoccupied $m_1$ and $n_1$ mode}
+\begin{align}
+	\lambda &= m_2 \, n_2
+&
+	j^* &= 2
+\end{align}
+\begin{align}
+	A_F(m_2, n_2)
+&=
+	2\pi \, \delta_{m_2,n_2} \, \qty(
+		\frac{1}{2\pi \, m_2 \, n_2}
+	)^{\frac{1 + 1}{2}}
+	\exp(N)
+	\sqrt{\frac
+		{ m_2!      \; n_2! }
+		{ m_2^{m_2} \; n_2^{n_2} }
+	}
+	\sqrt{m_2}
+	\sum_r
+		\exp( \iunit n_2 \chi_2 )
+	\\
+&=
+	\frac
+		{\exp(N) \; \delta_{m_2,n_2}}
+		{\sqrt{m_2} \, n_2}
+	\sqrt{\frac
+		{ m_2!      \; n_2! }
+		{ m_2^{m_2} \; n_2^{n_2} }
+	}
+	\sum_r
+		\exp( \iunit n_2 \chi_2 )
+\end{align}
+
+\subsection{Unoccupied $m_1$ and $n_2$ mode}
+\begin{align}
+	\lambda &= m_2 n_1
+&
+	j^* &= 2
+\end{align}
+\begin{align}
+	A_F(m_2, n_1)
+&=
+	\frac
+		{\exp(N) \; \delta_{m_2,n_1}}
+		{\sqrt{m_2} \, n_1}
+	\sqrt{\frac
+		{ m_2!      \; n_1! }
+		{ m_2^{m_2} \; n_1^{n_1} }
+	}
+	\sum_r
+		\exp( \iunit n_1 \chi_1 )
+\end{align}
+
+\subsection{Unoccupied $m_2$ and $n_1$ mode}
+\begin{align}
+	\lambda &= m_1 n_2
+&
+	j^* &= 1
+\end{align}
+\begin{align}
+	A_F(m_1, n_2)
+&=
+	\frac
+		{\exp(N) \; \delta_{m_1,n_2}}
+		{\sqrt{m_1} \, n_2}
+	\sqrt{\frac
+		{ m_1!      \; n_2! }
+		{ m_1^{m_1} \; n_2^{n_2} }
+	}
+	\sum_r
+		\exp( \iunit n_2 \chi_2 )
+\end{align}
+
+\subsection{Unoccupied $m_2$ and $n_2$ mode}
+\begin{align}
+	\lambda &= m_1 n_1
+&
+	j^* &= 1
+\end{align}
+\begin{align}
+	A_F(m_1, n_1)
+&=
+	\frac
+		{\exp(N) \; \delta_{m_1,n_1}}
+		{\sqrt{m_1} \, n_1}
+	\sqrt{\frac
+		{ m_1!      \; n_1! }
+		{ m_1^{m_1} \; n_1^{n_1} }
+	}
+	\sum_r
+		\exp( \iunit n_1 \chi_1 )
+\end{align}
+
+\section{Recovery of the fully occupied formula}
+\emph{NZO} denotes \emph{No-Zero-Occupancy}.
+\begin{itemize}
+\item $\lambda$ in the generalized form yields the NZO form.
+\item $\tilde{\mathbb{U}}$ in the generalized form yields the NZO form.
+\item $\det S$ in the generalized form yields the NZO form.
+\item $A_F$ in the generalized form yields the NZO form.
+\item[\Thus] This is a true generalization of the known NZO form.
+\end{itemize}
+
 \end{document}
