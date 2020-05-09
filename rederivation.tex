@@ -1721,7 +1721,7 @@ and note that summands vanish where exponent $k$ less than order of derivative $
 	\exp(\vec{x}\transp \, \mathbb{U} \, \vec{y})
 &=
 	\pdv[n_j]{y_j}
-	\sum^{\infty}_{\color{red} k=m_j (?)}
+	\sum^{\infty}_{k=m_j}
 		\frac{m_j !}{k!}
 			\sum_{r=1}^{K}
 			\sum_{c=1}^{L}
@@ -1729,7 +1729,7 @@ and note that summands vanish where exponent $k$ less than order of derivative $
 		\qty(u_{r,c} \; y_r)^{k}
 	\\
 &=
-	\sum^{\infty}_{\color{red} k=\max(m_j, n_j) (?)}
+	\sum^{\infty}_{k=\max(m_j, n_j)}
 		\frac{m_j ! n_j !}{k!}
 			\sum_{r=1}^{K}
 			\sum_{c=1}^{L}
@@ -1742,7 +1742,7 @@ get:
 	A_F
 &=
 	\prod_{j=1}^{K}
-	\sum_{\color{red} k=\max(m_j, n_j) (?)}^{\infty}
+	\sum_{k=\max(m_j, n_j)}^{\infty}
 		\frac
 			{\sqrt{m_j! \; n_j!}}
 			{k!}
@@ -1755,6 +1755,18 @@ get:
 		)
 \end{align}
 
+\item cf.:
+\begin{align*}
+	\qty( \big. \vec{x}\transp \; \mathbb{U} \; \vec{y} )^{N}
+&=
+	\qty( 
+			\sum_{r=1}^{K}
+			\sum_{c=1}^{L}
+			x_c \; u_{r,c} \; y_r
+		)^{N}
+\end{align*}
+
+
 \item {\color{red} I'm stuck here. I guess apply the product and neglect all summands other than $k=N$.
 	With $\sum_j m_j = M = N$ this gives:}
 \begin{align}
@@ -1762,7 +1774,7 @@ get:
 &\approx
 	\frac
 		{\prod_{j=1}^{K} \sqrt{m_j! \; n_j!}}
-		{K(N!)}
+		{(N!)^K}
 	\qty( 
 		\sum_{r=1}^{K}
 		\sum_{c=1}^{L}
