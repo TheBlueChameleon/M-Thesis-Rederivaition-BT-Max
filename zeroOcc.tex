@@ -200,7 +200,7 @@ Split into BZO form:
 		)
 		\exp(\vec{x}\transp \, \mathbb{U} \, \vec{y})
 	}_{\vec{x} = \vec{y} = \vec{0}}
-\label{eqn:BSA_raw_BZO}
+\label{eqn:BSA_raw_BZO_m}
 \end{align}
 
 Holds because:
@@ -229,7 +229,7 @@ Equation:
 				{ y_k^{n_k+1} }
 		)
 		\exp( \Big. \vec{x}\transp \, \mathbb{U} \, \vec{y})
-	\label{eqn:BSA_Int_BZO}
+	\label{eqn:BSA_Int_BZO_m}
 \end{align}
 
 \section{Change of Variables}
@@ -242,7 +242,7 @@ Using polar coordinates:
 	\label{eqn:DefXY}
 \end{align}
 
-in eqn. (\ref{eqn:BSA_Int_BZO}) gives:
+in eqn. (\ref{eqn:BSA_Int_BZO_m}) gives:
 \begin{multline}
 	A_F(\vec{m}, \vec{n})
 =
@@ -358,7 +358,7 @@ using
 			{ m_j^{m_j} }
 		}
 	)
-\label{eqn:DefC}
+\label{eqn:DefC_m}
 \end{align}
 ({\color{red}keep in mind that this definition of $C$ differs from the fully-occupied scenario!})
 gives
@@ -376,7 +376,7 @@ gives
 				+\vec{n} \cdot \vec{\chi}
 			)]
 			\exp( \Big. \vec{x}\transp \, \mathbb{U} \, \vec{y})
-	\label{eqn:BSA_Int_BZO_Polar}
+	\label{eqn:BSA_Int_BZO_Polar_m}
 \end{align}
 where
 \begin{align}
@@ -398,7 +398,7 @@ Note
 \end{itemize}
 
 \section{Integrating out the $\theta_1$ DoF}
-split eqn. (\ref{eqn:BSA_Int_BZO_Polar}) into $\theta_1$ dependent terms and rest. Use temporary variables:
+split eqn. (\ref{eqn:BSA_Int_BZO_Polar_m}) into $\theta_1$ dependent terms and rest. Use temporary variables:
 \begin{align}
 	\vec{\alpha} &= \vec{\theta} - (\theta_1, \ldots, \theta_1)\transp
 	&
@@ -490,7 +490,7 @@ Using
 &=
 	\qty( \prod_{k=1}^{K}   n_k )
 	\qty( \prod_{j=1}^{b^*} m_j )
-\label{eqn:DefLambda}
+\label{eqn:DefLambda_m}
 \\
 	f(
 		\underbrace{ \vec{\theta}, \vec{\chi} }_{\vec{z}}
@@ -554,7 +554,7 @@ Find:
 		\sum_{l=1}^{K}
 			\sqrt{m_p n_l} \; u_{p,l} \; \exp[ \Big. \iunit(\theta_p - \chi_l)]
 	]
-	\label{eqn:Jacobiantheta}
+	\label{eqn:Jacobiantheta_m}
 \equalCond
 	0 \\
 \Thus
@@ -566,7 +566,7 @@ Find:
 	\sqrt{m_p} \exp(-\iunit \theta_p)
 \equalCond
 	\sum_{l=1}^{K} \sqrt{n_l} \; u_{p,l} \; \exp(-\iunit\chi_l)
-	\label{eqn:FourierLinkForward}
+	\label{eqn:FourierLinkForward_m}
 \end{gather}
 with $p \in \{2, \ldots, K\}$ where $\theta_1 = 0$. Implicitly also holds for $p=1$ {\color{red}(Does it?)}, but the derivatives only start at $p=2$.
 
@@ -581,7 +581,7 @@ Likewise:
 		\sum_{k=1}^{b^*}
 			\sqrt{m_k n_q} \; u_{k,q} \; \exp[ \Big. \iunit(\theta_k - \chi_q) ]
 	]
-	\label{eqn:JacobianChi}
+	\label{eqn:JacobianChi_m}
 \equalCond
 	0 \\
 \Thus
@@ -589,7 +589,7 @@ Likewise:
 \equalCond
 	\sum_{k=1}^{b^*}
 	\sqrt{m_k} \; u_{k,q} \; \exp(+\iunit\theta_k)
-	\label{eqn:FourierLinkBackward}
+	\label{eqn:FourierLinkBackward_m}
 \end{gather}
 with $q \in \{1, \ldots, K\}$ where again $\theta_1 = 0$. Summation may also run up to $K$, since higher contributions are weighted with $\sqrt{m_j} = 0$.
 
@@ -598,7 +598,7 @@ Compactly:
 	\vec{x}^{*} &= \mathbb{U} \vec{y}
 &
 	\vec{y}^{*} &= \mathbb{U}\transp \vec{x}
-	\label{eqn:MatrixCondition}
+	\label{eqn:MatrixCondition_m}
 \end{align}
 
 \subsection{Main Results up to here}
@@ -623,7 +623,7 @@ Compactly:
 	\end{itemize}
 \item The formulae up to here should not be applied to ZO modes, albeit behaviour for such $m_p$
 	implies that they are even valid there. I.\,e. do not attempt to use eqn.
-	(\ref{eqn:FourierLinkForward}) for $p > b^*$, or double-check if it is valid use if you do.
+	(\ref{eqn:FourierLinkForward_m}) for $p > b^*$, or double-check if it is valid use if you do.
 \item strictly speaking, the matrix sum over $k$ should be adjusted such that no $\theta_k$ with
 	$k > b^*$ are referenced. However, all instances where this happens are weighted with a
 	$\sqrt{m_k} = 0$.
@@ -642,7 +642,7 @@ Recall: We start from
 but only true DoFs are relevant. Hence, regard $m_j, n_j$ and $\theta_1$ as const. \\
 \Thus $(K + b^* - 1)^{2}$ derivatives wrt. $\theta_2, \ldots \theta_{b^*}, \chi_1, \ldots, \chi_K$
 
-Compactly: Use $\vec{z}_j = \vec{\theta} \oplus \vec{\chi}$, \ie the entire Fourier pair. Re-use eqns (\ref{eqn:Jacobiantheta}) and (\ref{eqn:JacobianChi}) from \ref{sec:saddles} by introducing (remembering the constraint $\theta_1 = 0$):
+Compactly: Use $\vec{z}_j = \vec{\theta} \oplus \vec{\chi}$, \ie the entire Fourier pair. Re-use eqns (\ref{eqn:Jacobiantheta_m}) and (\ref{eqn:JacobianChi_m}) from \ref{sec:saddles} by introducing (remembering the constraint $\theta_1 = 0$):
 
 \begin{align}
 	\mathbb{J} = \qty( \grad_{\vec{z}_j} f )
@@ -737,7 +737,7 @@ Dimensions:
 
 The Kronecker Delta is due to the fact that the derived-for variable is present only once at the stage of Jacobian $\mathbb{J}$.
 
-Using the eqns (\ref{eqn:FourierLinkForward}) and (\ref{eqn:FourierLinkBackward}), we can further collapse the diagonal elements:
+Using the eqns (\ref{eqn:FourierLinkForward_m}) and (\ref{eqn:FourierLinkBackward_m}), we can further collapse the diagonal elements:
 \begin{align}
 	\pdv{J_{\theta, p}}{\theta_{\alpha}}
 &=
@@ -938,7 +938,7 @@ where still:
 	= \qty( -\sqrt{m_p n_q} \; u_{p,q} \; \exp[\Big. \iunit(\theta_p - \chi_q)] )_{
 		\substack{p = 2, \ldots, b^* \\ q = 1, \ldots, K}
 	}
-\label{eqn:DefDetOffDiagonalF}
+\label{eqn:DefDetOffDiagonalF_m}
 \\
 	\vec{m}'
 &=
@@ -962,7 +962,7 @@ With this, implicitly using the infix theorem:
 		\diag(\tilde{\vec{m}})	& \tilde{F}			\\
 		\tilde{F}\transp			& \diag(\vec{n})
 	|
-\label{eqn:detS_protoform}
+\label{eqn:detS_protoform_m}
 \end{align}
 
 where:
@@ -996,7 +996,7 @@ Statement:
 			\mathds{O}	&	\diag(\vec{n}) - \tilde{F}\transp \qty(\diag(\tilde{\vec{m}}))^{-1}\tilde{F}
 		\end{pmatrix}}_{2K \times 2K}
 	|
-	\label{eqn:detSProto}
+	\label{eqn:detSPrime_m}
 \end{align}
 Holds because:
 \begin{itemize}
@@ -1028,7 +1028,7 @@ Keep definition:
 &=
 	\qty( \prod_{k=1}^{K}   n_k )
 	\qty( \prod_{j=2}^{b^*} m_j )
-\label{eqn:DefN}
+\label{eqn:DefN_m}
 \end{align}
 
 Holds because
@@ -1060,7 +1060,7 @@ Note that this introduction of zero rows suppresses the necessity of the conditi
 
 Holds because:
 \begin{itemize}
-\item see definition of F in eqn. (\ref{eqn:DefDetOffDiagonalF})
+\item see definition of F in eqn. (\ref{eqn:DefDetOffDiagonalF_m})
 \end{itemize}
 
 \subsection{Reformed $\tilde{F}$ in the Determinant}
@@ -1100,7 +1100,7 @@ Statement:
 		\diag\qty(\exp(2\iunit\vec{\theta}))
 		\tilde{\mathbb{U}}
 	]
-\label{eqn:detComplete}
+\label{eqn:detSComplete_m}
 \end{align}
 
 Holds because:
@@ -1108,7 +1108,7 @@ Holds because:
 \item Phase term as found in rederivation
 \item magnitude:
 	\begin{itemize}
-	\item Start from eqn. (\ref{eqn:detS_protoform}) : $\det S = \lambda^{-K - b^* + 1} \det S'$
+	\item Start from eqn. (\ref{eqn:detS_protoform_m}) : $\det S = \lambda^{-K - b^* + 1} \det S'$
 	\item $
 	\frac
 		{\mathcal{N}}
@@ -1296,7 +1296,7 @@ With this definition we get:
 &=
 	\qty( \prod_{k=1}^{K}   n_k )
 	\qty( \prod_{j : m_j \neq 0} m_j )
-\label{eqn:DefLambdaGeneric}
+\label{eqn:DefLambdaNonBZO_m}
 \\
 	\tilde{u}_{i,j} 
 &=
@@ -1304,7 +1304,7 @@ With this definition we get:
 		-u_{i,j}		&\qq*{for } i \neq j^* \land m_i \neq 0 \\
 		0			&\qotherwise*
 	\end{cases}
-\label{eqn:DefReducedDFTGeneric}
+\label{eqn:DefReducedDFTNonBZO_m}
 \end{align}
 
 And with this the determinant:
@@ -1320,7 +1320,7 @@ And with this the determinant:
 		\diag\qty(\exp(2\iunit\vec{\theta}))
 		\tilde{\mathbb{U}}
 	]
-\label{eqn:detSGeneralized}
+\label{eqn:detSNonBZO_m}
 \end{align}
 
 \subsection{Generalized Amplitude}
@@ -1355,9 +1355,9 @@ Definition of $b^*, j^*, \lambda$ as above.
 
 
 \section{Specialization: 2x2}
-Using Definitions from eqn. (\ref{eqn:DefLambdaGeneric}) for $\lambda$ and eqn. (\ref{eqn:DefReducedDFTGeneric}) for $\tilde{\mathbb{U}}$.
+Using Definitions from eqn. (\ref{eqn:DefLambdaNonBZO_m}) for $\lambda$ and eqn. (\ref{eqn:DefReducedDFTNonBZO_m}) for $\tilde{\mathbb{U}}$.
 
-Recall eqn. (\ref{eqn:DefLambda}), which is equivalent to eqn. (\ref{eqn:DefLambdaGeneric}):
+Recall eqn. (\ref{eqn:DefLambda_m}), which is equivalent to eqn. (\ref{eqn:DefLambdaNonBZO_m}):
 \begin{align*}
 	\lambda
 &=
@@ -1736,7 +1736,7 @@ Following the sections in chapter one, this tells which adaptions to the shown s
 &\equalCond
 	\sum_{k=1}^{K}
 	\sqrt{m_k} \; u_{k,q} \; \exp(+\iunit\theta_k)
-\label{eqn:FourierLinkBackward_}
+\label{eqn:FourierLinkBackward_n}
 \\
 	\tilde{F}
 &=
@@ -1755,7 +1755,7 @@ Following the sections in chapter one, this tells which adaptions to the shown s
 		0			& \text{for } j > b^* \\
 		-u_{i,j}		& \text{otherwise}
 	\end{cases}
-\label{eqn:DefUTilda_n}
+\label{eqn:DefReducedDFTNonBZO_n}
 \end{align}
 
 \section{Generalized Formulae}
@@ -1773,7 +1773,7 @@ In this section: Using symbols:
 &=
 	\qty( \prod_{k : n_k \neq 0} n_k )
 	\qty( \prod_{j = 1}^{K}      m_j )
-\label{eqn:DefLambdaGeneric_n}
+\label{eqn:DefLambdaNonBZO_n}
 \end{align}
 
 \subsection{Generalized Determinant}
@@ -1789,7 +1789,7 @@ In this section: Using symbols:
 		\diag\qty(\exp(2\iunit\vec{\theta}))
 		\tilde{\mathbb{U}}
 	]
-\label{eqn:detSGeneralized_n}
+\label{eqn:detSNonBZO_n}
 \end{align}
 Assume $n_j = 0 \Thus \chi_j = 0$.\\
 
@@ -2054,7 +2054,7 @@ Regard the form of $\tilde{U}$:
 Regarding the results of the last two chapters it is assumed that combining the results is valid and does not impose new rules.
 
 Again, $j^*$ shall denote the reference incoming mode. The number of incoming occupied modes is 
-$b_i^* < K$ and that of outgoing occupied modes is $b_o^* < K$.
+$b_i^* \leq K$ and that of outgoing occupied modes is $b_o^* \leq K$.
 
 \section{Generalized Formulae}
 \begin{align}
@@ -2062,7 +2062,7 @@ $b_i^* < K$ and that of outgoing occupied modes is $b_o^* < K$.
 &=
 	\qty( \prod_{k : n_k \neq 0} n_k )
 	\qty( \prod_{j : m_j \neq 0} m_j )
-\label{eqn:DefLambdaGeneric_mn}
+\label{eqn:DefLambda_generic}
 \\
 	\tilde{u}_{j,k} 
 &=
@@ -2072,7 +2072,27 @@ $b_i^* < K$ and that of outgoing occupied modes is $b_o^* < K$.
 		0			&\qq*{for } n_k = 0 \\
 		-u_{j,k}		&\qotherwise*
 	\end{cases}
-\label{eqn:DefReducedDFTGeneric_mn}
+\label{eqn:DefReducedDFT_generic}
+\end{align}
+\begin{align}
+	\forall p &: m_p \neq 0 :
+&
+	\sqrt{m_p} \exp(-\iunit \theta_p)
+&\equalCond
+	\sum_{l : n_l \neq 0} \sqrt{n_l} \; u_{p,l} \; \exp(-\iunit\chi_l)
+&
+	\vec{x}^{*} &= \mathbb{U} \vec{y}
+\label{eqn:FourierLinkForward_generic}
+\\
+	\forall q &: n_q \neq 0 :
+&
+	\sqrt{n_q} \exp(+\iunit \chi_q)
+&\equalCond
+	\sum_{k : m_k \neq 0}
+	\sqrt{m_k} \; u_{k,q} \; \exp(+\iunit\theta_k)
+&
+	\vec{y}^{*} &= \mathbb{U}\transp \vec{x}
+\label{eqn:FourierLinkBackward_generic}
 \end{align}
 
 \subsection{Generalized Determinant}
@@ -2088,7 +2108,7 @@ $b_i^* < K$ and that of outgoing occupied modes is $b_o^* < K$.
 		\diag\qty(\exp(2\iunit\vec{\theta}))
 		\tilde{\mathbb{U}}
 	]
-\label{eqn:detSGeneralized_mn}
+\label{eqn:detS_generic}
 \end{align}
 
 \subsection{Generalized Amplitude}
@@ -2117,6 +2137,7 @@ $b_i^* < K$ and that of outgoing occupied modes is $b_o^* < K$.
 			\qty(  \sum_{k : n_k \neq 0}             \iunit n_k \chi  _k)
 		]}
 		{\sqrt{\det S_r}}
+\label{eqn:Amp_generic}
 \end{multline}
 
 \section{Specialization: 2x2}
@@ -2237,4 +2258,107 @@ $b_i^* < K$ and that of outgoing occupied modes is $b_o^* < K$.
 \item[\Thus] This is a true generalization of the known NZO form.
 \end{itemize}
 
+\chapter{Exact 2x2 Phases}
+Start from eqns. (\ref{eqn:FourierLinkForward_generic}), (\ref{eqn:FourierLinkBackward_generic}):
+\begin{align*}
+	\forall p &: m_p \neq 0 :
+&
+	\sqrt{m_p} \exp(-\iunit \theta_p)
+&\equalCond
+	\sum_{l : n_l \neq 0} \sqrt{n_l} \; u_{p,l} \; \exp(-\iunit\chi_l)
+&
+	\vec{x}^{*} &= \mathbb{U} \vec{y}
+\\
+	\forall q &: n_q \neq 0 :
+&
+	\sqrt{n_q} \exp(+\iunit \chi_q)
+&\equalCond
+	\sum_{k : m_k \neq 0}
+	\sqrt{m_k} \; u_{k,q} \; \exp(+\iunit\theta_k)
+&
+	\vec{y}^{*} &= \mathbb{U}\transp \vec{x}
+\end{align*}
+
+\section{Scenario, Definitions}
+Regard Case:
+\begin{itemize}
+\item $K = 2$
+\item $q \in \{l : n_l \neq 0\}$
+\end{itemize}
+
+Use Symbol $\bar{j}^*$: not the reference mode.
+
+Define:
+\begin{align}
+	\mu
+&\coloneqq
+	\exp(+\iunit \theta_{\bar{j}^*})
+&
+	\mu^*
+&\coloneqq
+	\exp(-\iunit \theta_{\bar{j}^*})
+=
+	\frac{1}{\mu}
+\end{align}
+
+\section{Modulus Squared of Fourier Link}
+\begin{align}
+	\abs{
+		\sqrt{n_q} \exp(+\iunit \chi_q)
+	}^2
+&\equalCond
+	\abs{
+		\textstyle \sum_{k : m_k \neq 0}
+			\sqrt{m_k} \; u_{k,q} \; \exp(+\iunit\theta_k)
+	}^2
+\\
+	n_q
+&=
+	\qty(
+		m_{     j ^*} u_{     j ^*, q} +
+		m_{\bar{j}^*} u_{\bar{j}^*, q} \mu
+	)	
+	\qty(
+		m_{     j ^*} u_{     j ^*, q}^* +
+		m_{\bar{j}^*} u_{\bar{j}^*, q}^* \mu^*
+	) \\
+&=
+	  m_{j^*} \abs{u_{j^*, q}}^2
+	+ \sqrt{m_{j^*} m_{\bar{j}^*}} u_{j^*, q}   u_{\bar{j}^*, q}^* \mu^*
+	+ \sqrt{m_{j^*} m_{\bar{j}^*}} u_{j^*, q}^* u_{\bar{j}^*, q}   \mu
+	+ m_{\bar{j}^*} \abs{u_{\bar{j}^*, q}}^2
+\end{align}
+
+In the case where either incoming mode has zero occupancy, we get the equivalent:
+\begin{align}
+	n_q
+&=
+	m_{j^*} \abs{u_{j^*, q}}^2
+\end{align}
+
+In either case it is valid to multiply by $\mu \neq 0$:
+\begin{align}
+	n_q \mu
+&=
+	\begin{cases}
+		\mqty{
+			  m_{j^*} \abs{u_{j^*, q}}^2 \mu
+			+ \sqrt{m_{j^*} m_{\bar{j}^*}} u_{j^*, q}   u_{\bar{j}^*, q}^*
+			\\
+			\qquad\qquad
+			+ \sqrt{m_{j^*} m_{\bar{j}^*}} u_{j^*, q}^* u_{\bar{j}^*, q}   \mu^2
+			+ m_{\bar{j}^*} \abs{u_{\bar{j}^*, q}}^2                       \mu
+		}
+		&
+		\text{if } \forall j : m_j \neq 0
+	\\
+		m_{j^*} \abs{u_{j^*, q}}^2 \mu
+		&
+		\text{otherwise}
+	\end{cases}
+\end{align}
+
+So we a quadratic equation in mu \emph{only when both incoming modes are occupied}. The ZO case cannot be solved from the Mod-Squared equation. In fact, it is a trivial case with $\mu = 1 \Leftrightarrow \theta_{j^*} = 0$.
+
+{\color{blue} (If necessary, follow the steps in rederivation to get an alt form for $\mu$ in case reference is not mode 1. I doubt the need for this will arise.)}
 \end{document}
