@@ -2140,7 +2140,7 @@ $b_i^* \leq K$ and that of outgoing occupied modes is $b_o^* \leq K$.
 \label{eqn:Amp_generic}
 \end{multline}
 
-\section{Specialization: 2x2}
+\section{Specialization: 2x2, both ends have one ZO}
 \begin{align}
 	\tilde{\mathbb{U}}
 &=
@@ -2246,6 +2246,157 @@ $b_i^* \leq K$ and that of outgoing occupied modes is $b_o^* \leq K$.
 	}
 	\sum_r
 		\exp( \iunit n_1 \chi_1 )
+\end{align}
+
+\section{Specialization: 2x2, generic occupancy}
+Start from eqn. (\ref{eqn:detS_generic}). and consider:
+\begin{align*}
+	\det\qty[\bigg.
+		\diag\qty(\exp(\Big.2\iunit\vec{\chi}))
+		-
+		\tilde{\mathbb{U}}\transp
+		\diag\qty(\exp(2\iunit\vec{\theta}))
+		\tilde{\mathbb{U}}
+	]
+&=
+	\det(M)
+\end{align*}
+
+Use shorthand
+\begin{align}
+	\Theta_j &= \exp(2\iunit \theta_j)
+&
+	\Xi_j &= \exp(2\iunit \chi_j)
+\end{align}
+
+Resolve matrix multiplication of form where $v_{ij}$ is the matrix element of the reduced DFT matrix
+$\tilde{\mathbb{U}}$:
+\begin{align*}
+	\begin{pmatrix}
+		v_{11} & v_{12} \\
+		v_{21} & v_{22}
+	\end{pmatrix}
+	\cdot
+	\begin{pmatrix}
+		\Theta_1 &        0 \\
+		       0 & \Theta_2
+	\end{pmatrix}
+	\cdot
+	\begin{pmatrix}
+		v_{11} & v_{21} \\
+		v_{12} & v_{22}
+	\end{pmatrix}
+&=
+	\begin{pmatrix}
+		v_{11} \Theta_1 & v_{12} \Theta_2 \\
+		v_{21} \Theta_1 & v_{22} \Theta_2
+	\end{pmatrix}
+	\cdot
+	\begin{pmatrix}
+		v_{11} & v_{21} \\
+		v_{12} & v_{22}
+	\end{pmatrix}
+\\
+&=
+	\begin{pmatrix}
+		v_{11}^2      \Theta_1   +   v_{12}^2      \Theta_2 & 
+		v_{11} v_{21} \Theta_1   +   v_{12} v_{22} \Theta_2
+	\\
+		v_{11} v_{21} \Theta_1   +   v_{12} v_{22} \Theta_2 &
+		v_{21}^2      \Theta_1   +   v_{22}^2      \Theta_2 & 
+	\end{pmatrix}
+\\
+\Thus
+	M
+&=
+	\begin{pmatrix}
+		\Xi_1 - v_{11}^2      \Theta_1   -   v_{12}^2      \Theta_2 & 
+		      - v_{11} v_{21} \Theta_1   -   v_{12} v_{22} \Theta_2
+	\\
+		      - v_{11} v_{21} \Theta_1   -   v_{12} v_{22} \Theta_2 &
+		\Xi_2 - v_{21}^2      \Theta_1   -   v_{22}^2      \Theta_2 & 
+	\end{pmatrix}
+\end{align*}
+
+and
+\begin{align*}
+	\det(M)
+&=
+	\qty(\Big.
+		\Xi_1 - v_{11}^2 \Theta_1   -   v_{12}^2 \Theta_2
+	)
+	\qty(\Big.
+		\Xi_2 - v_{21}^2 \Theta_1   -   v_{22}^2 \Theta_2
+	)
+	-
+	\qty(\Big.
+		v_{11} v_{21} \Theta_1 + v_{12} v_{22} \Theta_2
+	)^2 \\
+&=
+	+ \qty(\Big.
+		v_{11}^2 \Theta_1   +   v_{12}^2 \Theta_2
+	)
+	\qty(\Big.
+		v_{21}^2 \Theta_1   +   v_{22}^2 \Theta_2
+	)
+	-
+	\qty(\Big.
+		v_{11} v_{21} \Theta_1 + v_{12} v_{22} \Theta_2
+	)^2 \\
+&\quad~
+	- \Xi_1 \qty(\Big.
+		v_{21}^2 \Theta_1   +   v_{22}^2 \Theta_2
+	)
+	- \Xi_2 \qty(\Big.
+		v_{11}^2 \Theta_1   +   v_{12}^2 \Theta_2
+	) \\
+&=
+	+ v_{11}^2 v_{21}^2 \Theta_1^2
+	+ v_{12}^2 v_{21}^2 \Theta_1 \Theta_2
+	+ v_{11}^2 v_{22}^2 \Theta_1 \Theta_2
+	+ v_{12}^2 v_{22}^2          \Theta_2^2
+	\\
+&\quad~
+	- \qty( \Big.
+		    v_{11}^2      v_{21}^2      \Theta_1^2
+		+ 2 v_{11} v_{12} v_{21} v_{22} \Theta_1 \Theta_2
+		+          v_{12}^2      v_{22}^2        \Theta_2
+	) \\
+&\quad~
+	- \Xi_1 \qty(\Big.
+		v_{21}^2 \Theta_1   +   v_{22}^2 \Theta_2
+	)
+	- \Xi_2 \qty(\Big.
+		v_{11}^2 \Theta_1   +   v_{12}^2 \Theta_2
+	) \\
+&=
+	\qty(
+		v_{12}^2 v_{21}^2 + v_{11}^2 v_{22}^2
+		-
+		2 v_{11} v_{12} v_{21} v_{22}
+	) \Theta_1 \Theta_2 \\
+&\quad~
+	- \Xi_1 \qty(\Big.
+		v_{21}^2 \Theta_1   +   v_{22}^2 \Theta_2
+	)
+	- \Xi_2 \qty(\Big.
+		v_{11}^2 \Theta_1   +   v_{12}^2 \Theta_2
+	)
+\end{align*}
+\begin{align}
+\nonumber
+	\det(M)
+&=
+	\qty(
+		v_{12}^2 v_{21}^2 + v_{11}^2 v_{22}^2
+		-
+		2 v_{11} v_{12} v_{21} v_{22}
+	) \exp(\Big. 2\iunit (\theta_1 + \theta_2)) \\
+&\quad~
+	- v_{11}^2 \exp(\Big. 2\iunit (\theta_1 + \chi_2))
+	- v_{12}^2 \exp(\Big. 2\iunit (\theta_2 + \chi_2))
+	- v_{21}^2 \exp(\Big. 2\iunit (\theta_1 + \chi_1))
+	- v_{22}^2 \exp(\Big. 2\iunit (\theta_2 + \chi_1))
 \end{align}
 
 \section{Recovery of the fully occupied formula}
