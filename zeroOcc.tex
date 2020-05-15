@@ -2273,8 +2273,8 @@ Resolve matrix multiplication of form where $v_{ij}$ is the matrix element of th
 $\tilde{\mathbb{U}}$:
 \begin{align*}
 	\begin{pmatrix}
-		v_{11} & v_{12} \\
-		v_{21} & v_{22}
+		v_{11} & v_{21} \\
+		v_{12} & v_{22}
 	\end{pmatrix}
 	\cdot
 	\begin{pmatrix}
@@ -2283,38 +2283,38 @@ $\tilde{\mathbb{U}}$:
 	\end{pmatrix}
 	\cdot
 	\begin{pmatrix}
-		v_{11} & v_{21} \\
-		v_{12} & v_{22}
+		v_{11} & v_{12} \\
+		v_{21} & v_{22}
 	\end{pmatrix}
 &=
 	\begin{pmatrix}
-		v_{11} \Theta_1 & v_{12} \Theta_2 \\
-		v_{21} \Theta_1 & v_{22} \Theta_2
+		v_{11} \Theta_1 & v_{21} \Theta_2 \\
+		v_{12} \Theta_1 & v_{22} \Theta_2
 	\end{pmatrix}
 	\cdot
 	\begin{pmatrix}
-		v_{11} & v_{21} \\
-		v_{12} & v_{22}
+		v_{11} & v_{12} \\
+		v_{21} & v_{22}
 	\end{pmatrix}
 \\
 &=
 	\begin{pmatrix}
-		v_{11}^2      \Theta_1   +   v_{12}^2      \Theta_2 & 
-		v_{11} v_{21} \Theta_1   +   v_{12} v_{22} \Theta_2
+		v_{11}^2      \Theta_1   +   v_{21}^2      \Theta_2 & 
+		v_{11} v_{12} \Theta_1   +   v_{21} v_{22} \Theta_2
 	\\
-		v_{11} v_{21} \Theta_1   +   v_{12} v_{22} \Theta_2 &
-		v_{21}^2      \Theta_1   +   v_{22}^2      \Theta_2 & 
+		v_{11} v_{12} \Theta_1   +   v_{21} v_{22} \Theta_2 &
+		v_{12}^2      \Theta_1   +   v_{22}^2      \Theta_2 & 
 	\end{pmatrix}
 \\
 \Thus
 	M
 &=
 	\begin{pmatrix}
-		\Xi_1 - v_{11}^2      \Theta_1   -   v_{12}^2      \Theta_2 & 
-		      - v_{11} v_{21} \Theta_1   -   v_{12} v_{22} \Theta_2
+		\Xi_1 - v_{11}^2      \Theta_1   -   v_{21}^2      \Theta_2 & 
+		      - v_{11} v_{12} \Theta_1   -   v_{21} v_{22} \Theta_2
 	\\
-		      - v_{11} v_{21} \Theta_1   -   v_{12} v_{22} \Theta_2 &
-		\Xi_2 - v_{21}^2      \Theta_1   -   v_{22}^2      \Theta_2 & 
+		      - v_{11} v_{12} \Theta_1   -   v_{21} v_{22} \Theta_2 &
+		\Xi_2 - v_{12}^2      \Theta_1   -   v_{22}^2      \Theta_2 & 
 	\end{pmatrix}
 \end{align*}
 
@@ -2323,52 +2323,53 @@ and
 	\det(M)
 &=
 	\qty(\Big.
-		\Xi_1 - v_{11}^2 \Theta_1   -   v_{12}^2 \Theta_2
+		\Xi_1 - v_{11}^2 \Theta_1 - v_{21}^2 \Theta_2
 	)
 	\qty(\Big.
-		\Xi_2 - v_{21}^2 \Theta_1   -   v_{22}^2 \Theta_2
+		\Xi_2 - v_{12}^2 \Theta_1 - v_{22}^2 \Theta_2
 	)
 	-
 	\qty(\Big.
-		v_{11} v_{21} \Theta_1 + v_{12} v_{22} \Theta_2
+		v_{11} v_{12} \Theta_1 + v_{21} v_{22} \Theta_2
 	)^2 \\
 &=
 	+ \qty(\Big.
-		v_{11}^2 \Theta_1   +   v_{12}^2 \Theta_2
+		v_{11}^2 \Theta_1   +   v_{21}^2 \Theta_2
 	)
 	\qty(\Big.
-		v_{21}^2 \Theta_1   +   v_{22}^2 \Theta_2
+		v_{12}^2 \Theta_1   +   v_{22}^2 \Theta_2
 	)
 	-
 	\qty(\Big.
-		v_{11} v_{21} \Theta_1 + v_{12} v_{22} \Theta_2
+		v_{11} v_{12} \Theta_1 + v_{21} v_{22} \Theta_2
 	)^2 \\
-&\quad~
+&\quad~ 
 	- \Xi_1 \qty(\Big.
-		v_{21}^2 \Theta_1   +   v_{22}^2 \Theta_2
+		v_{12}^2 \Theta_1   +   v_{22}^2 \Theta_2
 	)
 	- \Xi_2 \qty(\Big.
-		v_{11}^2 \Theta_1   +   v_{12}^2 \Theta_2
+		v_{11}^2 \Theta_1   +   v_{21}^2 \Theta_2
 	) + \Xi_1 \Xi_2 \\
 &=
-	+ v_{11}^2 v_{21}^2 \Theta_1^2
-	+ v_{12}^2 v_{21}^2 \Theta_1 \Theta_2
+	+ v_{11}^2 v_{12}^2 \Theta_1^2
 	+ v_{11}^2 v_{22}^2 \Theta_1 \Theta_2
-	+ v_{12}^2 v_{22}^2          \Theta_2^2
+	+ v_{12}^2 v_{21}^2 \Theta_1 \Theta_2
+	+ v_{21}^2 v_{22}^2          \Theta_2^2
 	\\
 &\quad~
 	- \qty( \Big.
-		    v_{11}^2      v_{21}^2      \Theta_1^2
+		    v_{11}^2      v_{12}^2      \Theta_1^2
 		+ 2 v_{11} v_{12} v_{21} v_{22} \Theta_1 \Theta_2
-		+          v_{12}^2      v_{22}^2        \Theta_2
+		+          v_{21}^2      v_{22}^2        \Theta_2
 	) \\
 &\quad~
 	- \Xi_1 \qty(\Big.
-		v_{21}^2 \Theta_1   +   v_{22}^2 \Theta_2
+		v_{12}^2 \Theta_1   +   v_{22}^2 \Theta_2
 	)
 	- \Xi_2 \qty(\Big.
-		v_{11}^2 \Theta_1   +   v_{12}^2 \Theta_2
+		v_{11}^2 \Theta_1   +   v_{21}^2 \Theta_2
 	) + \Xi_1 \Xi_2 \\
+%%% CORRECT UP TO HERE %%%
 &=
 	\qty(
 		v_{12}^2 v_{21}^2 + v_{11}^2 v_{22}^2
@@ -2403,6 +2404,13 @@ and
 &\quad~
 	+ \exp(\Big. 2\iunit (\chi_1 + \chi_2))
 \end{align}
+
+Wolfram Alpha:
+\begin{align*}
+	\det(M)
+&=
+	a^2 s (d^2 t - y) - 2 a b c d s t + b^2 s (c^2 t - x) - c^2 t y - d^2 t x + x y
+\end{align*}
 
 \section{Recovery of the fully occupied formula}
 \emph{NZO} denotes \emph{No-Zero-Occupancy}.
