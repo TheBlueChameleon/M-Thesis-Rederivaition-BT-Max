@@ -38,6 +38,7 @@
 
 % gfx
 \usepackage{wrapfig}
+\usepackage{xcolor}
 
 % tables
 \usepackage{tabularx}
@@ -250,19 +251,19 @@ in eqn. (\ref{eqn:BSA_Int_BZO_m}) gives:
 		\frac{1}{2\pi\iunit}
 	)^{K + b^*}
 	\int_{0}^{2\pi}
-		\qty( \prod_{k=1}^{K}
-			\sqrt{n_k!}
-			\frac
-				{ {\color{blue} \iunit} \sqrt{n_k}}
-				{ \sqrt{n_k}^{n_k + 1} }
-			\dd{\chi_k}
-		)
 		\qty( \prod_{j=1}^{b^*}
 			\sqrt{m_j!}
 			\frac
 				{ {\color{blue} \iunit} \sqrt{m_j}}
 				{ \sqrt{m_j}^{m_j + 1} }
 			\dd{\theta_j}
+		)
+		\qty( \prod_{k=1}^{K}
+			\sqrt{n_k!}
+			\frac
+				{ {\color{blue} -\iunit} \sqrt{n_k}}
+				{ \sqrt{n_k}^{n_k + 1} }
+			\dd{\chi_k}
 		)
 \\
 	\exp[ \iunit \qty(
@@ -283,28 +284,34 @@ where the imaginary units come from substitution $(\vec{x}, \vec{y}) \to (\vec{\
 	\dv{x_j}{\theta_j} \dd{\theta_j}
 =
 	\iunit \, \sqrt{m_j} \, \exp(\iunit \theta_j) \dd{\theta_j}
+&
+	\dd{y_k}
+&=
+	\dv{y_k}{\theta_k} \dd{\chi_k}
+=
+	-\iunit \, \sqrt{n_k} \, \exp(-\iunit \chi_k) \dd{\chi_k}
 \end{align}
-and likewise for $y_k \to \chi_k$.
 
 With this, get:
 \begin{multline}
 	A_F(\vec{m}, \vec{n})
 =
+	(-1)^K
 	\qty(
 		\frac{{\color{blue}\iunit}}{2\pi\iunit}
 	)^{K + b^*}
 	\int_{0}^{2\pi}
-		\qty( \prod_{k=1}^{K}
-			\sqrt{\frac
-				{ n_k! }
-				{ n_k^{n_k} }
-			}\dd{\chi_k}
-		)
 		\qty( \prod_{j=1}^{b^*}
 			\sqrt{\frac
 				{ m_j! }
 				{ m_j^{m_j} }
 			}\dd{\theta_j}
+		)
+		\qty( \prod_{k=1}^{K}
+			\sqrt{\frac
+				{ n_k! }
+				{ n_k^{n_k} }
+			}\dd{\chi_k}
 		)
 \\
 			\exp[
@@ -317,21 +324,22 @@ With this, get:
 \begin{multline}
 	\qquad\qquad
 =
+	(-1)^K
 	\qty(
 		\frac{1}{2\pi}
 	)^{K + b^*}
 	\int_{0}^{2\pi}
-		\qty( \prod_{k=1}^{K}
-			\sqrt{\frac
-				{ n_k! }
-				{ n_k^{n_k} }
-			} \dd{\chi_k}
-		)
 		\qty( \prod_{j=1}^{b^*}
 			\sqrt{\frac
 				{ m_j! }
 				{ m_j^{m_j} }
 			} \dd{\theta_j}
+		)
+		\qty( \prod_{k=1}^{K}
+			\sqrt{\frac
+				{ n_k! }
+				{ n_k^{n_k} }
+			} \dd{\chi_k}
 		)
 \\
 		\exp[
@@ -346,16 +354,20 @@ using
 \begin{align}
 	C
 &=
-	\qty( \prod_{k=1}^{K}
-		\sqrt{\frac
-			{ n_k! }
-			{ n_k^{n_k} }
-		}
-	)
+	(-1)^K
+	\qty(
+		\frac{1}{2\pi}
+	)^{K + b^*}
 	\qty( \prod_{j=1}^{b^*}
 		\sqrt{\frac
 			{ m_j! }
 			{ m_j^{m_j} }
+		}
+	)
+	\qty( \prod_{k=1}^{K}
+		\sqrt{\frac
+			{ n_k! }
+			{ n_k^{n_k} }
 		}
 	)
 \label{eqn:DefC_m}
@@ -415,8 +427,8 @@ and get
 	C
 	\int_{0}^{2\pi} {\color{blue} \dd{\theta_1}}
 	\int_{0}^{2\pi}
-		\qty( \prod_{k=1}               ^{K}   \dd{\beta_k} )
 		\qty( \prod_{{\color{blue} j=2}}^{b^*} \dd{\alpha_j} )
+		\qty( \prod_{k=1}               ^{K}   \dd{\beta_k} )
 			\exp[
 				\iunit \qty(
 				{\textstyle \sum_{s=1}^{K}   n_s \beta _s}   -
@@ -433,7 +445,7 @@ and get
 	\underbrace{
 	\exp[
 		{\textstyle \sum_{s,t=1}^{K} }
-			\sqrt{m_s, n_t} \;
+			\sqrt{m_s \, n_t} \;
 			u_{s,t}
 			\exp(\Big. \iunit(\alpha_s - \beta_t) )
 	]}_{\exp( \vec{x}\transp \, \mathbb{U} \, \vec{y})}
@@ -445,8 +457,8 @@ As in Max' paper, get a Kronecker Delta from the $\theta_1$ exponential:
 =
 	2\pi \delta_{M,N} C
 	\int_{0}^{2\pi}
-		\qty( \prod_{k=1}^{K}   \dd{\beta _k} )
 		\qty( \prod_{j=2}^{b^*} \dd{\alpha_j} )
+		\qty( \prod_{k=1}^{K}   \dd{\beta _k} )
 	\exp[
 		\iunit \qty(
 		{\textstyle \sum_{s=1}^{K}   n_s \beta _s}   -
@@ -488,8 +500,8 @@ Using
 \begin{align}
 	\lambda
 &=
-	\qty( \prod_{k=1}^{K}   n_k )
 	\qty( \prod_{j=1}^{b^*} m_j )
+	\qty( \prod_{k=1}^{K}   n_k )
 \label{eqn:DefLambda_m}
 \\
 	f(
@@ -500,12 +512,14 @@ Using
 	\lambda^{-1}
 	\qty[
 		\qty(
-			\sum_{j=1}^{b^*}
-				m_j \theta_j   -
+			{\color{blue} +}
+			\sum_{{\color{olive}j=2}}^{b^*}
+				m_j \theta_j \;
+			{\color{blue} -} \,
 			\sum_{k=1}^{K}
 				n_k \chi  _k
 		)
-	-
+	{\color{blue} -}
 		\qty(
 			\sum_{s,t=1}^{K}
 			\sqrt{m_s, n_t} \;
@@ -517,7 +531,7 @@ Using
 	]
 \\
 	\oint_{\gamma} \dd[n]{\vec{z}}
-		\exp[-\lambda f(\vec{z})]
+		\exp[{\color{blue} -}\lambda f(\vec{z})]
 &=
 	\qty( \frac
 		{2\pi}
@@ -607,6 +621,10 @@ Compactly:
 \item normalization constants need to be adjusted:
 	\begin{itemize}
 	\item $C =
+	(-1)^K
+	\qty(
+		\frac{1}{2\pi}
+	)^{K + b^*}
 	\qty( \prod_{k=1}^{K}
 		\frac
 			{ \sqrt{n_k!} }
@@ -1009,8 +1027,8 @@ Statement
 	\det S'
 &=
 	\underbrace{
-		\qty( \prod_{k=1}^{K}   n_k )
 		\qty( \prod_{j=2}^{b^*} m_j )
+		\qty( \prod_{k=1}^{K}   n_k )
 	}_{= \mathcal{N} }
 	\det[
 		\mathds{1} -
@@ -1026,8 +1044,8 @@ Keep definition:
 \begin{align}
 	\mathcal{N}
 &=
-	\qty( \prod_{k=1}^{K}   n_k )
 	\qty( \prod_{j=2}^{b^*} m_j )
+	\qty( \prod_{k=1}^{K}   n_k )
 \label{eqn:DefN_m}
 \end{align}
 
@@ -1133,19 +1151,20 @@ Statement:
 \begin{multline}
 	A_F(\vec{m}, \vec{n})
 =
-	2\pi \, \delta_{N,M} \, \qty(
+	(-1)^K \, \delta_{N,M} \, 
+	\qty(
 		\frac{1}{2\pi\lambda}
-	)^{\frac{K + b^*}{2}}
+	)^{\frac{K + b^* - 1}{2}}
 	\exp(N)
-	\qty( \prod_{k=1}^{K}
-		\sqrt{\frac
-			{ n_k! }
-			{ n_k^{n_k} }
-	})
 	\qty( \prod_{j=1}^{b^*}
 		\sqrt{\frac
 			{ m_j! }
 			{ m_j^{m_j} }
+	})
+	\qty( \prod_{k=1}^{K}
+		\sqrt{\frac
+			{ n_k! }
+			{ n_k^{n_k} }
 	})
 \\
 	\sum_r
@@ -1164,43 +1183,44 @@ Holds because:
 &=
 	2\pi \delta_{N,M}
 	\underbrace{
+		(-1)^K 
 		\qty(
 			\frac{1}{2\pi}
 		)^{K + b^*}
-		\qty( \prod_{k=1}^{K}
-			\sqrt{\frac
-				{ n_k! }
-				{ n_k^{n_k} }
-			}
-		)
 		\qty( \prod_{j=1}^{b^*}
 			\sqrt{\frac
 				{ m_j! }
 				{ m_j^{m_j} }
 			}
 		)
+		\qty( \prod_{k=1}^{K}
+			\sqrt{\frac
+				{ n_k! }
+				{ n_k^{n_k} }
+			}
+		)
 	}_{C}
 	\qty(
 		\frac{2\pi}{\lambda}
-	)^{\frac{K + b^*}{2}}
+	)^{\frac{K + b^* - 1}{2}}
 	\sum_r
 		\frac
 			{\exp[-\lambda f(\vec{z}_r)]}
 			{\sqrt{\det S_r}} \\
 &=
-	2\pi \delta_{N,M} \qty(
+	(-1)^K \delta_{N,M} \qty(
 		\frac{1}{2\pi\lambda}
-	)^{\frac{K + b^*}{2}}
-	\qty( \prod_{k=1}^{K}
-		\sqrt{\frac
-			{ n_k! }
-			{ n_k^{n_k} }
-		}
-	)
+	)^{\frac{K + b^* - 1}{2}}
 	\qty( \prod_{j=1}^{b^*}
 		\sqrt{\frac
 			{ m_j! }
 			{ m_j^{m_j} }
+		}
+	)
+	\qty( \prod_{k=1}^{K}
+		\sqrt{\frac
+			{ n_k! }
+			{ n_k^{n_k} }
 		}
 	)
 	\sum_r
@@ -1294,8 +1314,8 @@ With this definition we get:
 \begin{align}
 	\lambda
 &=
-	\qty( \prod_{k=1}^{K}   n_k )
 	\qty( \prod_{j : m_j \neq 0} m_j )
+	\qty( \prod_{k=1}^{K}   n_k )
 \label{eqn:DefLambdaNonBZO_m}
 \\
 	\tilde{u}_{i,j} 
@@ -1329,19 +1349,19 @@ Definition of $b^*, j^*, \lambda$ as above.
 \begin{multline}
 	A_F(\vec{m}, \vec{n})
 =
-	2\pi \, \delta_{N,M} \, \qty(
+	2\pi (-1)^K \, \delta_{N,M} \, \qty(
 		\frac{1}{2\pi\lambda}
-	)^{\frac{K + b^*}{2}}
+	)^{\frac{K + b^* - 1}{2}}
 	\exp(N)
-	\qty( \prod_{k=1}^{K}
-		\sqrt{\frac
-			{ n_k! }
-			{ n_k^{n_k} }
-	})
 	\qty( \prod_{j : m_j \neq 0}
 		\sqrt{\frac
 			{ m_j! }
 			{ m_j^{m_j} }
+	})
+	\qty( \prod_{k=1}^{K}
+		\sqrt{\frac
+			{ n_k! }
+			{ n_k^{n_k} }
 	})
 \\
 	\sum_r
@@ -1361,8 +1381,8 @@ Recall eqn. (\ref{eqn:DefLambda_m}), which is equivalent to eqn. (\ref{eqn:DefLa
 \begin{align*}
 	\lambda
 &=
-	\qty( \prod_{k=1}^{K}   n_k )
 	\qty( \prod_{j : m_j \neq 0} m_j )
+	\qty( \prod_{k=1}^{K}   n_k )
 =
 	m_{j^*} \, n_1 \, n_2
 \end{align*}
@@ -1397,17 +1417,17 @@ $\exp(\pm 2\iunit \chi_j)$ terms cancel out:
 &=
 	2\pi \, \delta_{N,M} \, \qty(
 		\frac{1}{2\pi\lambda}
-	)^{\frac{2 + 1}{2}}
+	)^{\frac{2 + 1 - 1}{2}}
 	\exp(N)
+		\sqrt{\frac
+			{ m_2! }
+			{ m_2^{m_2} }
+	}
 	\qty( \prod_{k=1}^{2}
 		\sqrt{\frac
 			{ n_k! }
 			{ n_k^{n_k} }
 	})
-		\sqrt{\frac
-			{ m_2! }
-			{ m_2^{m_2} }
-	}
 	\sum_r
 		\frac
 		{\exp[ \sum_{k=1}^{2} \iunit n_k \chi_k]}
@@ -1415,7 +1435,7 @@ $\exp(\pm 2\iunit \chi_j)$ terms cancel out:
 &=
 	2\pi \, \delta_{N,M} \, \qty(
 		\frac{1}{2\pi\lambda}
-	)^{\smallfrac{3}{2}}
+	)
 	\exp(N)
 		\sqrt{\frac
 			{ n_1! \; n_2! \; m_2! }
@@ -1429,15 +1449,15 @@ $\exp(\pm 2\iunit \chi_j)$ terms cancel out:
 		{\sqrt{\det S_r}}
 	\\
 &=
-	2\pi \, \delta_{N,M} \, \qty(
-		\frac{1}{2\pi \; m_2 n_1 n_2}
-	)^{\smallfrac{3}{2}}
-	(n_1 n_2)^{\smallfrac{1}{2}} m_2
-	\exp(N)
+	2\pi \, \delta_{N,M}
+	\frac
+		{\exp(N)}
+		{2\pi \; m_2 n_1 n_2}
 	\sqrt{\frac
 		{ n_1! \; n_2! \; m_2! }
 		{ n_1^{n_1} \; n_2^{n_2} \; m_2^{m_2}}
 	}
+	\underbrace{m_2\sqrt{n_1 n_2}}_{1/\sqrt{\det S}}
 	\sum_r
 		\exp[
 			\iunit ( n_1 \chi_1 + n_2 \chi_2 )
@@ -1445,7 +1465,7 @@ $\exp(\pm 2\iunit \chi_j)$ terms cancel out:
 &=
 	\frac
 		{ \delta_{N,M} \exp(N) }
-		{ \sqrt{2\pi m_2} \; n_1 n_2 }
+		{  \sqrt{n_1 n_2} }
 	\sqrt{\frac
 		{ m_2! \; n_1! \; n_2! }
 		{ m_2^{m_2} n_1^{n_1} n_2^{n_2} }
@@ -1495,37 +1515,35 @@ $\exp(\pm 2\iunit \chi_j)$ terms cancel out:
 \end{align}
 
 \subsubsection{Amplitude}
-\begin{multline}
+\begin{align}
+\nonumber
 	A_F(m_1, n_1, n_2)
-=
+&=
+	(-1)^2
 	2\pi \, \delta_{N,M} \, \qty(
 		\frac{1}{2\pi \; m_1 n_1 n_2}
-	)^{\frac{2 +1}{2}}
+	)^{\frac{2+1-1}{2}}
 	\exp(N)
 	\sqrt{\frac
 		{ m_1! \; n_1! \; n_2! }
 		{ m_1^{m_1} n_1^{n_1} n_2^{n_2} }
 	}
-\\
 	\sum_r
 		\frac
 		{\exp[ \Big.
-			\iunit \qty( -0 + 
+			\iunit \qty( 
 			n_1 \chi_1 + n_2 \chi_2)
 		]}
-		{\sqrt{\det S_r}}
-\end{multline}
-\begin{align}
+		{\sqrt{\det S_r}} \\
 \nonumber
 &=
-	2\pi \, \delta_{N,M} \, \qty(
-		\frac{1}{2\pi \; m_1 n_1 n_2}
-	)^{\smallfrac{3}{2}}
+	\frac
+		{\delta_{N,M}}
+		{m_1 n_1 n_2}
 	\underbrace{
 		(n_1 \; n_2)^{\smallfrac{1}{2}} m_1
 	}_{\smallfrac{1}{\det S_r}} \;
 	\exp(N)
-	\\ & \qquad\qquad
 	\sqrt{\frac
 		{ m_1! \; n_1! \; n_2! }
 		{ m_1^{m_1} n_1^{n_1} n_2^{n_2} }
@@ -1537,26 +1555,9 @@ $\exp(\pm 2\iunit \chi_j)$ terms cancel out:
 		]
 	\\
 &=
-	2\pi \, \delta_{N,M} \, \qty(
-		\frac{1}{2\pi \; n_1 n_2}
-	)
-	\sqrt{\frac{1}{2\pi m_1}}
-	\exp(N)
-	\sqrt{\frac
-		{ m_1! \; n_1! \; n_2! }
-		{ m_1^{m_1} n_1^{n_1} n_2^{n_2} }
-	}
-	\sum_r
-		\exp[ \Big.
-			\iunit \qty(  
-			n_1 \chi_1 + n_2 \chi_2)
-		]
-\\
-	A_F(m_1, n_1, n_2)
-&=
 	\frac
-		{ \delta_{N,M} \exp(N) }
-		{ \sqrt{2\pi m_1} \; n_1 n_2 }
+		{\delta_{N,M} \exp(N)}
+		{\sqrt{n_1 n_2}}
 	\sqrt{\frac
 		{ m_1! \; n_1! \; n_2! }
 		{ m_1^{m_1} n_1^{n_1} n_2^{n_2} }
@@ -1584,8 +1585,6 @@ $\exp(\pm 2\iunit \chi_j)$ terms cancel out:
 			\exp[2\iunit (\theta_2 + \chi_1)] +
 			\exp[2\iunit (\theta_2 + \chi_2)]
 		]
-		-
-		\frac{1}{4}\exp( \Big. 4\iunit \theta_2 )
 	]
 \end{multline*}
 
@@ -1707,24 +1706,28 @@ Following the sections in chapter one, this tells which adaptions to the shown s
 \begin{align}
 	C
 &=
-	\qty( \prod_{k=1}^{b^*}
-		\sqrt{\frac
-			{ n_k! }
-			{ n_k^{n_k} }
-		}
-	)
+	(-1)^{b^*}
+	\qty(
+		\frac{1}{2\pi}
+	)^{K + b^*}
 	\qty( \prod_{j=1}^{N}
 		\sqrt{\frac
 			{ m_j! }
 			{ m_j^{m_j} }
 		}
 	)
+	\qty( \prod_{k=1}^{b^*}
+		\sqrt{\frac
+			{ n_k! }
+			{ n_k^{n_k} }
+		}
+	)
 \label{eqn:DefC_n}
 \\
 	\lambda
 &=
-	\qty( \prod_{k=1}^{b^*} n_k )
 	\qty( \prod_{j=1}^{K}   m_j )
+	\qty( \prod_{k=1}^{b^*} n_k )
 \label{eqn:DefLambda_n}
 \\
 	\sqrt{m_p} \exp(-\iunit \theta_p)
@@ -1771,8 +1774,8 @@ In this section: Using symbols:
 \begin{align}
 	\lambda
 &=
-	\qty( \prod_{k : n_k \neq 0} n_k )
 	\qty( \prod_{j = 1}^{K}      m_j )
+	\qty( \prod_{k : n_k \neq 0} n_k )
 \label{eqn:DefLambdaNonBZO_n}
 \end{align}
 
@@ -1799,19 +1802,19 @@ Note that for $n_j = 0$, this produces contributions of $1$ to the det, \ie this
 \begin{multline}
 	A_F(\vec{m}, \vec{n})
 =
-	2\pi \, \delta_{N,M} \, \qty(
+	2\pi (-1)^{b^*} \, \delta_{N,M} \, \qty(
 		\frac{1}{2\pi\lambda}
-	)^{\frac{K + b^*}{2}}
+	)^{\frac{K + b^* - 1}{2}}
 	\exp(N)
-	\qty( \prod_{k : n_k \neq 0}
-		\sqrt{\frac
-			{ n_k! }
-			{ n_k^{n_k} }
-	})
 	\qty( \prod_{j = 1}^{K}
 		\sqrt{\frac
 			{ m_j! }
 			{ m_j^{m_j} }
+	})
+	\qty( \prod_{k : n_k \neq 0}
+		\sqrt{\frac
+			{ n_k! }
+			{ n_k^{n_k} }
 	})
 \\
 	\sum_r
@@ -1883,9 +1886,9 @@ Regard the form of $\tilde{U}$:
 \begin{align}
 	A_F(m_1, m_2, n_2)
 &=
-	2\pi \, \delta_{N,M} \, \qty(
+	(-1)^1 2\pi \, \delta_{N,M} \, \qty(
 		\frac{1}{2\pi\lambda}
-	)^{\frac{2 + 1}{2}}
+	)^{\frac{2 + 1 - 1}{2}}
 	\exp(N)
 	\qty(
 		\sqrt{\frac
@@ -1902,16 +1905,14 @@ Regard the form of $\tilde{U}$:
 	\\
 &=
 \nonumber
-	2\pi \, \delta_{N,M} \, \qty(
-		\frac{1}{2\pi m_1 \, m_2 \, n_2}
-	)^{\smallfrac{3}{2}}
-	\exp(N)
+	-\frac
+		{\delta_{N,M} \exp(N)}
+		{m_1 \, m_2 \, n_2}
 	\sqrt{\frac
 		{ m_1!      \; m_2!     \; n_2! }
 		{ m_1^{m_1} \;m_2^{m_2} \; n_2^{n_2} }
 	}
 	\sqrt{m_1^2 \, m_2 \, n_2}
-\\ &\qquad
 	\sum_r
 		\frac
 		{\exp[
@@ -1921,12 +1922,12 @@ Regard the form of $\tilde{U}$:
 		{\sqrt{1 - \frac{1}{2} \exp[\Big. 2\iunit (\theta_2 - \chi_2)]}}
 	\\
 &=
-	\frac
+	-\frac
 		{\delta_{N,M} \exp(N)}
-		{\sqrt{2\pi m_1} m_2 n_2}
+		{\sqrt{m_2 \, n_2}}
 	\sqrt{\frac
 		{ m_1!      \; m_2!     \; n_2! }
-		{ m_1^{m_1} \;m_2^{m_2} \; n_2^{n_2} }
+		{ m_1^{m_1} \,m_2^{m_2} \, n_2^{n_2} }
 	}
 	\sum_r \frac
 		{\exp[ \Big. \iunit
@@ -1998,9 +1999,9 @@ Regard the form of $\tilde{U}$:
 \begin{align}
 	A_F(m_1, m_2, n_1)
 &=
-	2\pi \, \delta_{N,M} \, \qty(
+	(-1)^1 \, 2\pi \, \delta_{N,M} \, \qty(
 		\frac{1}{2\pi\lambda}
-	)^{\frac{2 + 1}{2}}
+	)^{\frac{2 + 1 - 1}{2}}
 	\exp(N)
 	\qty(
 		\sqrt{\frac
@@ -2017,16 +2018,14 @@ Regard the form of $\tilde{U}$:
 	\\
 &=
 \nonumber
-	2\pi \, \delta_{N,M} \, \qty(
-		\frac{1}{2\pi m_1 \, m_2 \, n_1}
-	)^{\smallfrac{3}{2}}
-	\exp(N)
+	-\frac
+		{\exp(N) \delta_{N,M}}
+		{m_1 \, m_2 \, n_1}
 	\sqrt{\frac
 		{ m_1!      \; m_2!     \; n_1! }
 		{ m_1^{m_1} \;m_2^{m_2} \; n_1^{n_1} }
 	}
 	\sqrt{m_1^2 \, m_2 \, n_1}
-\\ &\qquad
 	\sum_r
 		\frac
 		{\exp[
@@ -2036,9 +2035,9 @@ Regard the form of $\tilde{U}$:
 		{\sqrt{1 - \frac{1}{2} \exp[\Big. 2\iunit (\theta_2 - \chi_1)]}}
 	\\
 &=
-	\frac
+	-\frac
 		{\delta_{N,M} \exp(N)}
-		{\sqrt{2\pi m_1} m_2 n_2}
+		{\sqrt{m_2 n_1}}
 	\sqrt{\frac
 		{ m_1!      \; m_2!     \; n_1! }
 		{ m_1^{m_1} \;m_2^{m_2} \; n_1^{n_1} }
@@ -2060,8 +2059,8 @@ $b_i^* \leq K$ and that of outgoing occupied modes is $b_o^* \leq K$.
 \begin{align}
 	\lambda
 &=
-	\qty( \prod_{k : n_k \neq 0} n_k )
 	\qty( \prod_{j : m_j \neq 0} m_j )
+	\qty( \prod_{k : n_k \neq 0} n_k )
 \label{eqn:DefLambda_generic}
 \\
 	\tilde{u}_{j,k} 
@@ -2115,19 +2114,20 @@ $b_i^* \leq K$ and that of outgoing occupied modes is $b_o^* \leq K$.
 \begin{multline}
 	A_F(\vec{m}, \vec{n})
 =
+	(-1)^{b_o^*}
 	2\pi \, \delta_{N,M} \, \qty(
 		\frac{1}{2\pi\lambda}
-	)^{\frac{b_i^* + b_o^*}{2}}
+	)^{\frac{b_i^* + b_o^* - 1}{2}}
 	\exp(N)
-	\qty( \prod_{k : n_k \neq 0}
-		\sqrt{\frac
-			{ n_k! }
-			{ n_k^{n_k} }
-	})
 	\qty( \prod_{j : m_j \neq 0}
 		\sqrt{\frac
 			{ m_j! }
 			{ m_j^{m_j} }
+	})
+	\qty( \prod_{k : n_k \neq 0}
+		\sqrt{\frac
+			{ n_k! }
+			{ n_k^{n_k} }
 	})
 \\
 	\sum_r
@@ -2164,9 +2164,9 @@ $b_i^* \leq K$ and that of outgoing occupied modes is $b_o^* \leq K$.
 \begin{align}
 	A_F(m_2, n_2)
 &=
-	2\pi \, \delta_{m_2,n_2} \, \qty(
+	(-1)^1 \, 2\pi \, \delta_{m_2,n_2} \, \qty(
 		\frac{1}{2\pi \, m_2 \, n_2}
-	)^{\frac{1 + 1}{2}}
+	)^{\frac{1 + 1 - 1}{2}}
 	\exp(N)
 	\sqrt{\frac
 		{ m_2!      \; n_2! }
@@ -2177,12 +2177,15 @@ $b_i^* \leq K$ and that of outgoing occupied modes is $b_o^* \leq K$.
 		\exp( \iunit n_2 \chi_2 )
 	\\
 &=
-	\frac
-		{\exp(N) \; \delta_{m_2,n_2}}
-		{\sqrt{m_2} \, n_2}
-	\sqrt{\frac
-		{ m_2!      \; n_2! }
-		{ m_2^{m_2} \; n_2^{n_2} }
+	-\delta_{m_2,n_2}
+	\exp(N)
+	\sqrt{
+		\frac
+			{2\pi}
+			{n_2}
+		\frac
+			{ m_2!      \; n_2! }
+			{ m_2^{m_2} \; n_2^{n_2} }
 	}
 	\sum_r
 		\exp( \iunit n_2 \chi_2 )
@@ -2197,12 +2200,15 @@ $b_i^* \leq K$ and that of outgoing occupied modes is $b_o^* \leq K$.
 \begin{align}
 	A_F(m_2, n_1)
 &=
-	\frac
-		{\exp(N) \; \delta_{m_2,n_1}}
-		{\sqrt{m_2} \, n_1}
-	\sqrt{\frac
-		{ m_2!      \; n_1! }
-		{ m_2^{m_2} \; n_1^{n_1} }
+	-\delta_{m_2,n_1}
+	\exp(N)
+	\sqrt{
+		\frac
+			{2\pi}
+			{n_2}
+		\frac
+			{ m_2!      \; n_1! }
+			{ m_2^{m_2} \; n_1^{n_1} }
 	}
 	\sum_r
 		\exp( \iunit n_1 \chi_1 )
@@ -2217,12 +2223,15 @@ $b_i^* \leq K$ and that of outgoing occupied modes is $b_o^* \leq K$.
 \begin{align}
 	A_F(m_1, n_2)
 &=
-	\frac
-		{\exp(N) \; \delta_{m_1,n_2}}
-		{\sqrt{m_1} \, n_2}
-	\sqrt{\frac
-		{ m_1!      \; n_2! }
-		{ m_1^{m_1} \; n_2^{n_2} }
+	-\delta_{m_1,n_2}
+	\exp(N)
+	\sqrt{
+		\frac
+			{2\pi}
+			{n_2}
+		\frac
+			{ m_1!      \; n_2! }
+			{ m_1^{m_1} \; n_2^{n_2} }
 	}
 	\sum_r
 		\exp( \iunit n_2 \chi_2 )
@@ -2237,12 +2246,15 @@ $b_i^* \leq K$ and that of outgoing occupied modes is $b_o^* \leq K$.
 \begin{align}
 	A_F(m_1, n_1)
 &=
-	\frac
-		{\exp(N) \; \delta_{m_1,n_1}}
-		{\sqrt{m_1} \, n_1}
-	\sqrt{\frac
-		{ m_1!      \; n_1! }
-		{ m_1^{m_1} \; n_1^{n_1} }
+	-\delta_{m_1,n_1}
+	\exp(N)
+	\sqrt{
+		\frac
+			{2\pi}
+			{n_2}
+		\frac
+			{ m_1!      \; n_1! }
+			{ m_1^{m_1} \; n_1^{n_1} }
 	}
 	\sum_r
 		\exp( \iunit n_1 \chi_1 )
@@ -2389,9 +2401,9 @@ and
 	\det(M)
 &=
 	\qty(
-		v_{12}^2 v_{21}^2 + v_{11}^2 v_{22}^2
-		-
-		2 v_{11} v_{12} v_{21} v_{22}
+		  v_{12}^2 v_{21}^2
+		+ v_{11}^2 v_{22}^2
+		- 2 v_{11} v_{12} v_{21} v_{22}
 	) \exp(\Big. 2\iunit (\theta_1 + \theta_2)) \\
 &\quad~
 \nonumber
@@ -2404,10 +2416,39 @@ and
 &\quad~
 	+ \exp(\Big. 2\iunit (\chi_1 + \chi_2))
 \end{align}
+Note that for any $2 \times 2$ scenario, the term proportional to $\exp(2\iunit (\theta_1 + \theta_2))$ will vanish, as there is always a zero amongst the $v$s involved. Hence:
 
-Wolfram Alpha:
-\begin{align*}
+\begin{align}
+\nonumber
 	\det(M)
+&=
+	- v_{11}^2 \exp(\Big. 2\iunit (\theta_1 + \chi_2))
+	- v_{12}^2 \exp(\Big. 2\iunit (\theta_2 + \chi_2)) \\
+&\quad~
+\nonumber
+	- v_{21}^2 \exp(\Big. 2\iunit (\theta_1 + \chi_1))
+	- v_{22}^2 \exp(\Big. 2\iunit (\theta_2 + \chi_1)) \\
+&\quad~
+	+ \exp(\Big. 2\iunit (\chi_1 + \chi_2))
+\end{align}
+
+Confirmed by Wolfram Alpha:
+\begin{align*}
+	\begin{vmatrix}
+		\begin{pmatrix}
+			x & 0 \\ 0 & y
+		\end{pmatrix}
+		-
+		\begin{pmatrix}
+			a & c \\ b & d
+		\end{pmatrix}
+		\begin{pmatrix}
+			s & 0 \\ 0 & t
+		\end{pmatrix}
+		\begin{pmatrix}
+			a & b \\ c & d
+		\end{pmatrix}
+	\end{vmatrix}
 &=
 	a^2 s (d^2 t - y) - 2 a b c d s t + b^2 s (c^2 t - x) - c^2 t y - d^2 t x + x y
 \end{align*}
