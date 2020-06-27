@@ -257,8 +257,8 @@ where
 &=
 	\frac{1}{m_1^3 (m_2 n_1 n_2 \nu_1 \nu_2)^2}
 	\det \begin{pmatrix}
-		\nu_1^2 - \frac{1}{2} \mu	& + \frac{1}{2} \mu \\
-		+ \frac{1}{2} \mu 					& \nu_2^2 - \frac{1}{2} \mu
+		\nu_1^2 - \frac{1}{2} \mu^2	& + \frac{1}{2} \mu^2 \\
+		+ \frac{1}{2} \mu^2					& \nu_2^2 - \frac{1}{2} \mu^2
 	\end{pmatrix}
 \end{align}
 see rederivation, 2.3.6: Complete Det of Hessian for the matrix multiplication.
@@ -267,38 +267,38 @@ see rederivation, 2.3.6: Complete Det of Hessian for the matrix multiplication.
 	\det S
 &=
 	\frac{1}{m_1^3 (m_2 n_1 n_2 \nu_1 \nu_2)^2} \qty[
-	\qty(\nu_1^2 - \frac{1}{2} \mu)
-	\qty(\nu_2^2 - \frac{1}{2} \mu)
+	\qty(\nu_1^2 - \frac{1}{2} \mu^2)
+	\qty(\nu_2^2 - \frac{1}{2} \mu^2)
 	-
-	\qty(\frac{1}{2} \mu)
-	\qty(\frac{1}{2} \mu) ] \\
+	\qty(\frac{1}{2} \mu^2)
+	\qty(\frac{1}{2} \mu^2) ] \\
 &=
 	\frac{1}{m_1^3 (m_2 n_1 n_2 \nu_1 \nu_2)^2}
 	\qty(
 		  \nu_1^2 \nu_2^2
-		- \frac{1}{2} \mu \nu_1
-		- \frac{1}{2} \mu \nu_2
-		+ \frac{1}{4} \mu^2
-		- \frac{1}{4} \mu^2
+		- \frac{1}{2} \mu^2 \nu_1
+		- \frac{1}{2} \mu^2 \nu_2
+		+ \frac{1}{4} \mu^4
+		- \frac{1}{4} \mu^4
 	) \\
 &=
 	\frac{1}{m_1^3 (m_2 n_1 n_2 \nu_1 \nu_2)^2}
 	\qty[
 		  \nu_1^2 \nu_2^2
-		- \frac{1}{2} \mu \qty(\Big. \nu_1 + \nu_2)
+		- \frac{1}{2} \mu^2 \qty(\Big. \nu_1 + \nu_2)
 	] \\
 &=
 	\frac{1}{m_1^3 (m_2 n_1 n_2)^2}
 	\qty[
 		  1
-		- \frac{\mu}{2} \frac{\Big. \nu_1 + \nu_2}{\nu_1^2 \nu_2^2}
+		- \frac{\mu^2}{2} \frac{\Big. \nu_1 + \nu_2}{\nu_1^2 \nu_2^2}
 	]
 	& \texttt{Variant (a)} \\
 &=
 	\frac{1}{m_1^3 (m_2 n_1 n_2)^2 \nu_1 \nu_2}
 	\qty[
 		  \nu_1 \nu_2
-		- \frac{\mu}{2} \frac{\Big. \nu_1 + \nu_2}{\nu_1 \nu_2}
+		- \frac{\mu^2}{2} \frac{\Big. \nu_1 + \nu_2}{\nu_1 \nu_2}
 	]
 	& \texttt{Variant (b)}
 \end{align*}
@@ -402,8 +402,8 @@ Formula as derived in zeroOcc, put into $\mu, \nu$ form:
 \\
 	\sum_r
 		\frac
-			{\prod_{k             : n_k \neq 0} \nu_k^{(r)}}
-			{\prod_{j\neq j^* \land m_j \neq 0} \mu_j^{(r)}}
+			{\prod_{k             : n_k \neq 0} \qty(\nu_k^{(r)})^{n_k}}
+			{\prod_{j\neq j^* \land m_j \neq 0} \qty(\mu_j^{(r)})^{m_j}}
 		\frac
 			{1}
 			{\sqrt{\det S_r}}
@@ -434,8 +434,8 @@ Using the previous results, the amplitude can be factored into an occupation- an
 \\
 	\sum_r
 		\frac
-			{\prod_{k             : n_k \neq 0} \nu_k^{(r)}}
-			{\prod_{j\neq j^* \land m_j \neq 0} \mu_j^{(r)}}
+			{\prod_{k             : n_k \neq 0} \qty(\nu_k^{(r)})^{n_k}}
+			{\prod_{j\neq j^* \land m_j \neq 0} \qty(\mu_j^{(r)})^{m_j}}
 		\frac
 			{1}
 			{\sqrt{\Upsilon_r}}
