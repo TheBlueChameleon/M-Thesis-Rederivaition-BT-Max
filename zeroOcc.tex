@@ -1349,7 +1349,7 @@ Definition of $b^*, j^*, \lambda$ as above.
 \begin{multline}
 	A_F(\vec{m}, \vec{n})
 =
-	2\pi (-1)^K \, \delta_{N,M} \, \qty(
+	(-1)^K \, \delta_{N,M} \, \qty(
 		\frac{1}{2\pi\lambda}
 	)^{\frac{K + b^* - 1}{2}}
 	\exp(N)
@@ -1415,7 +1415,7 @@ $\exp(\pm 2\iunit \chi_j)$ terms cancel out:
 \begin{align}
 	A_F(m_2, n_1, n_2)
 &=
-	2\pi \, \delta_{N,M} \, \qty(
+	\delta_{N,M} \, \qty(
 		\frac{1}{2\pi\lambda}
 	)^{\frac{2 + 1 - 1}{2}}
 	\exp(N)
@@ -1433,7 +1433,7 @@ $\exp(\pm 2\iunit \chi_j)$ terms cancel out:
 		{\exp[ \sum_{k=1}^{2} \iunit n_k \chi_k]}
 		{\sqrt{\det S_r}} \\
 &=
-	2\pi \, \delta_{N,M} \, \qty(
+	\delta_{N,M} \, \qty(
 		\frac{1}{2\pi\lambda}
 	)
 	\exp(N)
@@ -1449,7 +1449,7 @@ $\exp(\pm 2\iunit \chi_j)$ terms cancel out:
 		{\sqrt{\det S_r}}
 	\\
 &=
-	2\pi \, \delta_{N,M}
+	\delta_{N,M}
 	\frac
 		{\exp(N)}
 		{2\pi \; m_2 n_1 n_2}
@@ -1465,7 +1465,7 @@ $\exp(\pm 2\iunit \chi_j)$ terms cancel out:
 &=
 	\frac
 		{ \delta_{N,M} \exp(N) }
-		{  \sqrt{n_1 n_2} }
+		{ 2\pi \sqrt{n_1 n_2} }
 	\sqrt{\frac
 		{ m_2! \; n_1! \; n_2! }
 		{ m_2^{m_2} n_1^{n_1} n_2^{n_2} }
@@ -1520,7 +1520,7 @@ $\exp(\pm 2\iunit \chi_j)$ terms cancel out:
 	A_F(m_1, n_1, n_2)
 &=
 	(-1)^2
-	2\pi \, \delta_{N,M} \, \qty(
+	\, \delta_{N,M} \, \qty(
 		\frac{1}{2\pi \; m_1 n_1 n_2}
 	)^{\frac{2+1-1}{2}}
 	\exp(N)
@@ -1539,7 +1539,7 @@ $\exp(\pm 2\iunit \chi_j)$ terms cancel out:
 &=
 	\frac
 		{\delta_{N,M}}
-		{m_1 n_1 n_2}
+		{2\pi \, m_1 n_1 n_2}
 	\underbrace{
 		(n_1 \; n_2)^{\smallfrac{1}{2}} m_1
 	}_{\smallfrac{1}{\det S_r}} \;
@@ -1557,7 +1557,7 @@ $\exp(\pm 2\iunit \chi_j)$ terms cancel out:
 &=
 	\frac
 		{\delta_{N,M} \exp(N)}
-		{\sqrt{n_1 n_2}}
+		{2\pi \, \sqrt{n_1 n_2}}
 	\sqrt{\frac
 		{ m_1! \; n_1! \; n_2! }
 		{ m_1^{m_1} n_1^{n_1} n_2^{n_2} }
@@ -1802,7 +1802,7 @@ Note that for $n_j = 0$, this produces contributions of $1$ to the det, \ie this
 \begin{multline}
 	A_F(\vec{m}, \vec{n})
 =
-	2\pi (-1)^{b^*} \, \delta_{N,M} \, \qty(
+	(-1)^{b^*} \, \delta_{N,M} \, \qty(
 		\frac{1}{2\pi\lambda}
 	)^{\frac{K + b^* - 1}{2}}
 	\exp(N)
@@ -1886,7 +1886,7 @@ Regard the form of $\tilde{U}$:
 \begin{align}
 	A_F(m_1, m_2, n_2)
 &=
-	(-1)^1 2\pi \, \delta_{N,M} \, \qty(
+	(-1)^1 \, \delta_{N,M} \, \qty(
 		\frac{1}{2\pi\lambda}
 	)^{\frac{2 + 1 - 1}{2}}
 	\exp(N)
@@ -1907,7 +1907,7 @@ Regard the form of $\tilde{U}$:
 \nonumber
 	-\frac
 		{\delta_{N,M} \exp(N)}
-		{m_1 \, m_2 \, n_2}
+		{2\pi \, m_1 \, m_2 \, n_2}
 	\sqrt{\frac
 		{ m_1!      \; m_2!     \; n_2! }
 		{ m_1^{m_1} \;m_2^{m_2} \; n_2^{n_2} }
@@ -1924,7 +1924,7 @@ Regard the form of $\tilde{U}$:
 &=
 	-\frac
 		{\delta_{N,M} \exp(N)}
-		{\sqrt{m_2 \, n_2}}
+		{2\pi \, \sqrt{m_2 \, n_2}}
 	\sqrt{\frac
 		{ m_1!      \; m_2!     \; n_2! }
 		{ m_1^{m_1} \,m_2^{m_2} \, n_2^{n_2} }
@@ -1999,7 +1999,7 @@ Regard the form of $\tilde{U}$:
 \begin{align}
 	A_F(m_1, m_2, n_1)
 &=
-	(-1)^1 \, 2\pi \, \delta_{N,M} \, \qty(
+	(-1)^1 \, \delta_{N,M} \, \qty(
 		\frac{1}{2\pi\lambda}
 	)^{\frac{2 + 1 - 1}{2}}
 	\exp(N)
@@ -2020,7 +2020,7 @@ Regard the form of $\tilde{U}$:
 \nonumber
 	-\frac
 		{\exp(N) \delta_{N,M}}
-		{m_1 \, m_2 \, n_1}
+		{2\pi \, m_1 \, m_2 \, n_1}
 	\sqrt{\frac
 		{ m_1!      \; m_2!     \; n_1! }
 		{ m_1^{m_1} \;m_2^{m_2} \; n_1^{n_1} }
@@ -2037,7 +2037,7 @@ Regard the form of $\tilde{U}$:
 &=
 	-\frac
 		{\delta_{N,M} \exp(N)}
-		{\sqrt{m_2 n_1}}
+		{2\pi \, \sqrt{m_2 n_1}}
 	\sqrt{\frac
 		{ m_1!      \; m_2!     \; n_1! }
 		{ m_1^{m_1} \;m_2^{m_2} \; n_1^{n_1} }
@@ -2114,8 +2114,8 @@ $b_i^* \leq K$ and that of outgoing occupied modes is $b_o^* \leq K$.
 \begin{multline}
 	A_F(\vec{m}, \vec{n})
 =
-	(-1)^{b_o^*}
-	2\pi \, \delta_{N,M} \, \qty(
+	(-1)^{b_o^*} \, \delta_{N,M} \, 
+	\qty(
 		\frac{1}{2\pi\lambda}
 	)^{\frac{b_i^* + b_o^* - 1}{2}}
 	\exp(N)
@@ -2164,7 +2164,7 @@ $b_i^* \leq K$ and that of outgoing occupied modes is $b_o^* \leq K$.
 \begin{align}
 	A_F(m_2, n_2)
 &=
-	(-1)^1 \, 2\pi \, \delta_{m_2,n_2} \, \qty(
+	(-1)^1 \, \delta_{m_2,n_2} \, \qty(
 		\frac{1}{2\pi \, m_2 \, n_2}
 	)^{\frac{1 + 1 - 1}{2}}
 	\exp(N)
@@ -2181,8 +2181,8 @@ $b_i^* \leq K$ and that of outgoing occupied modes is $b_o^* \leq K$.
 	\exp(N)
 	\sqrt{
 		\frac
-			{2\pi}
-			{n_2}
+			{1}
+			{2\pi \, n_2}
 		\frac
 			{ m_2!      \; n_2! }
 			{ m_2^{m_2} \; n_2^{n_2} }
@@ -2204,8 +2204,8 @@ $b_i^* \leq K$ and that of outgoing occupied modes is $b_o^* \leq K$.
 	\exp(N)
 	\sqrt{
 		\frac
-			{2\pi}
-			{n_2}
+			{1}
+			{2\pi n_2}
 		\frac
 			{ m_2!      \; n_1! }
 			{ m_2^{m_2} \; n_1^{n_1} }
@@ -2227,8 +2227,8 @@ $b_i^* \leq K$ and that of outgoing occupied modes is $b_o^* \leq K$.
 	\exp(N)
 	\sqrt{
 		\frac
-			{2\pi}
-			{n_2}
+			{1}
+			{2\pi n_2}
 		\frac
 			{ m_1!      \; n_2! }
 			{ m_1^{m_1} \; n_2^{n_2} }
@@ -2250,8 +2250,8 @@ $b_i^* \leq K$ and that of outgoing occupied modes is $b_o^* \leq K$.
 	\exp(N)
 	\sqrt{
 		\frac
-			{2\pi}
-			{n_2}
+			{1}
+			{2\pi n_2}
 		\frac
 			{ m_1!      \; n_1! }
 			{ m_1^{m_1} \; n_1^{n_1} }
