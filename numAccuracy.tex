@@ -445,4 +445,26 @@ Using the previous results, the amplitude can be factored into an occupation- an
 Note that $\frac{1}{\Omega} = m_{j^*} \lambda^{b_i^* + b_o^* - 2} $ is a product of integers and can be stored exactly. Thus, the entire first line of (\ref{eqn:Amplitude}) has only first order errors, but no propagation.
 
 Evaluate $\sqrt{\Upsilon}$ first, then the fraction (rule: summation first; sqrt most likely involves sums).
+
+\chapter{Stirling Formula}
+Expressions of the form $\sqrt{\frac{x!}{x^x}}$ behave poorly in numerics. Use the Stirling Formula:
+\begin{align*}
+	n! 
+&\approx
+	\sqrt{2\pi n}
+	\qty(\frac{n}{e})^n
+\end{align*}
+to get
+\begin{align*}
+	\sqrt{\frac{x!}{x^x}}
+&\approx
+	\sqrt{
+		\frac
+			{\sqrt{2\pi n}}
+			{\exp(n)}
+	}
+=
+	\qty(2\pi n)^{\smallfrac{1}{4}}
+	\exp(-\smallfrac{n}{2})
+\end{align*}
 \end{document}
