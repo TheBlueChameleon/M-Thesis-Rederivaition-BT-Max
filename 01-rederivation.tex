@@ -1,0 +1,1930 @@
+\documentclass[
+	english,
+	a4paper,
+	fontsize=10pt,
+	parskip=half,
+	titlepage=true,
+	DIV=12,
+	final
+]{scrreprt}
+
+
+%==============================================================================%
+% PACKAGES
+%
+% Standard text formatting
+\usepackage[utf8]{inputenc}
+\usepackage{babel}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{microtype}
+\usepackage{ragged2e}
+
+\usepackage{csquotes}
+\usepackage{xspace}
+
+\usepackage{placeins}	% FloatBarrier.
+\usepackage{url}
+\usepackage[bf, format=plain]{caption}
+
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks,
+    citecolor=black,
+    filecolor=black,
+    linkcolor=black,
+    urlcolor=black
+}
+
+% gfx
+\usepackage{wrapfig}
+
+% tables
+\usepackage{tabularx}
+\usepackage{booktabs}
+\usepackage{multicol}
+\usepackage{multirow}
+\usepackage{makecell}
+\usepackage{color, colortbl}
+
+% math
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{dsfont}
+\let\olddiv\div
+\usepackage[arrowdel]{physics}
+\usepackage{mathtools}
+
+% indexes, links, page format
+\usepackage{scrlayer-scrpage}
+
+% misc
+\usepackage[super]{nth}
+\usepackage[
+	output-decimal-marker={.},
+	input-symbols = {()},  			% do not treat "(" and ")" in any special way
+	group-digits  = true  			% guess what.
+]{siunitx}
+\usepackage{minted}
+
+%==============================================================================%
+% GLOBAL MACROS
+%
+
+% Document properties
+\newcommand{\myName}{Stefan Hartinger\xspace}
+\newcommand{\myTitle}{Rederivation of Max' B-Thesis\xspace}
+
+\addtokomafont{labelinglabel}{\sffamily}
+
+% Text abbreviations
+\newcommand*{\ie}{i.\,e.\xspace}
+\newcommand*{\eg}{e.\,g.\xspace}
+
+% Misc Symbols
+\newcommand*{\thus}{\ensuremath{\rightarrow}\xspace}
+\newcommand*{\Thus}{\ensuremath{\Rightarrow}\xspace}
+
+% Tables
+\newcommand*{\tabcrlf}{\\ \hline}			% actually still allows for optional argument
+
+% Math
+\newcommand*{\numberthis}{\addtocounter{equation}{1}\tag{\theequation}}
+
+\newcommand*{\smallfrac}  [2]{\ensuremath{{}^        {#1} \!/_        {#2}}}
+\newcommand*{\smallfracrm}[2]{\ensuremath{{}^{\mathrm{#1}}\!/_{\mathrm{#2}}}}
+
+\newcommand*{\transp}{\ensuremath{^\intercal}}
+
+\newcommand*{\iunit}{\ensuremath{\mathrm{i}}}
+
+\newcommand*{\setNaturals} {\ensuremath{\mathbb{N}}}
+\newcommand*{\setIntegers} {\ensuremath{\mathbb{Z}}}
+\newcommand*{\setReals}    {\ensuremath{\mathbb{R}}}
+\newcommand*{\setRationals}{\ensuremath{\mathbb{Q}}}
+\newcommand*{\setComplex}  {\ensuremath{\mathbb{C}}}
+
+\newcommand*{\Lag}{\ensuremath{\mathcal{L}}\xspace}
+\newcommand*{\Ham}{\ensuremath{\mathcal{H}}\xspace}
+
+%\newcommand*{\Poisson}[2]{\ensuremath{\left\{ {#1}, {#2} \right\}}}
+% physics has \pb which is poisson bracket
+% also use alias acom: anticommutator, which is exactly the same.
+
+\newcommand*{\equalCond}{  \mathop{=}\limits^!  }
+
+\DeclareMathOperator{\arsinh}{arsinh}
+\DeclareMathOperator{\diag}{diag}
+
+%==============================================================================%
+% GLOBAL PARAMTERS
+%
+
+\title{\myTitle}
+\author{\myName}
+\date{\today}
+
+% header, footer
+\clearpairofpagestyles
+	\cfoot
+		[\pagemark]
+		{\pagemark}
+	\ohead
+		[\myTitle, \myName]
+		{\myTitle, \myName}
+\pagestyle{scrheadings}
+
+%==============================================================================%
+% THE REAL STUFF
+%	
+\begin{document}
+\tableofcontents
+\newpage
+
+\chapter{Boson Sampling Amplitude (BSA)}
+\section{Starting Point}
+Statement:
+\begin{align}
+	A_F(\vec{m}, \vec{n})
+&=
+	\eval{\qty(
+			\prod_{j}
+			\frac
+				{1}
+				{\sqrt{m_j! \; n_j!}}
+			\pdv[m_j]{x_j}
+			\pdv[n_j]{y_j}
+		) \exp(\vec{x}\transp \, \mathbb{U} \, \vec{y})
+	}_{\vec{x} = \vec{y} = \vec{0}}
+\label{eqn:BSA_raw}
+\end{align}
+
+Symbols:
+\begin{itemize}
+\item $\vec{m}, \vec{n}$: number of photons entering in the input modes ($\vec{m}$), emerging in the
+	output modes ($\vec{n}$)
+\item $A_F$ probability amplitude for the evolution $\vec{m} \thus \vec{n}$, \ie $|A_F|^{2} = P$
+\item $\mathbb{U}$: unitary matrix describing the system.
+\end{itemize}
+
+
+\section{Derivatives to Integrals}
+\subsection{1D} 
+\label{sec:DevToInt_1D}
+\begin{align}
+	f^{(n)}(0)
+&=
+	\frac{n!}{2\pi \iunit}
+	\oint_\gamma \dd{z}
+		\frac
+			{f(z)}
+			{z^{n+1}}
+\end{align}
+
+Symbols:
+\begin{itemize}
+\item $f$: function matching the signature $\setComplex \thus \setComplex$; holomorphic in \setComplex
+	(thus arbitrarily many times diff'able)
+\item $\gamma$: arbitrary loop in the complex plane, enclosing the origin.
+\end{itemize}
+
+Holds because:
+\begin{itemize}
+\item Application of differential quotient and Cauchy's integral formula
+\end{itemize}
+
+\subsection{Generalization in $D$ dimensions} 
+\label{sec:DevToInt_DD}
+\begin{align}
+	\eval{ f(\vec{z}) }_{\vec{z} = \vec{0}}
+&=
+	\qty(
+		\frac{1}{2\pi \iunit}
+	)^{D}
+	\oint_{\gamma} \dd{\xi_1} \ldots \dd{\xi_D}
+		\frac
+			{f(\vec{\xi})}
+			{\prod_{j=1}^{D} \xi_j}
+\\
+	\eval{ f^{(n)}(\vec{z}) }_{\vec{z} = \vec{0}}
+&=
+	\qty(
+		\frac{n!}{2\pi \iunit}
+	)^{D}
+	\oint_{\gamma} \dd{\xi_1} \ldots \dd{\xi_D}
+		\frac
+			{f(\vec{\xi})}
+			{\prod_{j=1}^{D} \xi_j^{n+1}}
+\end{align}
+
+Symbols:
+\begin{itemize}
+\item $f$: function matching the signature $\setComplex^{D} \thus \setComplex$; holomorphic, \ie
+	holomorphic in each variable
+\item $\vec{z}$: vector in $D$ dimensions, representing $\vec{x} \oplus \vec{y}$
+\item $\vec{\xi}$: vector in $D$ dimensions, complex valued, associated to $\vec{z}$
+\item $\gamma$: arbitrary loop in the complex plane, enclosing the origin.
+\end{itemize}
+
+Holds because:
+\begin{itemize}
+\item Repeatedly applying the argument from \ref{sec:DevToInt_1D}
+\item Keep in mind: this is a \enquote{derivative in all directions}, thus we get an int in $D$ vars
+\end{itemize}
+
+\section{BSA in Integral From}
+Statement:
+\begin{align}
+	A_F(\vec{m}, \vec{n})
+&=
+	\qty(
+		\prod_{j=1}^{K}
+		\frac
+			{\sqrt{m_j! \; n_j!}}
+			{-4\pi^{2}}
+	)
+	\oint_{\gamma}
+		\qty(
+			\frac
+			{\dd{x_j} \dd{y_j}}
+			{x_j^{m_j+1}  y_j^{n_j+1}}
+		)
+		\exp(\vec{x}\transp \, \mathbb{U} \, \vec{y})
+\end{align}
+
+Symbols
+\begin{itemize}
+\item $K$: number of ingoing/outgoing modes; $2K = D$; implicitly assuming $K=L$ (ingoing=outgoing)here.
+\item $\gamma$: arbitrary loop in the complex plane, enclosing the origin.
+\end{itemize}
+
+Holds because:
+\begin{itemize}
+\item Apply ideas of \ref{sec:DevToInt_DD} to eqn. (\ref{eqn:BSA_raw})
+\item Implicitly do $2K$ such transformations, since $\vec{z} = \vec{x} \oplus \vec{y}$ and thus has
+	$2K$ components
+\item[\Thus] prefactor $\smallfrac{1}{2\pi\iunit} \thus \qty( \smallfrac{1}{-4\pi^{2}} )^{K}$
+\item Numerator gets a factor $\prod_{j} m_j! \; n_j!$ from applying the derivative-to-int method.
+	This is partially \enquote{consumed} by the square root in the original BSA formula. \newline
+	\Thus $\smallfrac{1}{\sqrt{\ldots}}$
+\end{itemize}
+
+\section{Absorbing Prefactors in BSA}
+Statement:
+\begin{align}
+\nonumber
+	A_F(\vec{m}, \vec{n})
+=
+	\qty(
+		\prod_{j=1}^{K}
+		\frac
+			{\sqrt{m_j! \; n_j!}}
+			{-4\pi^{2}}
+	)
+	\oint_{\gamma}
+		& \qty(
+			\prod_{j=1}^{K}
+			\dd{x_j} \dd{y_j}
+		)  \cdot \ldots \\
+		& \exp[
+			-\sum_{j=1}^{K} 
+			\qty[ \Big.
+				(m_j + 1) \log(x_j) +
+				(n_j + 1) \log(y_j)
+			]
+		]
+		\exp(\vec{x}\transp \, \mathbb{U} \, \vec{y})
+\label{eqn:BSA_IntAbsorbed}
+\end{align}
+
+Symbols
+\begin{itemize}
+\item as before
+\end{itemize}
+
+Holds because
+\begin{itemize}
+\item $a \exp(x) = \exp[\log(a)] \exp(x) = \exp[\log(a) x]$
+\item $\log[ \qty( \frac{1}{a} )^{n} ] = -n \log(a)$
+\end{itemize}
+
+\section{Change of Variables}
+\label{sec:BSA_phases}
+Using polar coordinates:
+\begin{align}
+	\begin{cases}
+	x_j &= \sqrt{m_j} \exp( \iunit \theta_j) \\
+	y_j &= \sqrt{n_j} \exp(-\iunit \chi  _j) 	
+	\end{cases}
+	\label{eqn:DefXY}
+\end{align}
+
+This in eqn. (\ref{eqn:BSA_IntAbsorbed}) gives:
+\begin{multline}
+	A_F(\vec{m}, \vec{n})
+=
+	\qty(
+		\prod_{j=1}^{K}
+		\frac
+			{1}
+			{-4\pi^{2}}
+		\sqrt{\frac
+			{m_j!      \; n_j!}
+			{m_j^{m_j} \; n_j^{n_j} }
+		}
+	)
+	\int_{0}^{2\pi} \dd{\vec{\theta}}
+	\int_{0}^{2\pi} \dd{\vec{\chi}}\ \ldots \\
+		\ldots		
+		\exp[\iunit (\vec{n} \cdot \vec{\chi}  -  \vec{m} \cdot \vec{\theta})] \cdot 
+		\exp[\sum_{k,l=1}^{K} \sqrt{m_k n_l} \; u_{k,l} \; \exp[\Big.\iunit(\theta_k - \chi_l)] ]
+\end{multline}
+
+Symbols
+\begin{itemize}
+\item as before
+\end{itemize}
+
+Holds because:
+\begin{itemize}
+\item Choose path $\gamma(t) = \exp(\iunit t)$ where $t \thus \theta_j$ or $t \thus \chi_j$,
+	respectively.
+\item Recall complex line integrals:
+	\begin{itemize}
+	\item $\int_{\gamma} \dd{\vec{r}} f(\vec{r})
+		=
+		\int_{a}^{b} \dd{t} f[\gamma(t)] \; \gamma'(t)$
+	\item $\gamma'(t) 
+		\thus 
+	 	\qty( \prod_{j=1}^{K} \sqrt{m_j n_j} )
+	 	\exp[\iunit(\sum_{j=1}^{K} \theta_j - \chi_j)]$
+	\end{itemize}
+\item Substituting $\vec{x}, \vec{y}$ as specified gives:
+	\begin{itemize}
+	\item[*] $\vec{x} \, \mathbb{U} \, \vec{y}$
+		\thus
+		$\sum_{k,l} \sqrt{m_k n_l} \; u_{k,l} \; \exp[\iunit(\theta_k - \chi_l)]$
+	\item $\dd{x_j} \dd{y_j} \thus \dd{\theta_j} \dd{\chi_j}$
+	\item $\exp[-(m_j + 1) \log(x_j)]$
+		\thus
+		$\exp[-(m_j + 1) (\frac{1}{2}\log(m_j) + \iunit \theta_j)]$\\
+		$\thus
+		 \exp[-(m_j + 1) (\frac{1}{2}\log(m_j)] \exp[ -\iunit (m_j + 1) \theta_j)]
+		$
+	\item Likewise (with $-\iunit \chi_j$) for $\vec{y}$
+	\item $\exp(-\frac{a}{2} \log(x)) = x^{-\frac{a}{2}} = \sqrt{\frac{1}{x^{a}}}$
+	\item[\Thus] $\exp[-(m_j + 1) \log(x_j)]$
+		\thus
+		$\sqrt{\frac{1}{ m_j^{m_j + 1}}} \exp[-\iunit (m_j + 1) \theta_j]$
+	\item[\Thus] $\sqrt{m_j + 1}$ absorbs by prefactor $\sqrt{m_j}$ from $\gamma'$
+		\thus $\sqrt{\frac{1}{ m_j^{m_j}}} \exp[-\iunit (m_j + 1)\theta_j]$
+	\item[*] Hence the complete prefactor 
+		$\sqrt{\frac
+			{m_j!      \; n_j!}
+			{m_j^{m_j} \; n_j^{n_j} }}$
+	 \item $\exp[-\iunit (m_j + 1)\theta_j]$ together with $\exp$-part from $\gamma'$ gives
+	 	$\exp(-\iunit m_j \theta_j)$
+	 \item[*] Hence $\exp[\iunit(\vec{n} \cdot \vec{\chi}  -  \vec{m} \cdot \vec{\theta})]$
+	\end{itemize}
+\end{itemize}
+
+
+\section{Integrating the $\theta_1$ DoF}
+\label{sec:Inttheta1}
+Statement:
+\begin{multline}
+	A_F(\vec{m}, \vec{n})
+=
+	2 \pi \delta_{M, N} \; C
+	\int_{0}^{2\pi} \dd{\tilde{\vec{\theta}}}
+	\int_{0}^{2\pi} \dd{\vec{\chi}} \ldots \\
+		\ldots
+		\exp[ \Bigg. -\iunit(\vec{m} \cdot \tilde{\vec{\theta}}  +  \vec{n} \cdot \vec{\chi})] \cdot
+		\exp[ \sum_{k,l=1}^{K} \sqrt{m_k n_l} \; u_{k,l} \; 
+			\exp[ \Big. \iunit(\tilde{\theta}_k - \chi_l)] 
+		]
+\label{eqn:AmplitudePreSPA}
+\end{multline}
+
+Symbols:
+\begin{itemize}
+\item $C = \prod_{j=1}^{K} 
+	\frac{1}{-4\pi^{2}}
+	\sqrt{\frac
+			{m_j!      \; n_j!}
+			{m_j^{m_j} \; n_j^{n_j} }}$:
+	Amplitude normalization factor
+\item $\tilde{\vec{\theta}} = (0, \theta_2, \ldots, \theta_K)\transp$:
+	Phases to incoming photons, with $\theta_1$ arbitrarily set to zero. \newline
+	Note that $\dd{\tilde{\vec{\theta}}}$ implies only $K-1$ integrals!
+\item $M = \sum_{j=1}^{K} m_j$: Total incoming photons
+\item $N = \sum_{j=1}^{K} n_j$: Total outgoing photons
+\end{itemize}
+
+Holds because:
+\begin{itemize}
+\item Can do a transformation of variables:
+	\begin{itemize}
+	\item $\vec{\theta'} = \vec{\alpha'} + 
+			\underbrace{(\theta_1, \ldots, \theta_1)\transp}_{K-1 \text{ components}}
+		\qquad
+			\vec{\chi}    = \vec{\beta}   + 
+			\underbrace{(\theta_1, \ldots, \theta_1)\transp}_{K \text{ components}}
+		$
+	\item Primed vars are $(K-1)$-dimensional, others are $K$-dimensional
+	\item Allows separately doing the $\theta_1$ integral
+	\end{itemize}
+\item Rewriting the int from \ref{sec:BSA_phases} gives contribution
+	$\exp[-\iunit(\sum_{k=1}^{K} m_k - \sum_{l=1}^{K} n_l)\theta_1]$
+\item Integrating this wrt. $\theta_1$ gives $2\pi \delta_{M,N}$
+\item Resubstituting old $\vec{\theta}, \vec{\chi}$ gives this result.
+\item Note that this is now an int in $2K - 1$ dimensions.
+\end{itemize}
+
+\chapter{Applying the SPA}
+\section{Generic Multidimensional SPA}
+Statement
+\begin{align}
+	\int_{\gamma} \dd[n]{z}
+		\exp[-\lambda f(\vec{z})]
+&=
+	\qty(
+		\frac{2\pi}{\lambda}
+	)^{\frac{n}{2}}
+	\sum_j
+		\frac
+		{\exp[-\lambda f(\vec{z}_j)]}
+		{\sqrt{\det S_j}}
+\label{eqn:genericSPA}
+\end{align}
+
+Symbols:
+\begin{itemize}
+\item $\gamma$: closed loop in $\setComplex^{n}$, \ie $n$ is number of complex dimensions
+\item $\lambda$: big constant (big wrt. parametrized length of $\gamma$)
+\item $f$: arbitrary function matching the signature $\setComplex^{n} \thus \setComplex$
+\item $\{ \vec{z}_j \}$: set of all zeros of $f$
+\item $S_j = \eval{ \pdv{f(\vec{z})}{z_\alpha}{z_\beta}  }_{\vec{z} = \vec{z}_j} $:
+	Hessian matrix of $f$, evaluated in root $\vec{z}_j$
+\end{itemize}
+
+Holds because:
+\begin{itemize}
+\item math says so.
+\item 1D-form can be taken from lecture notes NLD
+\item Should be possible to find this general form from there
+\item However, in NLD we regarded only ints over $(-\infty; +\infty)$.
+\item Possibly similar to: ints along the real axis can be solved using residue theorem
+\end{itemize}
+
+\section{Apply SPA to BSA}
+Approach:
+\begin{align}
+\nonumber
+	f(\vec{z})
+&=
+	f(\vec{\theta}, \vec{\chi}) \\
+&=
+	\underbrace{
+		\qty( \prod_{j=1}^{K}
+			\frac{1}{m_j n_j}
+		)
+	}_{\lambda^{-1}}
+	\qty[
+		\iunit(\vec{m} \cdot \vec{\theta} - \vec{n} \cdot \vec{\chi})
+		-
+		\sum_{k,l=1}^{K}
+			\sqrt{m_k n_l} \; u_{k,l} \; \exp[ \Big. \iunit(\theta_k - \chi_l)]
+	]
+\label{eqn:DefF}
+\\
+	\lambda
+&=
+	\qty( \prod_{j=1}^{K} m_j n_j)
+\label{eqn:DefLambda}
+\end{align}
+
+\newpage
+Symbols:
+\begin{itemize}
+\item $\vec{\theta}$ is $\tilde{\vec{\theta}}$ from \ref{sec:Inttheta1} (renamed for convenience).
+\item Note that $\vec{\theta}$ is $K$-dimensional, but $\theta_1 = 0$, \ie we got only $2K - 1$ DoF!
+\end{itemize}
+
+
+\subsection{Saddle Points}
+\label{sec:Saddles}
+Require:
+\begin{align}
+	\pdv{f}{\theta_p} &\equalCond 0
+&
+	\pdv{f}{\chi  _q} &\equalCond 0 
+\end{align}
+with $p \in \{2, \ldots, K\}$ and $q \in \{1, \ldots, K\}$
+
+Find:
+\begin{gather}
+	\pdv{f}{\theta_p}
+=
+	\lambda^{-1}
+	\qty[
+		\iunit m_p
+		-
+		\sum_{l=1}^{K}
+			\sqrt{m_p n_l} \; u_{p,l} \; \iunit \exp[ \Big. \iunit(\theta_p - \chi_l)]
+	]
+	\label{eqn:Jacobiantheta}
+\equalCond
+	0 \\
+\Thus
+	m_p
+\equalCond
+	\sum_{l=1}^{K}
+		\sqrt{m_p n_l} \; u_{p,l} \; \exp[ \Big. \iunit(\theta_p - \chi_l) ] \\
+\Thus
+	\sqrt{m_p} \exp(-\iunit \theta_p)
+\equalCond
+	\sum_{l=1}^{K} \sqrt{n_l} \; u_{p,l} \; \exp(-\iunit\chi_l)
+	\label{eqn:FourierLinkForward}
+\end{gather}
+with $p \in \{2, \ldots, K\}$ where $\theta_1 = 0$. Implicitly also holds for $p=1$ {\color{red}(Does it?)}, but the derivatives only start at $p=2$
+
+Likewise:
+\begin{gather}
+	\pdv{f}{\chi_q}
+=
+	\lambda^{-1}
+	\qty[
+		-\iunit n_q
+		+
+		\sum_{k=1}^{K}
+			\sqrt{m_k n_q} \; u_{k,q} \; \iunit \exp[ \Big. \iunit(\theta_k - \chi_q) ]
+	]
+	\label{eqn:JacobianChi}
+\equalCond
+	0 \\
+\Thus
+	\sqrt{n_q} \exp(+\iunit \chi_q)
+\equalCond
+	\sum_{k=1}^{K}
+	\sqrt{m_k} \; u_{k,q} \; \exp(+\iunit\theta_k)
+	\label{eqn:FourierLinkBackward}
+\end{gather}
+with $q \in \{1, \ldots, K\}$ where again $\theta_1 = 0$
+
+Compactly:
+\begin{align}
+	\vec{x}^{*} &= \mathbb{U} \vec{y}
+&
+	\vec{y}^{*} &= \mathbb{U}\transp \vec{x}
+	\label{eqn:MatrixCondition}
+\end{align}
+
+Compare: my B-thesis has symbols:
+\begin{align}
+	\vec{\Phi} &= \mathbb{U}\transp \vec{\Psi}
+\end{align}
+{\color{red} and missing transpose sign! Check code!}
+
+where
+\begin{align}
+	\vec{\Psi} =
+	\vec{x}
+	&= \begin{pmatrix}
+		\sqrt{m_1} \exp(\iunit \theta_1) \\
+		\vdots                           \\
+		\sqrt{m_K} \exp(\iunit \theta_K) \\
+	\end{pmatrix}
+&
+	\vec{\Phi} =
+	\vec{y}^{*}
+	&= \begin{pmatrix}
+		\sqrt{n_1} \exp(\iunit \chi_1) \\
+		\vdots                           \\
+		\sqrt{n_K} \exp(\iunit \chi_L) \\
+	\end{pmatrix}
+\end{align}
+and
+\begin{align}
+	\theta_1 &= 0
+&
+	\theta_2, \ldots, \theta_K, \chi_1, \ldots, \chi_L \in [0, 2\pi)
+\end{align}
+(\ie explicitly including the $\theta_1$ dimension with its constraint $\theta_1 = 0$.)
+
+\subsection{Hessian}
+Recall: We start from
+\begin{align}
+	S_j
+=
+	\eval{
+		\pdv{f(\vec{z})}%
+			{z_\alpha}{z_\beta}
+	}_{\vec{z} = \vec{z}_j}
+\end{align}
+but only true DoFs are relevant. Hence, regard $m_j, n_j$ and $\theta_1$ as const. \newline
+\Thus $(2K - 1)^{2}$ derivatives wrt. $\theta_2, \ldots \theta_K, \chi_1, \ldots, \chi_K$
+
+Compactly: Use $\vec{z}_j = \vec{\theta} \oplus \vec{\chi}$, \ie the entire Fourier pair. Re-use eqns (\ref{eqn:Jacobiantheta}) and (\ref{eqn:JacobianChi}) from \ref{sec:Saddles} by introducing (remembering the constraint $\theta_1 = 0$):
+\begin{align}
+	\mathbb{J} = \qty( \grad_{\vec{z}_j} f )\transp
+\end{align}
+
+\begin{align}
+	J_{\theta, p} 
+&= 
+	\pdv{f}{\theta_p}
+=
+	\lambda^{-1}
+	\qty[
+		+\iunit m_p
+		-
+		\sum_{l=1}^{K}
+			\sqrt{m_p n_l} \; u_{p,l} \; \iunit \exp[\Big. \iunit(\theta_p - \chi_l)]
+	]
+\\
+	J_{\chi, q} 
+&= 
+	\pdv{f}{\chi_q}
+=
+	\lambda^{-1}
+	\qty[
+		-\iunit n_q
+		+
+		\sum_{k=1}^{K}
+			\sqrt{m_k n_q} \; u_{k,q} \; \iunit \exp[\Big. \iunit(\theta_k - \chi_q)]
+	]
+\end{align}
+Understand $\mathbb{J}$ as a \emph{row vector}. In spite of it having two indices here, there is only one dimension. $\theta, \chi$ refer to subblocks in the vector rather than degrees of freedom.
+
+Total dimension of $\mathbb{J}$ is $1 \times (2K - 1)$ due to constraint $\theta_1 = 0$
+
+Get Hessian matrix elements:
+\begin{align}
+	\qty( S_j )
+&=
+	\begin{pmatrix}
+		\pdv{J_{\theta}}{\vec{\theta}} &
+		\pdv{J_{\theta}}{\vec{\chi  }} 
+		\\
+		\pdv{J_{\chi  }}{\vec{\theta}} &
+		\pdv{J_{\chi  }}{\vec{\chi  }} 
+	\end{pmatrix}
+\\
+	\pdv{J_{\theta, p}}{\theta_{\alpha}}
+&=
+	+
+	\lambda^{-1}
+	\delta_{p,\alpha}
+	\sum_{l=1}^{K}
+		\sqrt{m_p n_l} \; u_{p,l} \; \exp[\Big. \iunit(\theta_p - \chi_l)]
+\\
+	\pdv{J_{\theta, p}}{\chi_{\alpha}}
+&=
+	-
+	\lambda^{-1}
+	\sqrt{m_p n_\alpha} \; u_{p,\alpha} \; \exp[\Big. \iunit(\theta_p - \chi_\alpha)]
+\\
+	\pdv{J_{\chi, q}}{\theta_{\alpha}}
+&=
+	-
+	\lambda^{-1}
+	\sqrt{m_\alpha n_q} \; u_{\alpha,q} \; \exp[\Big. \iunit(\theta_\alpha - \chi_q)]
+\\
+	\pdv{J_{\chi, q}}{\chi_{\alpha}}
+&=
+	+
+	\lambda^{-1}
+	\delta_{q,\alpha}
+	\sum_{k=1}^{K}
+		\sqrt{m_k n_q} \; u_{k,q} \; \exp[\Big. \iunit(\theta_k - \chi_q)]
+\end{align}
+
+Note how the signs comes from $-1 \cdot \iunit^{2}$ (diagonal blocks) and from 
+$\pm\iunit \cdot (\pm\iunit)$ (off-diagonal blocks).
+
+The Kronecker Delta is due to the fact that the derived-for variable is present only once at the stage of Jacobian $\mathbb{J}$.
+
+Using the eqns (\ref{eqn:FourierLinkForward}) and (\ref{eqn:FourierLinkBackward}), we can further collapse the diagonal elements:
+\begin{align}
+	\pdv{J_{\theta, p}}{\theta_{\alpha}}
+&=
+	\lambda^{-1}
+	\delta_{p,\alpha}
+	m_p
+&
+	p \in \{2, \ldots, K\}
+\\
+	\pdv{J_{\chi, q}}{\chi_{\alpha}}
+&=
+	\lambda^{-1}
+	\delta_{q,\alpha}
+	n_q
+&
+	q \in \{1, \ldots, K\}
+\end{align}
+
+Thus:
+\begin{align}
+	(S_j)
+&=
+	\lambda^{-1}
+	\diag(\vec{m}', \vec{n})
+	+
+	\begin{pmatrix}
+		\mathds{O}_{K-1} & 
+		\pdv{J_{\theta, p}}{\chi_{\alpha}}
+		\\
+		\pdv{J_{\chi, q}}{\theta_{\alpha}} &
+		\mathds{O}_{K}
+	\end{pmatrix}
+=
+	\lambda^{-1}
+	\begin{pmatrix}
+		\diag(\vec{m}') & F 			\\
+		F\transp & \diag(\vec{n})
+	\end{pmatrix}
+\end{align}
+where
+\begin{align}
+	F
+&:=
+	\lambda \qty( \pdv{J_{\theta}}{\vec{\chi}} ) 
+	= \lambda \qty( \pdv{J_{\chi}}{\vec{\theta}} )\transp
+	= \qty( -\sqrt{m_p n_q} \; u_{p,q} \; \exp[\Big. \iunit(\theta_p - \chi_q)] )_{
+		\substack{p = 2, \ldots, K \\ q = 1, \ldots, K}
+	}	
+\label{eqn:defDetOffDiagonalF}
+\end{align}
+where $\mathds{O}_{D}$ is a $D \times D$ null-matrix, and $\vec{m}' = (m_2, \ldots, m_K)\transp$
+
+The implied symmetry of the off-diagonal blocks is guaranteed by this being a Hessian matrix.
+
+Note:
+\begin{itemize}
+\item $(S_j)$ is of dimension $(2K-1)^{2}$.
+\item $F$ is of dimension $(K - 1) \times K$
+\end{itemize}
+
+
+\section{Determinant of the Hessian}
+\subsection{Expansion to $K \times K$}
+Do expansion:
+\begin{align}
+	S
+=
+	\lambda^{-1}
+	\begin{pmatrix}
+		\diag(\vec{m}') & F 			\\
+		F\transp & \diag(\vec{n})
+	\end{pmatrix}
+\quad\thus\quad
+	\lambda^{-1}
+	\begin{pmatrix}
+		\lambda		& 0					& 0			\\
+		0			& \diag(\vec{m}')	& F			\\
+		0			& F\transp			& \diag(\vec{n})
+	\end{pmatrix}
+\end{align}
+(where the $0$ objects are such to match the rows/columns of the total matrix). While preserving the determinant, this new object is $K \times K$ again.
+
+Get:
+\begin{align}
+	\det S
+&=
+	\lambda^{-2K+1}
+	\underbrace{\mqty|
+		1	& 0					& 0			\\
+		0	& \diag(\vec{m}')	& F			\\
+		0	& F\transp			& \diag(\vec{n})
+	|}_{= S'}
+=
+	\lambda^{-2K+1}
+	\mqty|
+		\diag(\tilde{\vec{m}})	& \tilde{F}			\\
+		\tilde{F}\transp			& \diag(\vec{n})
+	|
+\end{align}
+explicit:
+\begin{itemize}
+\item $\tilde{\vec{m}} = (1, m_2, \ldots, m_K)\transp$ is of dimension $K$
+\item $\tilde{F} = \begin{pmatrix}
+		0 \\ F
+	\end{pmatrix}$
+	is of dimension $K \times K$
+\end{itemize}
+
+\subsection{Alt Form}
+Statement:
+\begin{align}
+	\det S'
+&=
+	\mqty|
+		\underbrace{\begin{pmatrix}
+			\diag(\tilde{\vec{m}})	& \mathds{O}			\\
+			\tilde{F}\transp			& \mathds{1}
+		\end{pmatrix}}_{2K \times 2K}
+		\cdot
+		\underbrace{\begin{pmatrix}
+			\mathds{1}	&	\qty(\diag(\tilde{\vec{m}}))^{-1} \tilde{F}		\\
+			\mathds{O}	&	\diag(\vec{n}) - \tilde{F}\transp \qty(\diag(\tilde{\vec{m}}))^{-1}\tilde{F}
+		\end{pmatrix}}_{2K \times 2K}
+	|
+	\label{eqn:detProto}
+\end{align}
+holds because:
+\begin{itemize}
+\item simply doing the matrix multiplication yields identity
+\item interpret this as a $2 \times 2$ matrix multiplication
+\item all elements in these two matrices are $K \times K$ \Thus well defined product
+\end{itemize}
+
+\subsection{Partial evaluation of det}
+Statement
+\begin{align}
+	\det S'
+&=
+	\underbrace{
+		\qty( \prod_{j=1}^{K} \tilde{m}_j n_j )
+	}_{= \mathcal{N} }
+	\det[
+		\mathds{1} -
+		\tilde{F}\transp \cdot \qty( \diag(\tilde{\vec{m}}) )^{-1}
+		\cdot
+		\tilde{F} \cdot \qty( \diag(\vec{n}) )^{-1}
+	]
+\label{eqn:detSPrimePartial}
+\end{align}
+Note: $\lambda \neq \mathcal{N}$, but $\lambda = m_1 \mathcal{N}$
+
+Holds because:
+\begin{itemize}
+\item product separation in det: $\det(A \cdot B) = \det(A) \det(B)$
+\item both matrices are of triangular form. the determinant of triangular matrices is the product of
+	its diagonal elements.
+\item first matrix yields $\det[ \diag(\tilde{\vec{m}}) ]$
+\item second matrix yields 
+	\begin{align*}
+	\quad& \det[ \diag(\vec{n}) - \tilde{F}\transp \qty(\diag(\tilde{\vec{m}}))^{-1}\tilde{F} ] \\
+	=    &  \det[\Big. \diag(\vec{n}) ] 
+			\det[\Big. 
+				\mathds{1} - 
+				\tilde{F}\transp \cdot \qty( \diag(\tilde{\vec{m}}) )^{-1}
+				\cdot
+				\tilde{F} \cdot \qty( \diag(\tilde{\vec{n}}) )^{-1}
+			]
+	\end{align*}
+%\item in second matrix: multiply from right with 
+%	$\mathds{1} = \diag(\vec{n})^{-1} \cdot \diag(\vec{n})$
+%\item again separate factor $\diag(\vec{n})$
+%\item combine first matrix contribution and separated second matrix contribution to get $\mathcal{N}$
+\end{itemize}
+
+\subsection{Reforming $\tilde{F}$}
+Statement:
+\begin{align}
+	\tilde{F}
+&=
+	\diag\qty[ \sqrt{ \tilde{\vec{m}}} * \exp(+\iunit \vec{\theta}) ]
+	\cdot \tilde{\mathbb{U}} \cdot
+	\diag\qty[ \sqrt{        \vec{n} } * \exp(-\iunit \vec{\chi  }) ]
+\end{align}
+(where $*$ denotes component-wise multiplication. Likewise, $\sqrt{.}$ and $\exp(.)$ are understood to act on the components of the vectors individually.)
+
+Where:
+\begin{equation}
+	\tilde{u}_{i,j} = \begin{cases}
+		-u_{i,j}		&\qq*{for } i > 1 \\
+		0			&\qotherwise*
+	\end{cases}
+\end{equation}
+Note that this suppresses the necessity of the condition $\theta_1 = 0$.
+
+Holds because:
+\begin{itemize}
+\item see definition of F in eqn. (\ref{eqn:defDetOffDiagonalF})
+\end{itemize}
+
+\subsection{Apply reformed $\tilde{F}$}
+Statement:
+\begin{align}
+	\det S'
+&=
+	\mathcal{N}
+	\qty( \prod_{j=1}^{K} \exp(-2\iunit \chi_j) )
+	\det\qty[\bigg.
+		\diag\qty(\exp(\Big.2\iunit\vec{\chi}))
+		-
+		\tilde{\mathbb{U}}\transp
+		\diag\qty(\exp(2\iunit\vec{\theta}))
+		\tilde{\mathbb{U}}
+	]
+\end{align}
+where, again, $\exp(.)$ is understood to act on the individual components of a vector.
+
+Holds because:
+\begin{itemize}
+\item $(AB)\transp = B\transp A\transp$
+\item $\tilde{F}
+=
+	\diag\qty[ \sqrt{ \tilde{\vec{m}}} * \exp(+\iunit \vec{\theta}) ]
+	\cdot \tilde{\mathbb{U}} \cdot
+	\diag\qty[ \sqrt{        \vec{n} } * \exp(-\iunit \vec{\chi  }) ]$
+	(cf. eqn. (\ref{eqn:defDetOffDiagonalF}))
+\item $\tilde{F}\transp
+=
+	\diag\qty[ \sqrt{        \vec{n} } * \exp(-\iunit \vec{\chi  }) ]
+	\cdot \tilde{\mathbb{U}}\transp \cdot
+	\diag\qty[ \sqrt{ \tilde{\vec{m}}} * \exp(+\iunit \vec{\theta}) ]$
+\item start from eqn. (\ref{eqn:detSPrimePartial}):
+	\begin{align*}
+		\det S'
+	&=
+		\underbrace{
+			\qty( \prod_{j=1}^{K} \tilde{m}_j n_j )
+		}_{= \mathcal{N} }
+		\det[
+			\mathds{1} -
+			\tilde{F}\transp \cdot \qty( \diag(\tilde{\vec{m}}) )^{-1}
+			\cdot
+			\tilde{F} \cdot \qty( \diag(\vec{n}) )^{-1}
+		]
+	\end{align*}
+\item contributions $\propto \sqrt{\tilde{\vec{m}}}, \sqrt{\vec{n}}$ cancel out due to inverses in eqn.
+	(\ref{eqn:detSPrimePartial})
+\item multiply from the right: $\exp(+2\iunit \vec{\chi})$ and its inverse from the left.
+\item separate emerging $\det\qty(\diag(\exp(-2\iunit \vec{\chi})))$ to get phase prefactor in Statement and transform unity matrix into minuend in Statement.
+\end{itemize}
+
+\subsection{Complete Det of the Hessian}
+Statement:
+\begin{align}
+	\det S
+&=
+	\frac{ \lambda^{-2K+2} }{ m_1 }
+	\qty( \prod_{j=1}^{K} \exp(-2\iunit \chi_j) )
+	\det\qty[\bigg.
+		\diag\qty(\exp(\Big.2\iunit\vec{\chi}))
+		-
+		\tilde{\mathbb{U}}\transp
+		\diag\qty(\exp(2\iunit\vec{\theta}))
+		\tilde{\mathbb{U}}
+	]
+\label{eqn:detComplete}
+\end{align}
+For use in code:
+\begin{multline*}
+	\det S
+=
+	\frac{1}{m_1}
+	\qty( \prod_{j=1}^{2} m_j n_j)^{-2}
+	\qty( \prod_{j=1}^{2} \exp(-2\iunit \chi_j) )
+\\
+	\qty[
+		\exp( \Big. 2\iunit (\chi_1 + \chi_2) )
+		-\frac{1}{2} \qty[ \Big.
+			\exp[2\iunit (\theta_2 + \chi_1)] +
+			\exp[2\iunit (\theta_2 + \chi_2)]
+		]
+	]
+\end{multline*}
+
+Holds because:
+\begin{itemize}
+\item simply plug back in everything
+\item $\lambda = m_1 \mathcal{N}$ 
+	and thus 
+	$\mathcal{N} \lambda^{-2K+1} = \frac{ \lambda^{-2K+2} }{ m_1 }$
+\item \color{red} make sure you always give proper lower/upper boundaries in your thesis paper. It certainly was no fun re-doing this over and over to find out when $m_1$ is part of the product and when it is not
+\end{itemize}
+
+Evaluation for in-code formula:
+\begin{align*}
+	\tilde{\mathbb{U}}
+&=
+	\frac{1}{\sqrt{2}}
+	\begin{pmatrix}
+		 0 &  0 \\
+		-1 & +1
+	\end{pmatrix}
+&
+	\tilde{\mathbb{U}}\transp
+&=
+	\frac{1}{\sqrt{2}}
+	\begin{pmatrix}
+		0 & -1 \\
+		0 & +1
+	\end{pmatrix}
+\end{align*}
+\begin{align*}
+	\tilde{\mathbb{U}}\transp
+	\diag\qty[\exp(2\iunit\vec{\theta})]
+	\tilde{\mathbb{U}}
+&=
+	\frac{1}{\sqrt{2}}
+	\begin{pmatrix}
+		0 & -1 \\
+		0 & +1
+	\end{pmatrix}
+	\cdot
+	\begin{pmatrix}
+		1 & 0 \\
+		0 & \exp(2\iunit \theta_2)
+	\end{pmatrix}
+	\cdot
+	\frac{1}{\sqrt{2}}
+	\begin{pmatrix}
+		 0 &  0 \\
+		-1 & +1
+	\end{pmatrix} \\
+&=
+	\frac{1}{2}
+	\begin{pmatrix}
+		0 & -\exp(2\iunit \theta_2) \\
+		0 & +\exp(2\iunit \theta_2)
+	\end{pmatrix}
+	\cdot
+	\begin{pmatrix}
+		 0 &  0 \\
+		-1 & +1
+	\end{pmatrix} \\
+&=
+	\frac{1}{2}
+	\begin{pmatrix}
+		+\exp(2\iunit \theta_2)	&	-\exp(2\iunit \theta_2) \\
+		-\exp(2\iunit \theta_2)	&	+\exp(2\iunit \theta_2)
+	\end{pmatrix}
+\\
+	\diag\qty[\exp(\Big.2\iunit\vec{\chi})]
+	-
+	\tilde{\mathbb{U}}\transp
+	\diag\qty[\exp(2\iunit\vec{\theta})]
+	\tilde{\mathbb{U}}
+&=
+	\begin{pmatrix}
+		\exp(2\iunit \chi_1) - \frac{1}{2}\exp(2\iunit \theta_2)	&
+		+\frac{1}{2}\exp(2\iunit \theta_2)
+		\\
+		+\frac{1}{2}\exp(2\iunit \theta_2)	&
+		\exp(2\iunit \chi_2) - \frac{1}{2}\exp(2\iunit \theta_2)
+	\end{pmatrix}
+\end{align*}
+\begin{align*}
+	\det(\ldots)
+&=
+	\qty[ \exp(2\iunit \chi_1) - \frac{1}{2}\exp(2\iunit \theta_2) ]
+	\qty[ \exp(2\iunit \chi_2) - \frac{1}{2}\exp(2\iunit \theta_2) ]
+	-
+	\frac{1}{2}\exp(2\iunit \theta_2)
+	\frac{1}{2}\exp(2\iunit \theta_2) \\
+&=
+	\exp[ \Big. 2\iunit (\chi_1 + \chi_2) ]
+	-\frac{1}{2} \qty[ \Big.
+		\exp[2\iunit (\theta_2 + \chi_1)] +
+		\exp[2\iunit (\theta_2 + \chi_2)]
+	]
+\end{align*}
+
+\section{Case 2x2}
+Start from eqn. (\ref{eqn:FourierLinkForward}) and (\ref{eqn:FourierLinkBackward}) with $K=2$:
+\begin{align}
+	\sqrt{m_p} \exp(-\iunit \theta_p)
+&\equalCond
+	\sum_{k=1}^{2} \sqrt{n_k} \; u_{p,k} \; \exp(-\iunit\chi_k)
+&
+	\sqrt{n_l} \exp(+\iunit \chi_l)
+&\equalCond
+	\sum_{k=1}^{2}
+	\sqrt{m_k} \; u_{k,l} \; \exp(+\iunit\theta_k)
+\label{eqn:start2x2}
+\end{align}
+and regard cases $p=2, l = 1, 2$ with $\theta_1 = 0$ as usual.
+
+Define
+\begin{align}
+	\mu := \exp(\iunit \theta_2)
+&&
+	\mu^{*} := \exp(-\iunit \theta_2) = \frac{1}{\mu}
+\label{eqn:DefMu}
+\end{align}
+
+\subsection{Mod-Squared of eqn. (\ref{eqn:start2x2})}
+Statement:
+\begin{align}
+	\underbrace{\sqrt{m_1 m_2} \,
+		u_{1, l}^{*} \, u_{2, l}
+	}_{a}
+	\, \mu^{2}
+	+
+	\underbrace{
+		(m_1 |u_{1,l}|^{2}  +  m_2 |u_{2,l}|^{2} - n_l)
+	}_{b}
+	\, \mu
+	+
+	\underbrace{
+		\sqrt{m_1 m_2} \,
+		u_{1, l} \, u_{2, l}^{*}
+	}_{c}
+=
+	0
+\end{align}
+Note that $\mu^{2} \neq |\mu|^{2}$ -- this is still a complex value!
+
+
+Holds because: (explicitly do multiplication)
+\begin{align}
+	\qty( \Big. \sqrt{n_l} \exp(+\iunit \chi_l) ) \,
+	\qty( \Big. \sqrt{n_l} \exp(+\iunit \chi_l) )^{*}
+&=
+	\qty( \Big.
+		\sqrt{m_1} \; u_{1,l} +
+		\sqrt{m_2} \; u_{2,l} \mu
+	)
+	\qty( \Big.
+		\sqrt{m_1} \; u_{1,l} +
+		\sqrt{m_2} \; u_{2,l} \mu
+	)^{*}
+\\
+	n_l
+&=
+	m_1 |u_{1,l}|^{2} +
+	\sqrt{m_1 m_2} \, u_{1,l}     \, u_{2,l}^{*} \, \mu^{*} +  \\
+\nonumber
+&\qquad
+	m_2 |u_{2,l}|^{2} \, \mu\mu^{*} +
+	\sqrt{m_1 m_2} \, u_{1,l}^{*} \, u_{2,l}     \, \mu
+\qquad
+	| \olddiv \mu^{*} \Leftrightarrow \cdot \mu
+\\
+	n_l \mu
+&=
+	m_1 |u_{1,l}|^{2} \, \mu +
+	\sqrt{m_1 m_2} \, u_{1,l}     \, u_{2,l}^{*} +  \\
+\nonumber
+&\qquad
+	m_2 |u_{2,l}|^{2} \, \mu +
+	\sqrt{m_1 m_2} \, u_{1,l}^{*} \, u_{2,l} \mu^{2}
+\end{align}
+and rearrange by orders of $\mu$.
+
+\subsection{Quadratic Formula Solution}
+Rem:
+\begin{align}
+	a z^{2} + b z + c 
+&\equalCond 
+	0
+&\Thus&&
+	z_{\pm} 
+&= 
+	\frac
+		{-b \pm \sqrt{b^{2} - 4ac}}
+		{2a}
+=
+	\frac
+		{-b \pm \sqrt{D}}
+		{2a}
+\end{align}
+gives:
+\begin{align}
+	\mu_{\pm}^{(l)}
+&=
+	\frac
+	{
+		- m_1 |u_{1,l}|^{2}  -  m_2 |u_{2,l}|^{2} + n_l
+		\pm
+		\sqrt{
+			(m_1 |u_{1,l}|^{2}  +  m_2 |u_{2,l}|^{2} - n_l)^{2}
+			-
+			4 m_1 m_2 |u_{1,l}|^{2} |u_{2,l}|^{2}
+		}
+	}
+	{ 2\sqrt{m_1 m_2} \, u_{1,l}^{*} \, u_{2,l} }
+\label{eqn:muQuadraticProto}
+\end{align}
+by simply plugging in the coefficients.
+
+\subsection{Universality Condition}
+Statement:
+\begin{equation}
+	\mu_{\pm}^{(1)} \equalCond \mu_{\mp}^{(2)}
+\end{equation}
+
+Holds because:
+
+Require
+\begin{align}
+	\mu^{(1)} &\equalCond \mu^{(2)}		&& \qq{universality} \\
+	m_1 + m_2 &\equalCond n_1 + n_2		&& \qq{particle conservation}
+\end{align}
+
+Get:
+\begin{multline}
+	\frac
+	{
+		- m_1 |u_{1,1}|^{2}  -  m_2 |u_{2,1}|^{2} - n_1
+		\pm
+		\sqrt{
+			(m_1 |u_{1,1}|^{2}  +  m_2 |u_{2,1}|^{2} - n_1)^{2}
+			-
+			4 m_1 m_2 |u_{1,1}|^{2} |u_{2,1}|^{2}
+		}
+	}
+	{ 2\sqrt{m_1 m_2} \, u_{1,1}^{*} \, u_{2,1} }
+= \ldots \\
+	\frac
+	{
+		- m_1 |u_{1,2}|^{2}  -  m_2 |u_{2,2}|^{2} - n_2
+		\pm
+		\sqrt{
+			(m_1 |u_{1,2}|^{2}  +  m_2 |u_{2,2}|^{2} - n_2)^{2}
+			-
+			4 m_1 m_2 |u_{1,2}|^{2} |u_{2,2}|^{2}
+		}
+	}
+	{ 2\sqrt{m_1 m_2} \, u_{1,2}^{*} \, u_{2,2} }
+\end{multline}
+
+Multiply both sides by $2\sqrt{m_1 m_2}$ to get:
+\begin{multline}
+	\frac
+	{
+		- m_1 |u_{1,1}|^{2}  -  m_2 |u_{2,1}|^{2} - n_1
+		\pm
+		\sqrt{
+			(m_1 |u_{1,1}|^{2}  +  m_2 |u_{2,1}|^{2} - n_1)^{2}
+			-
+			4 m_1 m_2 |u_{1,1}|^{2} |u_{2,1}|^{2}
+		}
+	}
+	{ u_{1,1}^{*} \, u_{2,1} }
+= \ldots \\
+	\frac
+	{
+		- m_1 |u_{1,2}|^{2}  -  m_2 |u_{2,2}|^{2} - n_2
+		\pm
+		\sqrt{
+			(m_1 |u_{1,2}|^{2}  +  m_2 |u_{2,2}|^{2} - n_2)^{2}
+			-
+			4 m_1 m_2 |u_{1,2}|^{2} |u_{2,2}|^{2}
+		}
+	}
+	{ \, u_{1,2}^{*} \, u_{2,2} }
+\end{multline}
+
+Use unitarity of $\mathbb{U}$: 
+\begin{align}
+	\mathbb{U}\mathbb{U}^{\dagger} &= \mathds{1}
+&\Thus&&
+	u_{1,1} \, u_{2,1}^{*} + u_{1,2} \, u_{2,2}^{*} &= 0 = \qty(\mathbb{U}\mathbb{U}^{\dagger})_{1,2} 
+	\label{eqn:unitaryU12}
+\\
+&&\Leftrightarrow&&
+u_{1,1} \, u_{2,1}^{*} &= -u_{1,2} \, u_{2,2}^{*}
+\end{align}
+
+Use this to reform RHS denominator and thus get rid of both sides denominators:
+\begin{multline}
+	- m_1 |u_{1,1}|^{2}  -  m_2 |u_{2,1}|^{2} - n_1
+		\pm
+		\sqrt{
+			(m_1 |u_{1,1}|^{2}  +  m_2 |u_{2,1}|^{2} - n_1)^{2}
+			-
+			4 m_1 m_2 |u_{1,1}|^{2} |u_{2,1}|^{2}
+		}
+=\\
+	\underbrace{+ m_1 |u_{1,2}|^{2}  +  m_2 |u_{2,2}|^{2} - n_2}_{(*)}
+		\mp
+		\sqrt{
+			(\underbrace{m_1 |u_{1,2}|^{2}  +  m_2 |u_{2,2}|^{2} - n_2}_{(*)} )^{2}
+			-
+			4 m_1 m_2 \underbrace{|u_{1,2}|^{2} |u_{2,2}|^{2}}_{(\dagger)}
+		}
+\end{multline}
+
+Again, unitarity:
+\begin{align}
+	\mathbb{U}\mathbb{U}^{\dagger} &= \mathds{1}
+&\Thus
+	\begin{cases}
+		|u_{1,1}|^{2} + |u_{1,2}|^{2} = 1	& = \qty(\mathbb{U}\mathbb{U}^{\dagger})_{1,1}\\
+		|u_{2,1}|^{2} + |u_{2,2}|^{2} = 1	& = \qty(\mathbb{U}\mathbb{U}^{\dagger})_{2,2}
+	\end{cases}	
+\end{align}
+allows further reforming:
+\begin{align}
+	(*)
+=
+	m_1 |u_{1,2}|^{2}  +  m_2 |u_{2,2}|^{2} - n_2
+&=
+	m_1 \qty(1 - |u_{1,1}|^{2}) + m_2 \qty(1 - |u_{2,1}|^{2}) - n_2 \\
+&=
+	(m_1 + m_2 - n_2) - m_1 |u_{1,1}|^{2}  +  m_2 |u_{2,1}|^{2}\\
+&=
+	n_1 - m_1 |u_{1,1}|^{2}  +  m_2 |u_{2,1}|^{2}
+\end{align}
+where the last step uses particle conservation to collapse the parenthesis to $n_1$
+
+Also from unitarity:
+\begin{align}
+	(\dagger) =
+	|u_{1,2}|^{2} |u_{2,2}|^{2}
+&=
+	u_{1,2} \, u_{1,2}^{*} \; u_{2,2} \, u_{2,2}^{*} 
+	&&\qq{unfold square modulus} \\
+&=
+	u_{1,2} \, u_{2,2}^{*} \; u_{2,2} \, u_{1,2}^{*}
+	&&\qq{reorder multiplication}\\
+&=
+	u_{1,1} \, u_{2,1}^{*} \; u_{2,1} \, u_{1,1}^{*}
+	&&\qq{use (\ref{eqn:unitaryU12}) (double minus cancels.)} \\
+&=
+	|u_{1,1}|^{2} |u_{2,1}|^{2}
+\end{align}
+
+Plug these back in and get the statement.
+
+\subsection{Condition $\theta_2 \in \setReals$}
+Statement:
+\begin{align}
+	|\mu_{\pm}^{l}|^{2} \equalCond 1
+\end{align}
+
+Holds because:
+\begin{itemize}
+\item Definition of $\mu = \exp(\iunit \Theta_2)$ in eqn. (\ref{eqn:DefMu})
+\item Assume $\theta_2 = x + \iunit y \in \setComplex \Thus |\mu| = |\exp(\iunit x) \exp(-y)| \neq 1$
+	if $y \neq 0$ 
+\end{itemize}
+
+\subsection{Apply Condition Real Theta}
+Using symbols:
+\begin{align}
+	1 = \mu_{\pm}^{(l)} 
+&=
+	\frac
+		{\alpha \pm \sqrt{D}}
+		{\gamma}
+\end{align}
+\begin{itemize}
+\item $\alpha, D \in \setReals$
+\item $\gamma \in \setComplex$
+\item See eqn. (\ref{eqn:muQuadraticProto}) for this.
+\end{itemize}
+
+Statement:
+\begin{align}
+	\qty| \mu_{\pm}^{(l)} |^{2}
+&=
+	\begin{cases}
+		\frac
+			{\alpha^{2} + D \, \pm \, 2 \alpha \sqrt{D}}
+			{|\gamma|^{2}}
+		& \qif D > 0
+	\\
+		\frac
+			{\alpha^{2} + |D|}
+			{|\gamma|^{2}}
+		& \qif D \leq 0
+	\end{cases}
+\end{align}
+
+Holds because:
+\begin{itemize}
+\item case $D > 0$ from direct product
+\item $(\alpha \pm \iunit\sqrt{|D|}) \cdot (\alpha \mp \iunit\sqrt{|D|})
+	=
+	\alpha^{2} + |D|$
+	(Binom III)
+\end{itemize}
+
+Yields statements:
+\begin{itemize}
+\item Case 1 yields contradiction $D \leq 0$
+\item $\qty( \Big. m_1 |u_{1,l}|^{2} + m_2 |u_{2,l}|^{2} - n_l )^{2}
+	<
+	4 \, m_1 m_2 \, |u_{1,l}|^{2} |u_{2,l}|^{2}$
+\end{itemize}
+(see subsubsections below for reasons)
+
+
+\subsubsection{Case $D > 0$}
+Yields the contradiction $D = 0$.
+
+Holds because:
+\begin{itemize}
+\item plug in the definitions and see that the result is equivalent to $D=0$
+\item note that $\frac{D}{|\gamma|^{2}} = -1$, following the ideas marked $(*), (\dagger)$
+\end{itemize}
+
+\subsubsection{Case $D \leq 0$}
+Statement:
+\begin{align}
+	\qty( \Big. m_1 |u_{1,l}|^{2} + m_2 |u_{2,l}|^{2} - n_l )^{2}
+&<
+	4 \, m_1 m_2 \, |u_{1,l}|^{2} |u_{2,l}|^{2}
+\end{align}
+
+Holds because:
+\begin{itemize}
+\item apply real-theta condition, \ie plug in definitions
+\item get structure $1 = \frac{[\text{0: block from D > 0}] + 
+	\qty( m_1 |u_{1,l}|^{2} + m_2 |u_{2,l}|^{2} - n_l )^{2}}
+	{4 \, m_1 m_2 \, |u_{1,l}|^{2} |u_{2,l}|^{2}}
+	=
+	1$
+\end{itemize}
+
+\subsubsection{Question}
+\begin{itemize}
+\item {\color{red} what is this good for?}
+\end{itemize}
+
+\subsection{2x2 SPA-Amplitude}
+\subsubsection{Update Amplitude Formula: Exponential Part}
+Statement:
+\begin{align}
+	A_F
+\propto
+	\exp[ 
+		\qty(- \sum_{k=2}^{K} \iunit m_k \theta_k) + 
+		\qty(  \sum_{k=1}^{K} \iunit n_k \chi_k)   +
+		\vec{x}\transp \, \mathbb{U} \, \vec{y}
+	]
+\end{align}
+Note that implicitly, still $\theta_1 = 0$
+
+Holds because:
+Start from eqn. (\ref{eqn:AmplitudePreSPA}):
+\begin{align*}
+	A_F(\vec{m}, \vec{n})
+=
+	2 \pi \delta_{M, N} \; C
+	\int_{0}^{2\pi} \dd{\tilde{\vec{\theta}}}
+	\int_{0}^{2\pi} \dd{\vec{\chi}} 
+		\exp[ \Bigg. -\iunit(\vec{m} \cdot \tilde{\vec{\theta}}  +  \vec{n} \cdot \vec{\chi}) 
+		+ 
+		\sum_{k,l=1}^{K} \sqrt{m_k n_l} \; u_{k,l} \; 
+			\exp[ \Big. \iunit(\tilde{\theta}_k - \chi_l)] 
+		]
+\end{align*}
+
+Recall definitions from eqn. (\ref{eqn:DefXY}):
+\begin{align*}
+	x_j &= \sqrt{m_j} \exp( \iunit \theta_j) \\
+	y_j &= \sqrt{n_j} \exp(-\iunit \chi  _j)
+\end{align*}
+
+and immediately get the statement.
+
+{\color{red} Note that I've wasted an entire day because p. 16 suggests this was about the determinant and could be derived starting from eqn. (42)... make sure your sources aren't ambiguous...}
+
+\subsubsection{Reform Exponential Part}
+Statement:
+\begin{align}
+	\vec{x}\transp
+	\mathbb{U}
+	\vec{y}
+&=
+	N
+\end{align}
+
+Holds because:
+\begin{itemize}
+\item eqn. (\ref{eqn:MatrixCondition}):
+	$\vec{x}^{*} = \mathbb{U} \vec{y}$
+\item $\vec{x}\transp \mathbb{U} \vec{y} = \vec{x}\transp \vec{x}^{*} = \sum_{j} m_j = M = N$
+\end{itemize}
+
+
+\subsubsection{Complete Expression for 2x2 case}
+Statement:
+\begin{multline}
+	A_F(\vec{m}, \vec{n})
+\approx
+	\underbrace{
+		\qty(\frac
+			{2\pi}
+			{\prod_{j=1}^{K} m_j n_j}
+		)^{3/2}
+	}_{\alpha}
+	\underbrace{
+	\qty(
+		\prod_{j=1}^{2}
+		\frac
+			{1}
+			{-4\pi^{2}}
+		\sqrt{\frac
+			{m_j!      \; n_j!}
+			{m_j^{m_j} \; n_j^{n_j} }
+		}
+	)}_{C}
+	\underbrace{2\pi \, \delta_{M,N}}_{\beta}
+	\sum_{j}
+		\underbrace{ \qty(\bigg. \mu_j^*)^{m_2} }_{\gamma}
+	\ldots
+\\
+	\ldots
+		\underbrace{
+			\qty(\sqrt{\frac{m_1}{n_1}} u_{1,1}  +  \sqrt{\frac{m_2}{n_1}} u_{2,1} \mu_{j})^{n_1}
+		}_{\omega_{1}}
+		\underbrace{
+			\qty(\sqrt{\frac{m_1}{n_2}} u_{1,2}  +  \sqrt{\frac{m_2}{n_2}} u_{2,2} \mu_{j})^{n_2}
+		}_{\omega_{2}}
+	\frac
+		{\exp(N)}
+		{\sqrt{\det S_j}}
+\end{multline}
+
+Holds because:
+\begin{itemize}
+\item Cf. eqn. (\ref{eqn:genericSPA}):
+\begin{align*}
+	\int_{\gamma} \dd[n]{z}
+		\exp[-\lambda f(\vec{z})]
+&=
+	\underbrace{
+		\qty(
+			\frac{2\pi}{\lambda}
+		)^{\frac{n}{2}}
+	}_{\alpha}
+	\sum_j
+		\frac
+		{\exp[-\lambda f(\vec{z}_j)]}
+		{\sqrt{\det S_j}}
+\end{align*}
+From $K=2 \Thus n=2K-1 = 3$ (DoF $\theta_1$ was already int'ed out). Together with def of 
+	$\lambda$ in eqn. (\ref{eqn:DefLambda}) we directly get $\alpha$
+
+\item From eqn. (\ref{eqn:AmplitudePreSPA}):
+\begin{align*}
+	A_F(\vec{m}, \vec{n})
+&=
+	\underbrace{2 \pi \delta_{M, N}}_{\beta} \; C
+	\int_{0}^{2\pi} \dd{\tilde{\vec{\theta}}}
+	\int_{0}^{2\pi} \dd{\vec{\chi}} 
+		\exp[ \Bigg. -\iunit(\vec{m} \cdot \tilde{\vec{\theta}}  +  \vec{n} \cdot \vec{\chi}) 
+		+
+		\underbrace{
+			\sum_{k,l=1}^{K} \sqrt{m_k n_l} \; u_{k,l} \; 
+				\exp[ \Big. \iunit(\tilde{\theta}_k - \chi_l)] 
+		}_{N}
+		]
+	\\
+&=
+	C \beta
+	\exp(N)
+	\int_{0}^{2\pi} \dd{\tilde{\vec{\theta}}}
+	\int_{0}^{2\pi} \dd{\vec{\chi}} 
+		\exp[
+			\Big. -\iunit(\vec{m} \cdot \tilde{\vec{\theta}}  +  \vec{n} \cdot \vec{\chi}) 
+		]
+\end{align*}
+
+get:
+\begin{align}
+	\exp[
+		-
+		\iunit(\vec{m} \cdot \vec{\theta} - \vec{n} \cdot \vec{\chi})
+	]
+&=
+	\underbrace{ \exp[ \Big. -\iunit m_2 \theta_2] }_{\qty(\mu^{*})^{m_2} = \gamma}
+	\exp[ \Big. \iunit \vec{n} \cdot \vec{\chi} ]
+\end{align}
+
+\item Use eqn. (\ref{eqn:FourierLinkBackward}):
+\begin{align*}
+%	\sqrt{m_p} \exp(-\iunit \theta_p)
+%&\equalCond
+%	\sum_{l=1}^{K} \sqrt{n_l} \; u_{p,l} \; \exp(-\iunit\chi_l)
+%&
+	\sqrt{n_q} \exp(+\iunit \chi_q)
+%\equalCond
+	\sum_{k=1}^{K}
+	\sqrt{m_k} \; u_{k,q} \; \exp(+\iunit\theta_k)
+%
+&&\Thus&&
+%
+	\exp(+\iunit \chi_q)
+&=
+	\sum_{k=1}^{K}
+		\frac{\sqrt{m_k}}{\sqrt{n_q}}
+		u_{k,q} \; \exp(+\iunit\theta_k)
+\end{align*}
+get
+\begin{align}
+\nonumber
+	\exp[ \iunit \vec{n} \cdot \vec{\chi} ]
+=
+	\exp( \iunit \chi_1 )^{n_1} \exp( \iunit \chi_2 )^{n_2}
+&=
+	\qty(
+		\frac{\sqrt{m_1}}{\sqrt{n_1}}
+		u_{1,1} \;
+		\underbrace{ \exp(\iunit\theta_1) }_{=1}
+		+
+		\frac{\sqrt{m_2}}{\sqrt{n_1}}
+		u_{2,1} \;
+		\underbrace{ \exp(+\iunit\theta_2) }_{= \mu}
+	)^{n_1} \\
+	& \quad
+	\qty(
+		\frac{\sqrt{m_1}}{\sqrt{n_2}}
+		u_{1,2} \;
+		\underbrace{ \exp(\iunit\theta_1) }_{=1}
+		+
+		\frac{\sqrt{m_2}}{\sqrt{n_2}}
+		u_{2,2} \;
+		\underbrace{ \exp(+\iunit\theta_2) }_{= \mu}
+	)^{n_2} \\
+&=
+	\omega_1 \omega_2
+\end{align}
+\end{itemize}
+
+\chapter{Exact BSA: Taylor instead of SPA}
+\section{Analytical Simplifications}
+\subsection{BSA as Taylor Series}
+Statement:
+\begin{align}
+	A_F
+&\propto
+	\frac{1}{N!}
+	\qty( \big. \vec{x}\transp \; \mathbb{U} \; \vec{y} )^{N}
+\end{align}
+
+Holds because:
+
+\begin{itemize}
+\item Start from eqn. (\ref{eqn:BSA_raw}):
+\begin{align*}
+	A_F(\vec{m}, \vec{n})
+&=
+	\eval{\qty(
+		\prod_{j=1}^{K}
+			\frac
+				{1}
+				{\sqrt{m_j! \; n_j!}}
+			\pdv[m_j]{x_j}
+			\pdv[n_j]{y_j}
+		) \exp(\vec{x}\transp \, \mathbb{U} \, \vec{y})
+	}_{\vec{x} = \vec{y} = \vec{0}}
+\end{align*}
+and write $\exp$ as its Taylor expansion:
+\begin{align}
+	\exp
+	( \underbrace{\vec{x}\transp \, \mathbb{U} \, \vec{y}}_{a} )
+&=
+	T_{a_0 = 0}^{\exp} ( \vec{x}\transp \, \mathbb{U} \, \vec{y} )
+=
+	\sum_{k=1}^{\infty}
+		\frac{1}{k!}
+		\underbrace{ \exp( \vec{x}_0\transp \, \mathbb{U} \, \vec{y}_0 ) }_{=\exp(a_0) = 1}
+		\qty( \vec{x}\transp \, \mathbb{U} \, \vec{y} - 0 )^{k}
+	\\
+&=
+	\sum_{k=1}^{\infty}
+		\frac{1}{k!}
+		\qty( \vec{x}\transp \, \mathbb{U} \, \vec{y} )^{k}
+\end{align}
+
+\item apply derivatives:
+\begin{align}
+	\pdv[m_j]{x_j}
+	\pdv[n_j]{y_j}
+	\exp(\vec{x}\transp \, \mathbb{U} \, \vec{y})
+&=
+	\pdv[m_j]{x_j}
+	\pdv[n_j]{y_j}
+	\sum_{k=1}^{\infty}
+		\frac{1}{k!}
+		\qty( \vec{x}\transp \, \mathbb{U} \, \vec{y} )^{k}
+	\\
+&=
+	\pdv[m_j]{x_j}
+	\pdv[n_j]{y_j}
+	\sum_{k=1}^{\infty}
+		\frac{1}{k!}
+		\qty( 
+			\sum_{r=1}^{K}
+			\sum_{c=1}^{L}
+			x_c \; u_{r,c} \; y_r
+		)^{k}
+\end{align}
+and note that summands vanish where exponent $k$ less than order of derivative $m_i, n_i$:
+\begin{align}
+	\pdv[m_j]{x_j}
+	\pdv[n_j]{y_j}
+	\exp(\vec{x}\transp \, \mathbb{U} \, \vec{y})
+&=
+	\pdv[n_j]{y_j}
+	\sum^{\infty}_{k=m_j}
+		\frac{m_j !}{k!}
+			\sum_{r=1}^{K}
+			\sum_{c=1}^{L}
+		\qty(x_c)^{k - m_j}
+		\qty(u_{r,c} \; y_r)^{k}
+	\\
+&=
+	\sum^{\infty}_{k=\max(m_j, n_j)}
+		\frac{m_j ! n_j !}{k!}
+			\sum_{r=1}^{K}
+			\sum_{c=1}^{L}
+				\qty(x_c)^{k - m_j}
+				\qty(y_r)^{k - n_j}
+				\qty(u_{r,c})^{k}
+\end{align}
+get:
+\begin{align}
+	A_F
+&=
+	\prod_{j=1}^{K}
+	\sum_{k=\max(m_j, n_j)}^{\infty}
+		\frac
+			{\sqrt{m_j! \; n_j!}}
+			{k!}
+		\qty( 
+			\sum_{r=1}^{K}
+			\sum_{c=1}^{L}
+				\qty(x_c)^{k - m_j}
+				\qty(y_r)^{k - n_j}
+				\qty(u_{r,c})^{k}
+		)
+\end{align}
+
+\item cf.:
+\begin{align*}
+	\qty( \big. \vec{x}\transp \; \mathbb{U} \; \vec{y} )^{N}
+&=
+	\qty( 
+			\sum_{r=1}^{K}
+			\sum_{c=1}^{L}
+			x_c \; u_{r,c} \; y_r
+		)^{N}
+\end{align*}
+
+
+\item {\color{red} I'm stuck here. I guess apply the product and neglect all summands other than $k=N$.
+	With $\sum_j m_j = M = N$ this gives:}
+\begin{align}
+	A_F
+&\approx
+	\frac
+		{\prod_{j=1}^{K} \sqrt{m_j! \; n_j!}}
+		{(N!)^K}
+	\qty( 
+		\sum_{r=1}^{K}
+		\sum_{c=1}^{L}
+			\qty(x_c)^{KN - N}
+			\qty(y_r)^{KN - N}
+			\qty(u_{r,c})^{KN}
+	) \\
+&=
+	\prod_{j=1}^{K}
+		\frac
+			{\sqrt{m_j! \; n_j!}}
+			{N!}
+		\qty(
+			\sum_{r=1}^{K}
+			\sum_{c=1}^{L}
+				\qty(x_c)^{N-1}
+				\qty(y_r)^{N-1}
+				\qty(u_{r,c})^{N}
+		)
+\end{align}
+	{\color{red} which is already pretty close to q.e.d. Assume the Statement holds, anyway. 
+	(cf. question marks above)}
+\item {\color{red} I have no clue in how far dimensionality $K \neq L$ is compatible with that.}
+\end{itemize}
+
+\subsection{Multinomial Theorem}
+Statement:
+\begin{align}
+	\qty(
+		\sum_{l=1}^{m} x_l
+	)^{n}
+&=
+	\sum_{\sum_l^m k_l = n}
+	\begin{pmatrix}
+		n \\ k_1, k_2, \ldots, k_m
+	\end{pmatrix}
+	\prod_{t=1}^{m}
+		x_t^{k_t}
+\end{align}
+where
+\begin{align}
+	\begin{pmatrix}
+		n \\ k_1, k_2, \ldots, k_m
+	\end{pmatrix}
+&=
+	\frac{1}
+	{\prod_{l=1}^m k_l !}
+\end{align}
+is the multinomial coefficient.
+
+Holds because
+\begin{itemize}
+\item math says so
+\end{itemize}
+
+\subsection{Apply Multinomial Theorem}
+Statement
+\begin{align}
+	\qty( \vec{x}\transp \; \mathbb{U} \; \vec{y} )^{N}
+&=
+	\sum_{\sum_{k_j}^K = N}
+		\begin{pmatrix}
+			N \\ k_1, \ldots, k_K
+		\end{pmatrix}
+		\prod_{t=1}^K
+			x_t^{k_t} ~
+			\sum_{\sum_{j=1}^{L} \mu_j^{(t)} = k_t}
+				\begin{pmatrix}
+					k_t \\ \mu_1^{(t)}, \ldots, \mu_L^{(t)}
+				\end{pmatrix}
+				\prod_{\tau=1}^{L}
+					\qty(
+						u_{t, \tau} \; y_\tau
+					)^{\mu_\tau^{(t)}}
+\end{align}
+
+Identities:
+\begin{align}
+	m_j &= k_j
+&
+	n_j &= \sum_{{\color{blue}} t=1}^{K} \mu_{j}^{{\color{blue} (t)}}
+	\label{eqn:sumIndexIdentitiesO1}
+\\
+	m_j &= \sum_{{\color{blue}} j=1}^{L} \mu_{{\color{blue} j}}^{(t)} = k_j
+	\label{eqn:sumIndexIdentitiesO2}
+\end{align}
+
+Holds because
+\begin{itemize}
+\item Straight forward: Use
+	\begin{equation}
+		\qty( \vec{x} \; \mathbb{U} \; \vec{y} )^N
+		=
+		\qty( \sum_{r} \sum_{c} x_c \; u_{r,c} \; y_r )^N
+	\end{equation}
+
+\item apply the multinomial theorem twice on each sum.
+\item identities in eqn. (\ref{eqn:sumIndexIdentitiesO1}) from comparing the summation boundaries with
+	given system restrictions
+\item identity for $\vec{n}$ is hidden in the first application of the multinomial theorem
+\item (\ref{eqn:sumIndexIdentitiesO2}) directly from multinomial theorem with $\vec{k} = \vec{m}$
+\end{itemize}
+
+
+\subsection{Evaluate Prefactors}
+(gives ugly factors but no new insights. Copy (95), (95) from Max' paper when needed and regard it as proven. They are about the factors to $x_{\ldots}^{\ldots}, u_{\ldots}^{\ldots}, y_{\ldots}^{\ldots}$)
+
+\section{2x2 Amplitude}
+Statement
+\begin{multline}
+	A_F (m_1, m_2, n_1, n_2)
+=
+	\frac{\sqrt{m_1! \; m_2! \; n_1! \; n_2!}}{N!}
+	\begin{pmatrix}
+		N \\ m_1, m_2
+	\end{pmatrix}
+	\sum_{\nu_1^{(1)} = 0}^{n_1}
+	\sum_{\nu_1^{(2)} = 0}^{n_2}
+\\
+	\Theta\qty[ m_1 - \nu_1^{(1)} - \nu_1^{(2)} ]
+	\begin{pmatrix}
+		m_1 \\ \nu_1^{(1)}, \nu_1^{(2)}
+	\end{pmatrix}
+	\Theta\qty[ m_2 - \qty(n_1 - \nu_1^{(1)})  - \qty(n_2 - \nu_1^{(2)}) ]
+	\begin{pmatrix}
+		m_2 \\ n_1 - \nu_1^{(1)} , n_2 - \nu_1^{(2)}
+	\end{pmatrix}
+\\
+	\qty[
+		u_{1,1}^{\nu_1^{(1)}} \; u_{2,1}^{n_1 - \nu_1^{(1)}} \;
+		u_{1,2}^{\nu_1^{(2)}} \; u_{2,2}^{n_2 - \nu_1^{(2)}}
+	]
+\end{multline}
+where $\Theta$ is the Heaviside step function.
+
+Evaluating the multinomial coefficients and relabelling $\nu_1^{(x)} \thus \nu_x$ gives:
+\begin{multline}
+	A_F (m_1, m_2, n_1, n_2)
+=
+	\sqrt{m_1! \; m_2! \; n_1! \; n_2!}
+	\sum_{\nu_1=0}^{n_1}
+	\sum_{\nu_2=0}^{n_2}
+\\
+	\Theta\qty[ \big. m_1 - \nu_1 - \nu_2 ]
+	\Theta\qty[ \big. m_2 - \qty(n_1 - \nu_1)  - \qty(n_2 - \nu_2) ]
+	\frac
+		{u_{1,1}^{\nu_1} \; u_{2,1}^{n_1 - \nu_1} \;
+		 u_{1,2}^{\nu_2} \; u_{2,2}^{n_2 - \nu_2}}
+		{\nu_1! \; (n_1 - \nu_1)! \;
+		 \nu_2! \; (n_2 - \nu_2)!}		
+\end{multline}
+
+Holds because:
+\begin{itemize}
+\item just expand the expressions. A whole lot of work and lot's of indices to get confused with, but it works out.
+\end{itemize}
+\end{document}

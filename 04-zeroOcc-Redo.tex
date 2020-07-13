@@ -1,0 +1,156 @@
+\documentclass[
+	english,
+	a4paper,
+	fontsize=10pt,
+	parskip=half,
+	titlepage=true,
+	DIV=12,
+	final
+]{scrreprt}
+
+
+%==============================================================================%
+% PACKAGES
+%
+% Standard text formatting
+\usepackage[utf8]{inputenc}
+\usepackage{babel}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{microtype}
+\usepackage{ragged2e}
+
+\usepackage{csquotes}
+\usepackage{xspace}
+
+\usepackage{placeins}	% FloatBarrier.
+\usepackage{url}
+\usepackage[bf, format=plain]{caption}
+
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks,
+    citecolor=black,
+    filecolor=black,
+    linkcolor=black,
+    urlcolor=black
+}
+
+% gfx
+\usepackage{wrapfig}
+\usepackage{xcolor}
+
+% tables
+\usepackage{tabularx}
+\usepackage{booktabs}
+\usepackage{multicol}
+\usepackage{multirow}
+\usepackage{makecell}
+\usepackage{color, colortbl}
+
+% math
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{dsfont}
+\let\olddiv\div
+\usepackage[arrowdel]{physics}
+\usepackage{mathtools}
+
+% indexes, links, page format
+\usepackage{scrlayer-scrpage}
+
+% misc
+\usepackage[super]{nth}
+\usepackage[
+	output-decimal-marker={.},
+	input-symbols = {()},  			% do not treat "(" and ")" in any special way
+	group-digits  = true  			% guess what.
+]{siunitx}
+\usepackage{minted}
+
+%==============================================================================%
+% GLOBAL MACROS
+%
+
+% Document properties
+\newcommand{\myName}{Stefan Hartinger\xspace}
+\newcommand{\myTitle}{Master Thesis Notes: Rederiving a Zero Occupancy Formula\xspace}
+
+\addtokomafont{labelinglabel}{\sffamily}
+
+% Text abbreviations
+\newcommand*{\ie}{i.\,e.\xspace}
+\newcommand*{\eg}{e.\,g.\xspace}
+
+% Misc Symbols
+\newcommand*{\thus}{\ensuremath{\rightarrow}\xspace}
+\newcommand*{\Thus}{\ensuremath{\Rightarrow}\xspace}
+
+% Tables
+\newcommand*{\tabcrlf}{\\ \hline}			% actually still allows for optional argument
+
+% Math
+\newcommand*{\numberthis}{\addtocounter{equation}{1}\tag{\theequation}}
+
+\newcommand*{\smallfrac}  [2]{\ensuremath{{}^        {#1} \!/_        {#2}}}
+\newcommand*{\smallfracrm}[2]{\ensuremath{{}^{\mathrm{#1}}\!/_{\mathrm{#2}}}}
+
+\newcommand*{\transp}{\ensuremath{^\intercal}}
+
+\newcommand*{\iunit}{\ensuremath{\mathrm{i}}}
+
+\newcommand*{\setNaturals} {\ensuremath{\mathbb{N}}}
+\newcommand*{\setIntegers} {\ensuremath{\mathbb{Z}}}
+\newcommand*{\setReals}    {\ensuremath{\mathbb{R}}}
+\newcommand*{\setRationals}{\ensuremath{\mathbb{Q}}}
+\newcommand*{\setComplex}  {\ensuremath{\mathbb{C}}}
+
+\newcommand*{\Lag}{\ensuremath{\mathcal{L}}\xspace}
+\newcommand*{\Ham}{\ensuremath{\mathcal{H}}\xspace}
+
+%\newcommand*{\Poisson}[2]{\ensuremath{\left\{ {#1}, {#2} \right\}}}
+% physics has \pb which is poisson bracket
+% also use alias acom: anticommutator, which is exactly the same.
+
+\newcommand*{\equalCond}{  \mathop{=}\limits^!  }
+
+\DeclareMathOperator{\arsinh}{arsinh}
+\DeclareMathOperator{\diag}{diag}
+
+\newcommand*{\DD}[1]{\ensuremath{\text{D}\vec{#1}\;}}
+
+%==============================================================================%
+% GLOBAL PARAMTERS
+%
+
+\title{\myTitle}
+\author{\myName}
+\date{\today}
+
+% header, footer
+\clearpairofpagestyles
+	\cfoot
+		[\pagemark]
+		{\pagemark}
+	\ohead
+		[\myTitle, \myName]
+		{\myTitle, \myName}
+\pagestyle{scrheadings}
+
+%==============================================================================%
+% THE REAL STUFF
+%	
+\begin{document}
+\tableofcontents
+\newpage
+
+\chapter{Redo}
+\section{Symbols and Notation}
+\begin{itemize}
+\item $K$: number of physically present channels
+\item $b_i, b_o$: Number of occupied incoming/outgoing modes, respectively
+\item $j^*$: reference mode on incoming end (all phases set to zero for this mode)
+\end{itemize}
+
+
+\end{document}
