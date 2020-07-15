@@ -146,11 +146,450 @@
 
 \chapter{Redo}
 \section{Symbols and Notation}
+\subsection{Definitions}
 \begin{itemize}
 \item $K$: number of physically present channels
 \item $b_i, b_o$: Number of occupied incoming/outgoing modes, respectively
 \item $j^*$: reference mode on incoming end (all phases set to zero for this mode)
 \end{itemize}
 
+\subsection{Assumptions}
+\begin{itemize}
+\item $m_j = 0 \Thus \theta_j = 0$
+\item $n_k = 0 \Thus \chi  _k = 0$
+\item $m_{j^*} \neq 0$
+\end{itemize}
 
+
+\section{Starting Point}
+\begin{align}
+	A_F(\vec{m}, \vec{n})
+&=
+	\eval{\qty(
+			\prod_{j=1}^{K}
+			\frac
+				{1}
+				{\sqrt{m_j! \; n_j!}}
+			\pdv[m_j]{x_j}
+			\pdv[n_j]{y_j}
+		) \exp(\vec{x}\transp \, \mathbb{U} \, \vec{y})
+	}_{\vec{x} = \vec{y} = \vec{0}}
+\label{eqn:BSA_raw}
+\end{align}
+
+\section{ZO-Form}
+\begin{align}
+	A_F(\vec{m}, \vec{n})
+&=
+	\eval{
+		\qty(
+			\prod_{j : m_j \neq 0}
+			\frac {1} {\sqrt{m_j!}}
+			\pdv[m_j]{x_j}
+		)
+		\qty(
+			\prod_{k : n_k \neq 0}
+			\frac
+				{1}
+				{\sqrt{n_k!}}
+			\pdv[n_k]{y_k}
+		)
+		\exp(\vec{x}\transp \, \mathbb{U} \, \vec{y})
+	}_{\vec{x} = \vec{y} = \vec{0}}
+\label{eqn:BSA_ZO}
+\end{align}
+
+Holds because:
+\begin{itemize}
+\item $0! = 1$
+\item $\pdv[0]{z} = 1$
+\end{itemize}
+
+\section{BSA in Integral Form}
+\subsection{Formalism}
+\begin{align}
+	\eval{ f^{(n)}(\vec{z}) }_{\vec{z} = \vec{0}}
+&=
+	\qty(
+		\frac{n!}{2\pi \iunit}
+	)^{D}
+	\oint_{\gamma} \dd{\zeta_1} \ldots \dd{\zeta_D}
+		\frac
+			{f(\vec{\zeta})}
+			{\prod_{j=1}^{D} \zeta_j^{n+1}}
+\end{align}
+
+Symbols:
+\begin{itemize}
+\item $f$: function matching the signature $\setComplex^{D} \thus \setComplex$; holomorphic, \ie holomorphic in each variable
+\item $f^{(n)}$: $n^{\text{th}}$ derivative of $f$
+\item $\vec{z}$: vector in $D$ dimensions, representing $\vec{x} \oplus \vec{y}$
+\item $\vec{\zeta}$: vector in $D$ dimensions, complex valued, associated to $\vec{z}$
+\item $\gamma$: arbitrary loop in the complex plane, enclosing the origin.
+\end{itemize}
+
+Holds because:
+\begin{itemize}
+\item Cf. Max' thesis paper
+\item I have followed this train of thought multiple times, it is sound.
+\end{itemize}
+
+\subsection{Application}
+\begin{align}
+	A_F(\vec{m}, \vec{n})
+&=
+	(2\pi\iunit)^{-(b_i + b_o)}
+	\oint_{\gamma}
+		\qty( \prod_{j : m_j \neq 0}
+			\frac
+				{\sqrt{m_j!} \dd{x_j}}
+				{x_j^{m_j+1}}
+		)
+		\qty( \prod_{k : n_k \neq 0}
+			\frac
+				{\sqrt{n_k!} \dd{y_k}}
+				{ y_k^{n_k+1} }
+		)
+		\exp( \Big. \vec{x}\transp \, \mathbb{U} \, \vec{y})
+	\label{eqn:BSA_Int_BZO}
+\end{align}
+
+Holds because:
+\begin{itemize}
+\item $f = \exp( \vec{x}\transp \, \mathbb{U} \, \vec{y})$
+\item Integral form generates terms of the form $m_j!$, partially cancelled by $\smallfrac{1}{\sqrt{m_j!}}$ (and alike for $n$), gives the $\sqrt{m_j!}$ terms.
+\end{itemize}
+
+\section{Change of Variables}
+Using polar coordinates:
+\begin{align}
+	\begin{cases}
+	x_j &= \sqrt{m_j} \exp( \iunit \theta_j) \\
+	y_j &= \sqrt{n_j} \exp(-\iunit \chi  _j)
+	\end{cases}
+	\label{eqn:DefXY}
+\end{align}
+
+in eqn. (\ref{eqn:BSA_Int_BZO}) gives:
+\begin{multline}
+	A_F(\vec{m}, \vec{n})
+=
+	(2\pi\iunit)^{-(b_i + b_o)}
+	\int_{0}^{2\pi}
+		\qty( \prod_{j : m_j \neq 0}
+			\sqrt{m_j!}
+			\frac
+				{ {\color{blue} \iunit} \sqrt{m_j}}
+				{ \sqrt{m_j}^{m_j + 1} }
+			\dd{\theta_j}
+		)
+		\qty( \prod_{k : n_k \neq 0}
+			\sqrt{n_k!}
+			\frac
+				{ {\color{blue} -\iunit} \sqrt{n_k}}
+				{ \sqrt{n_k}^{n_k + 1} }
+			\dd{\chi_k}
+		)
+\\
+	\underbrace{
+		\exp[ \iunit \qty(
+			{\textstyle \sum_{j=1}^{b_i} \theta_j} - 
+			{\textstyle \sum_{k=1}^{b_o} \chi  _k}
+		)]
+	}_{\text{from } \dd{x}, \dd{y}}
+	\underbrace{
+		\exp[
+			\iunit \qty(
+				-{\textstyle \sum_{j=1}^{b_i} (m_j + 1) \theta_j}
+				+{\textstyle \sum_{k=1}^{b_o} (n_k + 1) \chi  _k}
+		)]
+	}_{\text{from } \smallfrac{1}{x}^{m+1}, \smallfrac{1}{y}^{n+1}}
+	\exp( \Big. \vec{x}\transp \, \mathbb{U} \, \vec{y})
+\end{multline}
+where the imaginary units come from substitution $(\vec{x}, \vec{y}) \to (\vec{\theta}, \vec{\chi})$:
+\begin{align}
+	\dd{x_j}
+&=
+	\dv{x_j}{\theta_j} \dd{\theta_j}
+=
+	\iunit \, \sqrt{m_j} \, \exp(\iunit \theta_j) \dd{\theta_j}
+&
+	\dd{y_k}
+&=
+	\dv{y_k}{\theta_k} \dd{\chi_k}
+=
+	-\iunit \, \sqrt{n_k} \, \exp(-\iunit \chi_k) \dd{\chi_k}
+\end{align}
+
+Note that we assumed that unoccupied modes have phase zero, so the sums in $\exp$ are well defined. This is justified, as unoccupied modes shouldn't give any contribution, and with this convention we get a factor 1, \ie no change.
+
+Consolidate:
+\begin{multline}
+	A_F(\vec{m}, \vec{n})
+=
+	(-1)^{b_o}
+	(2\pi)^{-(b_i + b_o)}
+	\int_{0}^{2\pi}
+		\qty( \prod_{j : m_j \neq 0}
+			\sqrt{\frac
+				{ m_j! }
+				{ m_j^{m_j} }
+			} \dd{\theta_j}
+		)
+		\qty( \prod_{k : n_k \neq 0}
+			\sqrt{\frac
+				{ n_k! }
+				{ n_k^{n_k} }
+			} \dd{\chi_k}
+		)
+\\
+		\exp[
+			\iunit \qty(
+			-\vec{m} \cdot \vec{\theta}
+			+\vec{n} \cdot \vec{\chi}
+		)]
+		\exp( \Big. \vec{x}\transp \, \mathbb{U} \, \vec{y})
+\end{multline}
+
+Introduce notation:
+\begin{align}
+	C
+&=
+	(-1)^{b_o}
+	(2\pi)^{-(b_i + b_o)}
+	\qty( \prod_{j : m_j \neq 0}
+		\sqrt{\frac
+			{ m_j! }
+			{ m_j^{m_j} }
+		}
+	)
+	\qty( \prod_{k : n_k \neq 0}
+		\sqrt{\frac
+			{ n_k! }
+			{ n_k^{n_k} }
+		}
+	)
+\end{align}
+\begin{align}
+	\DD{\theta}
+&=
+	\prod_{\substack{j : m_j \neq 0 \\ {\color{blue} j \neq j^*}}}
+		\dd{\theta_j}
+&
+	\DD{\chi}
+&=
+	\prod_{k : n_k \neq 0}
+		\dd{\chi  _k}
+\label{eqn:DefC_m}
+\end{align}
+
+Consolidate again:
+\begin{align}
+	A_F(\vec{m}, \vec{n})
+&=
+	C
+	\int_{0}^{2\pi}
+		{\color{blue} \dd{\theta_{j^*}}}
+		\DD{\theta}
+		\DD{\chi  }
+			\exp[
+				\iunit \qty(
+				-\vec{m} \cdot \vec{\theta}
+				+\vec{n} \cdot \vec{\chi}
+			)]
+			\exp( \Big. \vec{x}\transp \, \mathbb{U} \, \vec{y})
+	\label{eqn:BSA_Int_BZO_Polar}
+\end{align}
+
+\section{Integrating out the $\theta_{j^*}$ DoF}
+Use temporary variables:
+\begin{align}
+	\vec{\alpha} &= \vec{\theta} - (\theta_1, \ldots, \theta_1)\transp \in \setReals^{K}
+	&
+	\vec{\theta} &= \vec{\alpha} + (\theta_1, \ldots, \theta_1)\transp \in \setReals^{K}
+\\
+	\vec{\beta } &= \vec{\chi  } - (\theta_1, \ldots, \theta_1)\transp \in \setReals^{K}
+	&
+	\vec{\chi  } &= \vec{\beta } + (\theta_1, \ldots, \theta_1)\transp \in \setReals^{K}
+\end{align}
+and get
+\begin{multline}
+	A_F(\vec{m}, \vec{n})
+=
+	C
+	\int_{0}^{2\pi} {\color{blue} \dd{\theta_{j^*}}}
+	\int_{0}^{2\pi}
+		\qty( \prod_{\substack{j : m_j \neq 0 \\ {\color{blue} j \neq j^*}}} \dd{\alpha_j} )
+		\qty( \prod_{k : n_k \neq 0}                 \dd{\beta_k} )
+			\exp[
+				\iunit \qty(
+				{\textstyle \sum_{s=1}^{K}   n_s \beta _s}   -
+				{\textstyle \sum_{t=1}^{b^*} m_t \alpha_t}
+			)]
+\\
+	\underbrace{
+	\exp[
+		\iunit \qty(
+			{\textstyle \sum_{s=1}^{K}   n_s}   -
+			{\textstyle \sum_{t=1}^{b^*} m_t}
+		)
+		{\color{blue} \theta_{j^*}}
+	]
+	}_{\thus 2\pi\delta_{MN} \text{ after integration}}
+	\underbrace{
+	\exp[
+		{\textstyle \sum_{s,t=1}^{K} }
+			\sqrt{m_s \, n_t} \;
+			u_{s,t}
+			\exp(\Big. \iunit(\alpha_s - \beta_t) )
+	]}_{\exp( \vec{x}\transp \, \mathbb{U} \, \vec{y})}
+\end{multline}
+
+Resubstitute $(\vec{\alpha}, \vec{\beta}) \to (\vec{\theta}, \vec{\chi})$:
+\begin{multline}	
+	A_F(\vec{m}, \vec{n})
+=
+	2\pi C \, \delta_{M,N} \,
+	\int_{0}^{2\pi}
+		\DD{\theta} \DD{\chi}
+	\exp[
+		\iunit \qty(
+			\vec{n} \cdot \vec{\chi}
+			-
+			\vec{m} \cdot \vec{\theta}
+		)]
+	\exp[
+		{\textstyle \sum_{s,t=1}^{K} }
+			\sqrt{m_s, n_t} \;
+			u_{s,t}
+			\exp(\Big. \iunit(\theta_s - \chi_t) )
+	]
+\end{multline}
+with arbitrary def: $\theta_1 = 0$
+
+\section{Applying SPA}
+\subsection{Definitions}
+Using
+\begin{align}
+	\lambda
+&=
+	\qty( \prod_{j : m_j \neq 0} m_j )
+	\qty( \prod_{k : n_k \neq 0} n_k )
+\label{eqn:DefLambda}
+\\
+	f(
+		\underbrace{ \vec{\theta}, \vec{\chi} }_{\vec{z}}
+	)
+&=
+	\lambda^{-1}
+	\qty[
+		\iunit
+		\qty(
+			{\color{blue} +}
+			\sum_{\substack{j : m_j \neq 0 \\ j \neq j^*}}
+				m_j \theta_j \;
+			{\color{blue} -} \,
+			\sum_{k : n_k \neq 0}
+				n_k \chi  _k
+		)
+	{\color{blue} -}
+		\qty(
+			\sum_{s,t=1}^{K}
+			\sqrt{m_s n_t} \;
+			u_{s,t}
+			\exp(\Big.
+				\iunit(\theta_s - \chi_t)
+			)
+		)
+	]
+\\
+	\oint_{\gamma} \dd[n]{\vec{z}}
+		\exp[{\color{blue} -}\lambda f(\vec{z})]
+&=
+	\qty( \frac
+		{2\pi}
+		{\lambda}
+	)^{\frac{n}{2}}
+	\sum_{r}
+		\frac
+		{\exp(-\lambda f(\vec{z}_r))}
+		{\sqrt{\det S_r}}
+\label{eqn:Def_SPA}
+\end{align}
+where $\vec{z}_r$ are the local extrema of $f$: $\eval{\dv{\vec{z}}f}_{\vec{z} = \vec{z}_r} = 0$\\
+and $S_r$ is the Hessian of $f$ evaluated in $\vec{z}_r$
+
+Use this to solve \ref{eqn:BSA_Int_BZO_Polar}.
+
+\section{Saddle Points}
+Require:
+\begin{align}
+	\pdv{f}{\theta_p} &\equalCond 0
+&
+	\pdv{f}{\chi  _q} &\equalCond 0 
+\end{align}
+with conditions
+\begin{itemize}
+\item $p, q \in \{1, \ldots, K\}$
+\item $m_p \neq 0$
+\item $n_p \neq 0$
+\item $p \neq j^*$
+\end{itemize}
+
+Find:
+\begin{gather}
+	\pdv{f}{\theta_p}
+=
+	\iunit \lambda^{-1}
+	\qty[
+		m_p
+		-
+		\sum_{l=1}^{K}
+			\sqrt{m_p n_l} \; u_{p,l} \; \exp[ \Big. \iunit(\theta_p - \chi_l)]
+	]
+	\label{eqn:Jacobiantheta}
+\equalCond
+	0 \\
+\Thus
+	m_p
+\equalCond
+	\sum_{l=1}^{K}
+		\sqrt{m_p n_l} \; u_{p,l} \; \exp[ \Big. \iunit(\theta_p - \chi_l) ] \\
+\Thus
+	\sqrt{m_p} \exp(-\iunit \theta_p)
+\equalCond
+	\sum_{l=1}^{K} \sqrt{n_l} \; u_{p,l} \; \exp(-\iunit\chi_l)
+	\label{eqn:FourierLinkForward}
+\end{gather}
+where the $n_l, m_l \neq 0$ conditions are releaved since in the sum they give a null contribution. Use virtual $\theta_l, \chi_l = 0$
+
+Likewise:
+\begin{gather}
+	\pdv{f}{\chi_q}
+=
+	\iunit\lambda^{-1}
+	\qty[
+		- n_q
+		+
+		\sum_{k=1}^{b^*}
+			\sqrt{m_k n_q} \; u_{k,q} \; \exp[ \Big. \iunit(\theta_k - \chi_q) ]
+	]
+	\label{eqn:JacobianChi}
+\equalCond
+	0 \\
+\Thus
+	\sqrt{n_q} \exp(+\iunit \chi_q)
+\equalCond
+	\sum_{k=1}^{b^*}
+	\sqrt{m_k} \; u_{k,q} \; \exp(+\iunit\theta_k)
+	\label{eqn:FourierLinkBackward}
+\end{gather}
+
+Compactly:
+\begin{align}
+	\vec{x}^{*} &= \mathbb{U} \vec{y}
+&
+	\vec{y}^{*} &= \mathbb{U}\transp \vec{x}
+	\label{eqn:MatrixCondition}
+\end{align}
 \end{document}
