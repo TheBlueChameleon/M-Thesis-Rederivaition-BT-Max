@@ -118,6 +118,7 @@
 \DeclareMathOperator{\diag}{diag}
 
 \newcommand*{\DD}[1]{\ensuremath{\text{D}\vec{#1}\;}}
+\newcommand*{\set}[1]{\ensuremath{\{#1\}}}
 
 %==============================================================================%
 % GLOBAL PARAMTERS
@@ -150,14 +151,14 @@
 \begin{itemize}
 \item $K$: number of physically present channels
 \item $b_i, b_o$: Number of occupied incoming/outgoing modes, respectively
-\item $j^*$: reference mode on incoming end (all phases set to zero for this mode)
+\item $j^*$: reference mode on incoming end (phase set to zero for this mode)
 \end{itemize}
 
 \subsection{Assumptions}
 \begin{itemize}
 \item $m_j = 0 \Thus \theta_j = 0$
 \item $n_k = 0 \Thus \chi  _k = 0$
-\item $m_{j^*} \neq 0$
+\item $m_{j^*} \neq 0$; $\theta_{j^*} = 0$
 \end{itemize}
 
 
@@ -369,6 +370,7 @@ Introduce notation:
 			{ n_k^{n_k} }
 		}
 	)
+\label{eqn:DefC}
 \end{align}
 \begin{align}
 	\DD{\theta}
@@ -380,7 +382,6 @@ Introduce notation:
 &=
 	\prod_{k : n_k \neq 0}
 		\dd{\chi  _k}
-\label{eqn:DefC_m}
 \end{align}
 
 Consolidate again:
@@ -446,7 +447,7 @@ and get
 \end{multline}
 
 Resubstitute $(\vec{\alpha}, \vec{\beta}) \to (\vec{\theta}, \vec{\chi})$:
-\begin{multline}	
+\begin{align}	
 	A_F(\vec{m}, \vec{n})
 =
 	2\pi C \, \delta_{M,N} \,
@@ -464,7 +465,8 @@ Resubstitute $(\vec{\alpha}, \vec{\beta}) \to (\vec{\theta}, \vec{\chi})$:
 			u_{s,t}
 			\exp(\Big. \iunit(\theta_s - \chi_t) )
 	]
-\end{multline}
+\label{eqn:BSA_preSPA}
+\end{align}
 with arbitrary def: $\theta_1 = 0$
 
 \section{Applying SPA}
@@ -505,7 +507,7 @@ Using
 \\
 	\oint_{\gamma} \dd[n]{\vec{z}}
 		\exp[{\color{blue} -}\lambda f(\vec{z})]
-&=
+&\approx
 	\qty( \frac
 		{2\pi}
 		{\lambda}
@@ -521,7 +523,7 @@ and $S_r$ is the Hessian of $f$ evaluated in $\vec{z}_r$
 
 Use this to solve \ref{eqn:BSA_Int_BZO_Polar}.
 
-\section{Saddle Points}
+\subsection{Saddle Points}
 Require:
 \begin{align}
 	\pdv{f}{\theta_p} &\equalCond 0
@@ -571,7 +573,7 @@ Likewise:
 	\qty[
 		- n_q
 		+
-		\sum_{k=1}^{b^*}
+		\sum_{k=1}^{K}
 			\sqrt{m_k n_q} \; u_{k,q} \; \exp[ \Big. \iunit(\theta_k - \chi_q) ]
 	]
 	\label{eqn:JacobianChi}
@@ -580,7 +582,7 @@ Likewise:
 \Thus
 	\sqrt{n_q} \exp(+\iunit \chi_q)
 \equalCond
-	\sum_{k=1}^{b^*}
+	\sum_{k=1}^{K}
 	\sqrt{m_k} \; u_{k,q} \; \exp(+\iunit\theta_k)
 	\label{eqn:FourierLinkBackward}
 \end{gather}
@@ -592,4 +594,914 @@ Compactly:
 	\vec{y}^{*} &= \mathbb{U}\transp \vec{x}
 	\label{eqn:MatrixCondition}
 \end{align}
+
+\subsection{Hessian}
+Recall: We start from
+\begin{align}
+	S_r
+=
+	\eval{
+		\pdv{f(\vec{z})}%
+			{z_\alpha}{z_\beta}
+	}_{\vec{z} = \vec{z}_r}
+\qfor{}
+%	\text{where }
+	\eval{\pdv{f}{z}}_{z=z_r} = \vec{0}
+\end{align}
+but only true DoFs are relevant. Hence, regard $m_j, n_j$ and $\theta_{j^*}$ as const. \\
+\Thus $(b_i + b_o - 1)^{2}$ derivatives wrt. $\theta_j, \chi_k$, where $m_j, n_k \neq 0$ and $j \neq j^*$
+
+Define
+\begin{align}
+	\vec{z}
+&\coloneqq
+	\vec{\theta} \oplus \vec{\chi}
+\\
+	\mathbb{J}^{(r)}
+&\coloneqq
+	\eval{
+		\qty( \big. \grad_z f  )
+	}_{\vec{z} = \vec{z}_r}
+	\in \setComplex^{1 \times 2K}
+\end{align}
+
+Formally subdivide $\mathbb{J}$ in a $\theta$- and a $\chi$-Block for convenient notation; does not alter mathmematical structure (row-vector) as stated above.
+
+Since some phases $\theta_j, \chi_k$ are ill-defined, not all of these derivatives do exist. This is handled by virtually setting the emerging expressions to zero.
+
+Recap: We had:
+\begin{align}
+	J_{\theta, p} 
+&= 
+	\pdv{f}{\theta_p}
+=
+	\iunit \lambda^{-1}
+	\qty[
+		+m_p
+		-
+		\sum_{l=1}^{K}
+			\sqrt{m_p n_l} \; u_{p,l} \; \exp[\Big. \iunit(\theta_p - \chi_l)]
+	]
+\qfor{} m_p \neq 0, p \neq j^*
+\\
+	J_{\chi, q} 
+&= 
+	\pdv{f}{\chi_q}
+=
+	\iunit \lambda^{-1}
+	\qty[
+		-n_q
+		+
+		\sum_{k=1}^{K}
+			\sqrt{m_k n_q} \; u_{k,q} \; \exp[\Big. \iunit(\theta_k - \chi_q)]
+	]
+\qfor{} n_q \neq 0
+\end{align}
+and generic $p, q \in \set{1, \ldots, K}$
+
+Get Hessian matrix elements:
+\begin{align}
+	\qty( S_r )
+&=
+	\eval{
+		\begin{pmatrix}
+			\pdv{J_{\theta}}{\vec{\theta}} &
+			\pdv{J_{\chi  }}{\vec{\theta}} 
+			\\
+			\pdv{J_{\theta}}{\vec{\chi  }} &
+			\pdv{J_{\chi  }}{\vec{\chi  }} 
+		\end{pmatrix}
+	}_{\vec{z} = \vec{z_r}}
+	\in \setComplex^{2K \times 2K}
+\end{align}
+
+
+Note that only $(b_i + b_o - 1) \times (b_i + b_o - 1)$ elements of this matrix are actually defined (and needed). In order to preserve natural ordering of indices, we insert $\delta_{ij}$ where the above equations are undefined. This insertion will be justified in section \ref{sec:InsertionTheorems}.
+
+The matrix elements (including the insertion) read:
+\begin{align}
+	\pdv{J_{\theta, p}}{\theta_{\alpha}}
+&=
+	\begin{cases}
+		+
+		\lambda^{-1}
+		\delta_{p,\alpha}
+		\sum_{l=1}^{K}
+			\sqrt{m_p n_l} \; u_{p,l} \; \exp[\Big. \iunit(\theta_p - \chi_l)]
+		&
+			\text{if } \alpha : m_\alpha \neq 0, \alpha \neq j^*
+		\\
+			\delta_{p\alpha}
+		&
+			\text{else}
+	\end{cases}
+\\
+	\pdv{J_{\theta, p}}{\chi_{\alpha}}
+&=
+	\begin{cases}
+		-
+		\lambda^{-1}
+		\sqrt{m_p n_\alpha} \; u_{p,\alpha} \; \exp[\Big. \iunit(\theta_p - \chi_\alpha)]
+	&
+		\text{for } \alpha : m_\alpha \neq 0
+	\\
+		0
+	&
+		\text{else}
+	\end{cases}
+\\
+	\pdv{J_{\chi, q}}{\theta_{\alpha}}
+&=
+	\begin{cases}
+		-
+		\lambda^{-1}
+		\sqrt{m_\alpha n_q} \; u_{\alpha,q} \; \exp[\Big. \iunit(\theta_\alpha - \chi_q)]
+	&
+		\text{for } \alpha : m_\alpha \neq 0, \alpha \neq j^*
+	\\
+		0
+	&	\text{else}		
+	\end{cases}
+\\
+	\pdv{J_{\chi, q}}{\chi_{\alpha}}
+&=
+	\begin{cases}
+		+
+		\lambda^{-1}
+		\delta_{q,\alpha}
+		\sum_{k=1}^{K}
+			\sqrt{m_k n_q} \; u_{k,q} \; \exp[\Big. \iunit(\theta_k - \chi_q)]
+	&
+		\text{for } \alpha : m_\alpha \neq 0
+	\\
+		\delta_{q\alpha}
+	&
+		\text{else}
+	\end{cases}
+\end{align}
+
+Using the eqns (\ref{eqn:FourierLinkForward}) and (\ref{eqn:FourierLinkBackward}) (\ie Fourier Links), we can further collapse the diagonal elements:
+\begin{align}
+	\pdv{J_{\theta, p}}{\theta_{\alpha}}
+&=
+	\begin{cases}
+			\lambda^{-1}
+			\delta_{p,\alpha}
+			m_p
+		&
+			\text{for } p : m_p \neq 0, p \neq j^*
+		\\
+			\delta_{p,\alpha}
+		&
+			\text{else}
+	\end{cases}
+\\
+	\pdv{J_{\chi, q}}{\chi_{\alpha}}
+&=
+	\begin{cases}
+		\lambda^{-1}
+		\delta_{q,\alpha}
+		n_q
+	&
+		\text{for } q : n_q \neq 0
+	\\
+		\delta_{q,\alpha}
+	&
+		\text{else}
+	\end{cases}
+\end{align}
+
+This gives 
+\begin{align}
+	(S_j)
+&=
+	\diag(\vec{m'}, \vec{n'})
+	+
+	\begin{pmatrix}
+		\mathds{O}_{K} & 
+		\pdv{J_{\chi, q}}{\theta_{\alpha}}
+		\\
+		\pdv{J_{\theta, p}}{\chi_{\alpha}} &
+		\mathds{O}_{K}
+	\end{pmatrix}
+=
+	\begin{pmatrix}
+		\diag(\vec{m'}) & F 			\\
+		F\transp & \diag(\vec{n'})
+	\end{pmatrix}
+\end{align}
+where
+\begin{itemize}
+\item $m'_j = 
+\begin{cases}
+	\smallfrac{m_j}{\lambda}			& \text{if } m_j \neq 0 \land j \neq j^*\\
+	1	& \text{else}
+\end{cases}$
+	and 
+$n'_k =
+\begin{cases}
+	\smallfrac{n_k}{\lambda} 			& \text{if } n_k \neq 0 \\
+	1	& \text{else}
+\end{cases}$ 
+\item $\mathds{O}_{D} =
+	\left.
+	\mqty(
+		0		& \ldots		& 0 \\
+		\vdots	& \ddots 	& \vdots \\
+		0		& \ldots		& 0
+	)
+	\right\} D \text{ rows}, D \text{ columns}$
+\item By definition: 
+	\begin{align}
+	F_{pq}
+&:=
+	\begin{cases}
+		\qty( \pdv{J_{\theta}}{\vec{\chi}} )_{pq} 
+	&
+		\text{for } p : m_p \neq 0 \land p \neq j^*; q : n_q \neq 0
+	\\
+		0 &\text{otherwise}
+	\end{cases} \\
+%&\;=
+%	\begin{cases}
+%		\qty( \pdv{J_{\chi}}{\vec{\theta}} )_{qp} &\text{for } p : m_p \neq 0 \land p \neq j^* ; q : n_q \neq 0 \\
+%		0 &\text{otherwise}
+%	\end{cases} \\
+&\;=
+	\begin{cases}
+		\lambda^{-1}
+		\qty( -\sqrt{m_p n_q} \; u_{p,q} \; \exp[\Big. \iunit(\theta_p - \chi_q)] )_{
+			\substack{p, q = 1, \ldots, K}
+		}
+	& 
+		\text{for same restrictions on }  p, q
+	\\
+		0 &\text{otherwise}
+	\end{cases}
+	\label{eqn:defF}
+	\end{align}
+	where the implied symmetry ($F$ vs. $F\transp$) is guaranteed by S: Hessian.\\
+\end{itemize}
+
+\section{Determinant of the Hessian}
+\subsection{Determinant-Preserving Expansion}
+\label{sec:InsertionTheorems}
+\subsubsection{Theorem: Determinant-perserving expansion by unity block}
+Let there be a matrix $M \in \setReals^{D \times D}$, as well as a matrix $M'$:
+\begin{align}
+	M'
+&=
+	\begin{pmatrix}
+		\mathds{1}_{E} & \mathds{O}_{E \times D} \\
+		\mathds{O}_{D \times E} & M
+	\end{pmatrix}
+\end{align}
+where $\mathds{1}_{E}$ is the unit matrix of dimension $E$ and $\mathds{O}_{E \times D}$ is a null matrix of dimension $E \times D$.
+
+Then,
+\begin{equation}
+	\forall E \in \setNaturals : \det M = \det M'
+\end{equation}
+
+\textbf{Proof:}\\
+Regard the Matrix $M^{(n)}$:
+\begin{align}
+	M^{(n)}
+&=
+	\begin{pmatrix}
+		\mathds{1}_{n} & \mathds{O}_{n \times D} \\
+		\mathds{O}_{D \times n} & M
+	\end{pmatrix}
+\end{align}
+\ie $M^{(E)} = M'$. The determinant of $M^{(1)}$ can be easily found from the Laplace expansion:
+
+For an $n \times n$ matrix $B = (b_{i,j})$, and an arbitrary, fixed $r = 1, \ldots, n$, the determinant is given by:
+\begin{align}
+	\det B
+&=
+	\sum_{j=1}^{n}
+		b_{rj} C_{rj}
+\end{align}
+where $C_{ij}$ is the cofactor to the $i^{\text{th}}$ row and $j^{\text{th}}$ column, \ie the determinant of the submatrix with the indexed row and column removed, times $(-1)^{i+j}$.
+
+So for the given $M^{(1)}$, and choosing $r = 1$, the determinant reads:
+\begin{align}
+	\det M^{(1)}
+&=
+	1 \det M^{(0)} + 0 \\
+&=
+	\det M
+\end{align}
+
+Further, it can easily be seen that
+\begin{align}
+	\det M^{(n)} = \det M^{(n-1)} = \det M
+\end{align}
+and from this follows the claim.
+\begin{flushright}
+	\emph{q.e.d.}
+\end{flushright}
+
+\subsubsection{Theorem: Determinant-perserving expansion by unity infix}
+Let $M$ be as above, with the blocks:
+\begin{align}
+	M
+&=
+	\begin{pmatrix}
+		A & B \\ C & D
+	\end{pmatrix}
+\end{align}
+and
+\begin{align}
+	M'
+&=
+	\begin{pmatrix}
+		A & \mathds{O} & B \\
+		\mathds{O} & \mathds{1}_{E} & \mathds{O} \\
+		C & \mathds{O} & D
+	\end{pmatrix}
+\end{align}
+where $\mathds{O}$ are null matrices of dimensions such that they match the blocks implicitly defined by $A, B, C, D, \mathds{1}_{E}$.
+
+Then
+\[ \forall E \in \setNaturals : \det M = \det M' \]
+
+\textbf{Proof:}\\
+From the same arguments as in the last theorem, but choosing $r$ such that it denotes the row above $D$.
+\begin{flushright}
+	\emph{q.e.d.}
+\end{flushright}
+
+\subsubsection{Justification $2K \times 2K$ Form}
+We only need $\det \tilde{S}_r$, where $\tilde{S}_r \in \setComplex^{(b_i + b_o -1) \times (b_i + b_o -1)}$ only holds the derivatives as defined above, but not the insertion of $\delta_{ij}$. Using the Infix-Theorems we get $\det \tilde{S}_r = \det S_r$, \ie the insertion does not change the overall result.
+
+\subsection{Alternative Form}
+Statement:
+\begin{align}
+	\det S
+&=
+	\mqty|
+		\begin{pmatrix}
+			\diag(\vec{m'})	& \mathds{O}			\\
+			F\transp			    & \mathds{1}_{K}
+		\end{pmatrix}
+		\cdot
+		\begin{pmatrix}
+			\mathds{1}_K		&	\qty(\diag(\vec{m'}))^{-1} F		\\
+			\mathds{O}			&	\diag(\vec{n'}) - F\transp \qty(\diag(\vec{m'}))^{-1} F
+		\end{pmatrix}
+	|
+	\label{eqn:detSAlt}
+\end{align}
+
+Holds because:
+\begin{itemize}
+\item Multiplication yields identity
+\item Recall:
+\begin{align}
+	(S_j)
+&=
+	\begin{pmatrix}
+		\diag(\vec{m'}) & F 			\\
+		F\transp & \diag(\vec{n'})
+	\end{pmatrix}
+\end{align}
+\end{itemize}
+
+\subsection{Partial Evaluation}
+Statement
+\begin{align}
+	\det S
+&=
+	m_{j^*}^{-1} \lambda^{-(b_i + b_o - 2)}
+	\det[
+		\mathds{1} -
+		F\transp \cdot 
+		\qty( \diag(\vec{m'}) )^{-1} \cdot
+		F \cdot \qty( \diag(\vec{n'}) )^{-1}
+	]
+\label{eqn:detSPrimePartial}
+\end{align}
+
+Holds because:
+\begin{align}
+	\det S
+&=
+	\det\underbrace{
+		\begin{pmatrix}
+			\diag(\vec{m'})	& \mathds{O}			\\
+			F\transp			    & \mathds{1}_{K}
+		\end{pmatrix}
+	}_{\text{triangular matrix}}
+	\cdot 
+	\det\underbrace{
+		\begin{pmatrix}
+			\mathds{1}_K		&	\qty(\diag(\vec{m'}))^{-1} F		\\
+			\mathds{O}			&	\diag(\vec{n'}) - F\transp \qty(\diag(\vec{m'}))^{-1} F
+		\end{pmatrix}
+	}_{\text{triangular matrix}}
+\end{align}
+The determinant of a triangular matrix is the product of its diagonal elements. Hence:
+\begin{align}
+	\det S
+&=
+	\qty( \prod_{\substack{j : m_j \neq 0 \\ j \neq j^*}} \frac{m_j}{\lambda} )
+	\det \qty(\Big. \diag(\vec{n'}) - F\transp \qty(\diag(\vec{m'}))^{-1} F)
+\\
+	\diag(\vec{n'}) - F\transp \qty(\diag(\vec{m'}))^{-1} F
+&=
+	\qty[
+		\mathds{1}_K
+		-
+		F\transp \qty(\diag(\vec{m'}))^{-1} F \qty(\diag(\vec{n'}))^{-1}
+	]
+	\cdot
+	\diag(\vec{n'})
+\end{align}
+\begin{align}
+	\det S
+&=
+	\qty( \prod_{\substack{j : m_j \neq 0 \\ j \neq j^*}} \frac{m_j}{\lambda} )
+	\det[
+		\mathds{1} -
+		F\transp \cdot 
+		\qty( \diag(\vec{m'}) )^{-1} \cdot
+		F \cdot \qty( \diag(\vec{n'}) )^{-1}
+	]
+	\qty( \prod_{          k : n_k \neq 0               } \frac{n_k}{\lambda} )
+	\label{eqn:detSPenultimate}
+\end{align}
+\begin{align}
+	\qty( \prod_{\substack{j : m_j \neq 0 \\ j \neq j^*}} \frac{m_j}{\lambda} )
+	\qty( \prod_{          k : n_k \neq 0               } \frac{n_k}{\lambda} )
+&=
+	\frac{\lambda}{m_{j^*} \lambda^{b_i + b_o - 1}}
+=
+	m_{j^*}^{-1} \lambda^{-(b_i + b_o - 2)}
+	\label{eqn:detSPrefactor}
+\end{align}
+
+\subsection{Reforming $F$}
+\subsubsection{Definition: Square Root of a Matrix}
+Let $\mathbb{M} \in \setReals^{K \times K}$, diagonizable with Eigenvalues $\lambda_i$ and decomposition
+\begin{align}
+	\mathbb{M}
+&=
+	\mathbb{Q} \; \diag(\lambda_1, \ldots, \lambda_K) \; \mathbb{Q}\transp 
+\\
+	\mathbb{Q}\transp
+&=
+	\mathbb{Q}^{-1}
+\end{align}
+Then its square root is defined as:
+\begin{align}
+	\sqrt{\mathbb{M}}
+&=
+	\mathbb{Q} \diag(\sqrt{\lambda_1}, \ldots, \sqrt{\lambda_K}) \mathbb{Q}\transp 
+\end{align}
+such that it holds:
+\begin{align}
+	\sqrt{\mathbb{M}}  \sqrt{\mathbb{M}} &= \mathbb{M}
+\end{align}
+
+In particular, for diagonal matrices, $\mathbb{Q} = \mathds{1}$
+
+\subsubsection{Definition: Reduced DFT-matrix}
+Let $\tilde{\mathbb{U}}$ be the reduced DFT-matrix:
+\begin{align}
+	\tilde{u}_{ij}
+&=
+	\begin{cases}
+		0			&\qq*{for } j = j^* \\
+		0			&\qq*{for } m_j = 0 \\
+		0			&\qq*{for } n_k = 0 \\
+		-u_{j,k}		&\qotherwise*
+	\end{cases}
+\end{align}
+
+\subsubsection{Application of Definitions}
+Statement:
+\begin{align}
+	F
+&=
+		\sqrt{\diag(\vec{m'})}
+		\exp [\diag\qty(+\iunit\vec{\theta})]
+	\cdot
+		\tilde{\mathbb{U}}
+	\cdot
+		\sqrt{\diag(\vec{n'})}
+		\exp [\diag\qty(\big. -\iunit\vec{\chi})]
+\end{align}
+
+Holds because:
+\begin{itemize}
+\item Trivial rewrite of eqn. (\ref{eqn:defF}) (definition of $F$)
+\item {\color{red} It might be sufficient to set only the reference column of $\tilde{\mathbb{U}}$ to zero; the rest should be covered by the multiplication with zero occupations. However, it is necessary to artificially suppress the reference mode and flip the sign.}
+\item $\sqrt{\diag{\vec{m'}}}$ and $\sqrt{\diag{\vec{n'}}}$ both give a factor of $\sqrt{\lambda^{-1}}$, restoring that prefactor.
+\item $\tilde{\mathbb{U}}$ recreates the zeros that $\vec{m'}, \vec{n'}$ do no longer hold.
+\end{itemize}
+
+\subsection{Reformed $F$ in the Determinant}
+Let:
+\begin{align}
+	S'
+&\coloneqq
+	\mathds{1} -
+	F\transp \cdot 
+	\qty( \diag(\vec{m'}) )^{-1} \cdot
+	F \cdot \qty( \diag(\vec{n'}) )^{-1}
+\end{align}
+Statement:
+\begin{align}
+	\det S'
+&=
+	\qty( \prod_{k: n_k \neq 0} \exp(-2\iunit \chi_k) )
+	\det\qty[\bigg.
+		\exp(\Big. 
+			2\iunit 
+			\diag(\vec{\chi})
+		)
+		-
+		\tilde{\mathbb{U}}\transp
+		\exp(
+			2\iunit 
+			\diag(\vec{\theta})
+		)
+		\tilde{\mathbb{U}}
+	]
+\end{align}
+
+Holds because:
+\begin{align}
+	S'
+&=
+	\mathds{1} -
+	F\transp \cdot 
+	\qty( \diag(\vec{m'}) )^{-1} \cdot
+	F \cdot \qty( \diag(\vec{n'}) )^{-1}
+\end{align}
+regard only well defined matrix element $s_{pq}$ where $m_p \neq 0, p \neq j^*, n_q \neq 0$
+\begin{align}
+	s'_{pq}
+&=
+	\nonumber
+	\delta_{pq} -
+	\underbrace{
+		\lambda^{-1}
+		\qty( -\sqrt{m_p n_q} \; u_{p,q} \; \exp[\Big. \iunit(\theta_p - \chi_q)] )
+	}_{\text{from } F\transp}
+	\underbrace{
+		\frac{\lambda}{m_p}
+	}_{\text{from } \diag(\vec{m'})^{-1}}
+	\ldots
+	\\ 
+	& \qquad\qquad
+	\underbrace{
+		\lambda^{-1}
+		\qty( -\sqrt{m_p n_q} \; u_{p,q} \; \exp[\Big. \iunit(\theta_p - \chi_q)] )
+	}_{\text{from } F}
+	\underbrace{
+		\frac{\lambda}{n_q}
+	}_{\text{from } \diag(\vec{n'})^{-1}} \\
+\end{align}
+\begin{align}
+	s'_{pq}
+&=
+	\delta_{pq} -
+	\frac{\lambda^2}{\lambda^2}
+	\frac{m_p n_q}{m_p n_q}
+	u_{p,q}^{2}
+	\exp(2\iunit(\theta_p - \chi_q)) \\
+&=
+	\exp(-2\iunit\chi_q) \qty[ \Big.
+		\exp(2\iunit\chi_q)\delta_{pq}
+		-
+		u_{p,q}^{2}
+		\exp(2\iunit \theta_p)
+	]
+\end{align}
+Given that the ill-defined matrix elements should evaluate to zero (guaranteed by the choice of $\tilde{\mathbb{U}}$), we find this representation of the matrix:
+\begin{align*}
+	S'
+&=
+	\exp[\Big. -2\iunit\diag(\vec{\chi})]
+	\qty[
+		\exp(\Big. 2\iunit\diag(\vec{\chi}))
+		-
+		\tilde{\mathbb{U}}\transp
+		\exp(\Big. 2\iunit\diag(\vec{\theta}))
+		\tilde{\mathbb{U}}
+	]
+\end{align*}
+The determinant can again be evaluated factor-wise, giving the statement.
+
+\section{Complete Det of the Hessian}
+\subsection{Collected Terms}
+Plugging this in the results (\ref{eqn:detSPenultimate})/(\ref{eqn:detSPrefactor}), we get:
+\begin{align}
+	\det S
+&=
+	m_{j^*}^{-1} \lambda^{-(b_i + b_o - 2)}
+	\qty( \prod_{k: n_k \neq 0} \exp(-2\iunit \chi_k) )
+	\det\qty[\bigg.
+		\exp(\Big. 
+			2\iunit 
+			\diag(\vec{\chi})
+		)
+		-
+		\tilde{\mathbb{U}}\transp
+		\exp(
+			2\iunit 
+			\diag(\vec{\theta})
+		)
+		\tilde{\mathbb{U}}
+	]
+\end{align}
+
+\subsection{Numerics Optimization}
+In implementations, the numeric values of $\exp(\iunit \theta_j), \exp(\iunit \chi_k)$ appear as natural variables, while their arguments $\vec{\theta}, \vec{\chi}$ need to be computed in a step of its own, introducing a new source of error. The exponentials are of unity magnitude, therefore summation/multiplication is well conditionned.
+
+It is thus advisable to introduce new variables and split terms into an exact contribution (proportional to exact quantities derived from $\vec{m}, \vec{n}$) and approximate quantities (derived from $\exp(\iunit \theta_j), \exp(\iunit \chi_k)$). We get:
+\begin{align}
+	\mu_j &= \exp(\iunit \theta_j) & \text{for } m_j \neq 0 \\
+	\nu_k &= \exp(\iunit \chi  _k) & \text{for } n_k \neq 0 \\
+\end{align}
+\begin{align}
+	\det S
+&=
+	\underbrace{
+		m_{j^*}^{-1} \lambda^{-(b_i + b_o - 2)}
+	}_{\eqqcolon \Omega(\vec{m}, \vec{n})}
+	\underbrace{
+		\qty( \prod_{k: n_k \neq 0} \nu_k^{-2} )
+		\det\qty[\bigg.
+				\diag^2(\vec{\nu})
+			-
+			\tilde{\mathbb{U}}\transp
+			\diag^2(\vec{\mu})
+			\tilde{\mathbb{U}}
+		]
+	}_{=\Upsilon(\vec{\mu}, \vec{\nu})}
+\end{align}
+
+
+\section{Complete Amplitude Formula}
+\subsection{Collect Terms}
+\begin{itemize}
+\item Eqn. (\ref{eqn:BSA_preSPA}):
+	\begin{align*}	
+		A_F(\vec{m}, \vec{n})
+	=
+		2\pi C \, \delta_{M,N} \,
+		\int_{0}^{2\pi}
+			\DD{\theta} \DD{\chi}
+		\exp[
+			\iunit \qty(
+				\vec{n} \cdot \vec{\chi}
+				-
+				\vec{m} \cdot \vec{\theta}
+			)]
+		\exp[
+			{\textstyle \sum_{s,t=1}^{K} }
+				\sqrt{m_s, n_t} \;
+				u_{s,t}
+				\exp(\Big. \iunit(\theta_s - \chi_t) )
+		]
+	\end{align*}
+\item Eqn. (\ref{eqn:DefC})
+	\begin{align*}
+		C
+	&=
+		(-1)^{b_o}
+		(2\pi)^{-(b_i + b_o)}
+		\qty( \prod_{j : m_j \neq 0}
+			\sqrt{\frac
+				{ m_j! }
+				{ m_j^{m_j} }
+			}
+		)
+		\qty( \prod_{k : n_k \neq 0}
+			\sqrt{\frac
+				{ n_k! }
+				{ n_k^{n_k} }
+			}
+		)
+	\end{align*}
+\item Eqn. (\ref{eqn:Def_SPA})
+	\begin{align*}
+		\oint_{\gamma} \dd[n]{\vec{z}}
+			\exp[{\color{blue} -}\lambda f(\vec{z})]
+	&\approx
+		\qty( \frac
+			{2\pi}
+			{\lambda}
+		)^{\frac{n}{2}}
+		\sum_{r}
+			\frac
+			{\exp(-\lambda f(\vec{z}_r))}
+			{\sqrt{\det S_r}}
+	\end{align*}
+\end{itemize}
+
+From these, get directly:
+\begin{multline}
+	A_F(\vec{m}, \vec{n})
+\approx
+	2\pi \delta_{M,N} \,	
+	(-1)^{b_o}
+	(2\pi)^{-(b_i + b_o)}
+	\underbrace{
+		\qty( \prod_{j : m_j \neq 0}
+			\sqrt{\frac
+				{ m_j! }
+				{ m_j^{m_j} }
+			}
+		)
+		\qty( \prod_{k : n_k \neq 0}
+			\sqrt{\frac
+				{ n_k! }
+				{ n_k^{n_k} }
+			}
+		)
+	}_{\eqqcolon \Pi}
+	\qty( \frac
+		{2\pi}
+		{\lambda}
+	)^{\frac{b_i + b_o - 1}{2}}
+\\
+	\sum_{r}
+		\frac
+		{\exp[
+			\iunit
+			\qty(
+				\vec{n} \cdot \vec{\chi^{(r)}}
+				- 
+				\vec{m} \cdot \vec{\theta^{(r)}}
+			)
+		+
+		\qty(
+			\sum_{s,t=1}^{K}
+			\sqrt{m_s n_t} \;
+			u_{s,t}
+			\exp(\big.
+				\iunit(\theta_s^{(r)} - \chi_t^{(r)})
+			)
+		)
+		]}
+		{\sqrt{\Omega \Upsilon_r}}
+\end{multline}
+
+Regard the exponential's argument. From (\ref{eqn:DefXY}), and with new symbols $\mu_j, \nu_k$, get:
+\begin{align}
+	\mathcal{E}
+&\coloneqq
+	\exp[
+			\iunit
+			\qty(
+				\vec{n} \cdot \vec{\chi^{(r)}}
+				- 
+				\vec{m} \cdot \vec{\theta^{(r)}}
+			)
+		+
+		\underbrace{\qty(
+			\sum_{s,t=1}^{K}
+			\sqrt{m_s n_t} \;
+			u_{s,t}
+			\exp(\big.
+				\iunit(\theta_s^{(r)} - \chi_t^{(r)})
+			)
+		)}_{=N}
+	] \\
+&=
+	\frac
+		{\prod_{k : n_k \neq 0}                  \qty(\nu_k^{(r)})^{n_k}}
+		{\prod_{j : m_j \neq 0 \land j \neq j^*} \qty(\mu_j^{(r)})^{m_j}}
+	\exp(N)
+\end{align}
+
+Collect terms:
+\begin{align}
+		A_F(\vec{m}, \vec{n})
+&\approx
+	(-1)^{b_o} \,	
+	\delta_{M,N} \,
+	(2\pi \lambda)^{-\frac{(b_i + b_o - 1)}{2}}
+	\Pi
+	\exp(N)
+	\underbrace{
+		\sqrt{m_{j^*} \lambda^{b_i + b_o - 2}}
+	}_{\Omega^{-\smallfrac{1}{2}}}
+	\underbrace{
+		\sum_{r}	
+		\frac
+			{\prod_{k : n_k \neq 0}                  \qty(\nu_k^{(r)})^{n_k}}
+			{\prod_{j : m_j \neq 0 \land j \neq j^*} \qty(\mu_j^{(r)})^{m_j}}
+		\frac{1}{\sqrt{\Upsilon_r}}
+	}_{\eqqcolon \Sigma} \\
+&=
+	(-1)^{b_o} \,	
+	\delta_{M,N} \,
+	(2\pi)^{-\frac{(b_i + b_o - 1)}{2}}
+	\sqrt{
+		\frac{m_{j^*}}{\lambda}
+	}
+	\Pi
+	\exp(N)
+	\Sigma \\
+&=
+	(-1)^{b_o} \,	
+	\delta_{M,N} \,
+	(2\pi)^{-\frac{(b_i + b_o - 1)}{2}}
+	\underbrace{
+		\qty[
+			\qty(\prod_{\substack{j : m_j \neq 0\\\land j \neq j^*}} m_j)
+			\qty(\prod_{          k : n_k \neq 0                   } n_k)
+		]^{-\smallfrac{1}{2}}
+	}_{\sqrt{\smallfrac{m_{j^*}}{\lambda}}}
+	\Pi
+	\exp(N)
+	\Sigma
+\end{align}
+
+{\color{red}Note that replacing the product with $\sqrt{\smallfrac{m_{j^*}}{\lambda}}$ introduces a too strong dependence on $m_{j^*}$ and gives wrong results for small $m_{j^*}$}
+
+\subsection{Stirling Approximation: A more computationally performant form for $\Pi$}
+Use Stirling's Formula:
+\begin{align}
+	n!
+&=
+	\sqrt{2\pi n} n^n \exp(-n)
+\end{align}
+to evaluate $\Pi$:
+
+\begin{align}
+	\Pi
+&=
+	\qty( \prod_{j : m_j \neq 0}
+		\sqrt{\frac
+			{ m_j! }
+			{ m_j^{m_j} }
+		}
+	)
+	\qty( \prod_{k : n_k \neq 0}
+		\sqrt{\frac
+			{ n_k! }
+			{ n_k^{n_k} }
+		}
+	) \\
+&=
+	\qty( \prod_{j : m_j \neq 0}
+		\sqrt{\frac
+			{ \sqrt{2\pi m_k} m_j^{m_j} \exp(-m_j) }
+			{ m_j^{m_j} }
+		}
+	)
+	\qty( \prod_{k : n_k \neq 0}
+		\sqrt{\frac
+			{ \sqrt{2\pi n_k} n_k^{n_k} \exp(-n_k) }
+			{ n_k^{n_k} }
+		}
+	) \\
+&=
+	\qty( \prod_{j : m_j \neq 0}
+		\sqrt{
+			\sqrt{2\pi m_k}
+		}
+	)
+	\exp(-\smallfrac{N}{2})
+	\qty( \prod_{k : n_k \neq 0}
+		\sqrt{
+			\sqrt{2\pi n_k}
+		}
+	)
+	\exp(-\smallfrac{N}{2}) \\
+&=
+	(2\pi)^{\frac{b_i + b_o}{4}}
+	\lambda^{\smallfrac{1}{4}}
+	\exp(-N)
+\end{align}
+
+
+Collect terms (form for big values fo $m_{j^*}$):
+\begin{align}
+		A_F(\vec{m}, \vec{n})
+&=
+	(-1)^{b_o} \,	
+	\delta_{M,N} \,
+	(2\pi)^{-\frac{(b_i + b_o - 1)}{2}}
+	\sqrt{\smallfrac{m_{j^*}}{\lambda}}
+	(2\pi)^{\frac{b_i + b_o}{4}}
+	\lambda^{\smallfrac{1}{4}}
+	\exp(-N)
+	\exp(N)
+	\Sigma \\
+&=
+	(-1)^{b_o} \,	
+	\delta_{M,N} \,
+	(2\pi)^{-\frac{b_i + b_o - 2}{4}}
+	\sqrt{m_{j^*}}
+	\lambda^{-\smallfrac{1}{4}}
+	\Sigma
+\end{align}
+
 \end{document}
