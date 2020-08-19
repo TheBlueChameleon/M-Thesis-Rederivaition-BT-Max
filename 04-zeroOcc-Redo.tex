@@ -1502,6 +1502,103 @@ Collect terms (form for big values fo $m_{j^*}$):
 	\sqrt{m_{j^*}}
 	\lambda^{-\smallfrac{1}{4}}
 	\Sigma
+\\
+		A_F(\vec{m}, \vec{n})
+&=
+	(-1)^{b_o} \,	
+	\delta_{M,N} \,
+	(2\pi)^{-\frac{b_i + b_o - 2}{4}}
+	\sqrt{m_{j^*}}
+	\lambda^{-\smallfrac{1}{4}}
+	\sum_{r}	
+		\frac
+			{\prod_{k : n_k \neq 0}                  \qty(\nu_k^{(r)})^{n_k}}
+			{\prod_{j : m_j \neq 0 \land j \neq j^*} \qty(\mu_j^{(r)})^{m_j}}
+		\frac{1}{\sqrt{\Upsilon_r}}
 \end{align}
 
+\section{Explicit: 2x2 Form and comparison to Max' results}
+Use this to check against Max' results. Thus, assume no non-occupied states, \ie $b_i = b_o = K = 2$ and $j^* = 1$.
+\begin{align}
+		A_F(\vec{m}, \vec{n})
+&=
+	\delta_{M,N} \,
+	\sqrt{\frac{1}{2\pi}}
+	\qty(
+		\frac{m_1^2}{m_1 m_2 n_1 n_2}
+	)^{\smallfrac{1}{4}}
+	\sum_{r}	
+		\frac
+			{\qty(\nu_1^{(r)})^{n_1}   \qty(\nu_2^{(r)})^{n_2}}
+			{\qty(\mu_2^{(r)})^{m_2}}
+		\frac{1}{\sqrt{\Upsilon_r}} \\
+&=
+	\delta_{M,N} \,
+	\sqrt{\frac{1}{2\pi}}
+	\qty(
+		\frac{m_1}{m_2 n_1 n_2}
+	)^{\smallfrac{1}{4}}
+	\sum_{r}	
+		\frac
+			{\qty(\nu_1^{(r)})^{n_1}   \qty(\nu_2^{(r)})^{n_2}}
+			{\qty(\mu_2^{(r)})^{m_2}}
+		\frac{1}{\sqrt{\Upsilon_r}}
+\end{align}
+In this, the prefactor to the sum is equivalent to Max' eqn. (69). However, the factor $\sqrt{m_1}$ in the sum is not accounted for, and I assume this to be a faulty expression. On page 17, he applies the Stirling approximation to the prefactor $C$ and admixes the prefactor to $\det S$ which is $\sqrt{m_1}$. Said factor appears in a context where $\det S$ is expected.
+
+The other components of the sum in his eqn (70) can be identified with the above expression.
+
+Cf: Max' result (70) at this point reads:
+\begin{align*}
+	A_F(\vec{m}, \vec{n})
+\approx
+	\frac
+		{\sqrt[4]{m_1 m_2 \, n_1 n_2}}
+		{\sqrt{2\pi \cdot m_2 n_1 n_2}}
+	\delta_{NM}
+	\sum_{j = \pm}
+&
+		(\mu_j^*)^{m_2}
+		\qty(
+			\sqrt{\frac{m_1}{n_1}} u_{1,1} +
+			\sqrt{\frac{m_2}{n_1}} u_{2,1} \mu_j
+		)^{n_1}
+		\qty(
+			\sqrt{\frac{m_1}{n_2}} u_{1,2} +
+			\sqrt{\frac{m_2}{n_2}} u_{2,2} \mu_j
+		)^{n_2}
+\\ &
+	\frac
+		{\sqrt{m_1}}
+		{\sqrt{
+			\det[\big. \exp(-2\iunit \diag(\vec{\chi}))]
+			\det[
+				\big. \exp(+2\iunit \diag(\vec{\chi})) - 
+				\tilde{\mathbb{U}}\transp \exp(\diag(2\iunit \vec{\theta})) \tilde{\mathbb{U}}
+			]
+		}}
+\end{align*}
+
+from which:
+\begin{align*}
+	\frac
+		{\sqrt[4]{m_1 m_2 \, n_1 n_2}}
+		{\sqrt{2\pi \cdot m_2 n_1 n_2}}
+&=
+	\sqrt{\frac{1}{2\pi}}
+	\sqrt[4]{\frac
+		{m_1 m_2 \, n_1 n_2}
+		{m_2^2 n_1^2 n_2^2}
+	}
+=
+	\sqrt{\frac{1}{2\pi}}
+	\sqrt[4]{\frac
+		{m_1^2 }
+		{m_1 m_2 n_1 n_2}
+	}
+=
+	\sqrt{\frac{m_1}{2\pi}} \lambda^{-\smallfrac{1}{4}}
+\end{align*}
+
+The parenthesis in the above equation can be matched to the $\nu$ using (\ref{eqn:FourierLinkForward}) (Fourier-Link) and the expression in the denominator equals $\sqrt{\Upsilon}$. So {\color{red} all but the factor $\sqrt{m_1}$} is accounted for. Max seems not to use this expression in the further works, but goes back to a longer form.
 \end{document}
