@@ -1,0 +1,228 @@
+\documentclass[
+	english,
+	a4paper,
+	fontsize=10pt,
+	parskip=half,
+	titlepage=true,
+	DIV=12,
+	final
+]{scrreprt}
+
+
+%==============================================================================%
+% PACKAGES
+%
+% Standard text formatting
+\usepackage[utf8]{inputenc}
+\usepackage{babel}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{microtype}
+\usepackage{ragged2e}
+
+\usepackage{csquotes}
+\usepackage{xspace}
+
+\usepackage{placeins}	% FloatBarrier.
+\usepackage{url}
+\usepackage[bf, format=plain]{caption}
+
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks,
+    citecolor=black,
+    filecolor=black,
+    linkcolor=black,
+    urlcolor=black
+}
+
+% gfx
+\usepackage{wrapfig}
+\usepackage{xcolor}
+
+% tables
+\usepackage{tabularx}
+\usepackage{booktabs}
+\usepackage{multicol}
+\usepackage{multirow}
+\usepackage{makecell}
+\usepackage{color, colortbl}
+
+% math
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{dsfont}
+\let\olddiv\div
+\usepackage[arrowdel]{physics}
+\usepackage{mathtools}
+
+% indexes, links, page format
+\usepackage{scrlayer-scrpage}
+
+% misc
+\usepackage[super]{nth}
+\usepackage[
+	output-decimal-marker={.},
+	input-symbols = {()},  			% do not treat "(" and ")" in any special way
+	group-digits  = true  			% guess what.
+]{siunitx}
+\usepackage{minted}
+
+%==============================================================================%
+% GLOBAL MACROS
+%
+
+% Document properties
+\newcommand{\myName}{Stefan Hartinger\xspace}
+\newcommand{\myTitle}{Master Thesis Notes: Dealing with more than two modes\xspace}
+
+\addtokomafont{labelinglabel}{\sffamily}
+
+% Text abbreviations
+\newcommand*{\ie}{i.\,e.\xspace}
+\newcommand*{\eg}{e.\,g.\xspace}
+
+% Misc Symbols
+\newcommand*{\thus}{\ensuremath{\rightarrow}\xspace}
+\newcommand*{\Thus}{\ensuremath{\Rightarrow}\xspace}
+
+% Tables
+\newcommand*{\tabcrlf}{\\ \hline}			% actually still allows for optional argument
+
+% Math
+\newcommand*{\numberthis}{\addtocounter{equation}{1}\tag{\theequation}}
+
+\newcommand*{\smallfrac}  [2]{\ensuremath{{}^        {#1} \!/_        {#2}}}
+\newcommand*{\smallfracrm}[2]{\ensuremath{{}^{\mathrm{#1}}\!/_{\mathrm{#2}}}}
+
+\newcommand*{\transp}{\ensuremath{^\intercal}}
+
+\newcommand*{\iunit}{\ensuremath{\mathrm{i}}}
+
+\newcommand*{\setNaturals} {\ensuremath{\mathds{N}}}
+\newcommand*{\setIntegers} {\ensuremath{\mathds{Z}}}
+\newcommand*{\setReals}    {\ensuremath{\mathds{R}}}
+\newcommand*{\setRationals}{\ensuremath{\mathds{Q}}}
+\newcommand*{\setComplex}  {\ensuremath{\mathds{C}}}
+
+\newcommand*{\Lag}{\ensuremath{\mathcal{L}}\xspace}
+\newcommand*{\Ham}{\ensuremath{\mathcal{H}}\xspace}
+
+%\newcommand*{\Poisson}[2]{\ensuremath{\left\{ {#1}, {#2} \right\}}}
+% physics has \pb which is poisson bracket
+% also use alias acom: anticommutator, which is exactly the same.
+
+\newcommand*{\equalCond}{  \mathop{=}\limits^!  }
+
+\DeclareMathOperator{\arsinh}{arsinh}
+\DeclareMathOperator{\diag}{diag}
+
+\newcommand*{\DD}[1]{\ensuremath{\text{D}\vec{#1}\;}}
+\newcommand*{\set}[1]{\ensuremath{\{#1\}}}
+
+%==============================================================================%
+% GLOBAL PARAMTERS
+%
+
+\title{\myTitle}
+\author{\myName}
+\date{\today}
+
+% header, footer
+\clearpairofpagestyles
+	\cfoot
+		[\pagemark]
+		{\pagemark}
+	\ohead
+		[\myTitle, \myName]
+		{\myTitle, \myName}
+\pagestyle{scrheadings}
+
+%==============================================================================%
+% THE REAL STUFF
+%	
+\begin{document}
+\tableofcontents
+\newpage
+
+\chapter{Phase Retrieval as Eigenvalue Problem}
+In Max paper, the Fourier link between incoming and outgoing phases was derived (cf. eqns. 26 and 27 in his work):
+\begin{align}
+	\sqrt{m_p} \exp(-\iunit \theta_p) &= \sum_q \sqrt{n_q} u_{pq} \exp(-\iunit \chi  _q) \\
+	\sqrt{n_q} \exp(-\iunit \chi  _q) &= \sum_p \sqrt{m_p} u_{pq} \exp(+\iunit \theta_p)
+\end{align}
+
+Using definitions:
+\begin{align}
+	\mathbb{M} &= \sqrt{\diag \vec{m}} \\
+	\mathbb{N} &= \sqrt{\diag \vec{n}}
+\end{align}
+this can be stated as:
+\begin{align}
+	\vec{\nu}
+&=
+	\underbrace{
+		\mathbb{N}^{-1} \mathbb{M} \mathbb{U}
+	}_{\coloneqq \mathbb{C}}
+	\vec{\mu}
+\end{align}
+in which:
+\begin{align}
+	\mu_p = \exp(+\iunit \theta_p) \\
+	\nu_q = \exp(-\iunit \chi  _q)
+\end{align}
+
+If there exists an invertible matrix $\mathbb{Q} = \sqrt{\mathbb{C}}$, \ie $\mathbb{Q}^2 = \mathbb{C}$, then:
+
+\begin{align}
+	\vec{\nu}
+&=
+	\mathbb{Q}^2 \vec{\mu}
+\\
+	\mathbb{Q}^{-1} \vec{\nu}
+&=
+	\mathbb{Q} \vec{\mu}
+\end{align}
+
+---
+
+
+Using the fact that each component of $\vec{\mu}, \vec{\nu}$ is a phase, we can multiply with its complex conjugate:
+
+\begin{align}
+	N
+&=
+	\vec{\nu}^* \cdot \vec{\nu} \\
+&=
+	(\mathbb{C} \vec{\mu})^\dagger (\mathbb{C} \vec{\mu}) \\
+&=
+	\vec{\mu}^\dagger \mathbb{U}^\dagger \mathbb{M} \mathbb{N}^{-1}
+	\mathbb{N}^{-1} \mathbb{M} \mathbb{U} \vec{\mu}	
+\end{align}
+
+If for symmetric matrices $\mathbb{A}, \mathbb{B}$, $\mathbb{AB}$ is symmetric, then so is $\mathbb{BA}$. (\url{https://math.stackexchange.com/questions/1697991/do-diagonal-matrices-always-commute}). $\mathbb{M}, \mathbb{N}$ are diagonal, and so are their products. Hence:
+
+\begin{align}
+	N
+&=
+	\vec{\mu}^\dagger
+	\mathbb{U}^\dagger 
+	\qty(\mathbb{M} \mathbb{N}^{-1})^{2}
+	\mathbb{U} 
+	\vec{\mu}	
+\end{align}
+
+(... this ends in $N=N$ ...)
+
+\begin{align}
+	N
+&=
+	(\mathbb{C} \vec{\mu})^\dagger (\mathbb{C} \vec{\mu}) \\
+&=
+	(\mathbb{C} \vec{\mu})^\dagger  \vec{\nu} \\
+&=
+	\vec{\mu}^\dagger \mathbb{U}^\dagger \mathbb{M} \mathbb{N}^{-1} \vec{\nu}
+\end{align}
+
+%À priori, this only works where $\forall j,k: m_j, n_k \neq 0$, but previous works suggest this should be possible for generic occupation numbers. For development purposes, this allows a very compact method of creating mock data to be fed into the SPA, as Eigenvalue problems can be solved in $\mathcal{O}(K^3)$ where $\mathbb{C} \in \setComplex^{K \times K}$. There's plenty of routines that can do the job, such as Eigen3 (freeware).
+\end{document}

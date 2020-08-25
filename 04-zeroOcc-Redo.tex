@@ -1531,7 +1531,8 @@ Use this to check against Max' results. Thus, assume no non-occupied states, \ie
 		\frac
 			{\qty(\nu_1^{(r)})^{n_1}   \qty(\nu_2^{(r)})^{n_2}}
 			{\qty(\mu_2^{(r)})^{m_2}}
-		\frac{1}{\sqrt{\Upsilon_r}} \\
+		\frac{1}{\sqrt{\Upsilon_r}} 
+		\label{eqn:spc2x2_unshortened_own} \\
 &=
 	\delta_{M,N} \,
 	\sqrt{\frac{1}{2\pi}}
@@ -1543,13 +1544,14 @@ Use this to check against Max' results. Thus, assume no non-occupied states, \ie
 			{\qty(\nu_1^{(r)})^{n_1}   \qty(\nu_2^{(r)})^{n_2}}
 			{\qty(\mu_2^{(r)})^{m_2}}
 		\frac{1}{\sqrt{\Upsilon_r}}
+		\label{eqn:spc2x2_shortened_own} 
 \end{align}
 In this, the prefactor to the sum is equivalent to Max' eqn. (69). However, the factor $\sqrt{m_1}$ in the sum is not accounted for, and I assume this to be a faulty expression. On page 17, he applies the Stirling approximation to the prefactor $C$ and admixes the prefactor to $\det S$ which is $\sqrt{m_1}$. Said factor appears in a context where $\det S$ is expected.
 
 The other components of the sum in his eqn (70) can be identified with the above expression.
 
 Cf: Max' result (70) at this point reads:
-\begin{align*}
+\begin{align}
 	A_F(\vec{m}, \vec{n})
 \approx
 	\frac
@@ -1577,10 +1579,10 @@ Cf: Max' result (70) at this point reads:
 				\tilde{\mathbb{U}}\transp \exp(\diag(2\iunit \vec{\theta})) \tilde{\mathbb{U}}
 			]
 		}}
-\end{align*}
+\end{align}
 
 from which:
-\begin{align*}
+\begin{align}
 	\frac
 		{\sqrt[4]{m_1 m_2 \, n_1 n_2}}
 		{\sqrt{2\pi \cdot m_2 n_1 n_2}}
@@ -1598,7 +1600,212 @@ from which:
 	}
 =
 	\sqrt{\frac{m_1}{2\pi}} \lambda^{-\smallfrac{1}{4}}
-\end{align*}
+\end{align}
 
-The parenthesis in the above equation can be matched to the $\nu$ using (\ref{eqn:FourierLinkForward}) (Fourier-Link) and the expression in the denominator equals $\sqrt{\Upsilon}$. So {\color{red} all but the factor $\sqrt{m_1}$} is accounted for. Max seems not to use this expression in the further works, but goes back to a longer form.
+The parenthesis in the above equation can be matched to the $\nu$ using (\ref{eqn:FourierLinkForward}) (Fourier-Link) and the expression in the denominator equals $\sqrt{\Upsilon}$. So {\color{red} all but the factor $\sqrt{m_1}$} is accounted for. I think this is faulty in (70), as the factor stems from the determinant which was already absorbed in the prefactor. In later points, the factor is gone again.
+
+\subsection{Speical Case: $m_1 = \smallfrac{N}{2}$}
+\subsubsection{Overall Equation}
+Using eqn. (\ref{eqn:spc2x2_shortened_own})
+\begin{align}
+		A_F(\smallfrac{N}{2}, \smallfrac{N}{2}, n_1, N - n_1)
+&=
+	\delta_{M,N} \,
+	\sqrt{\frac{1}{2\pi}}
+	\qty(
+		\frac{\smallfrac{N}{2}}{\smallfrac{N}{2} n_1 (N - n_1)}
+	)^{\smallfrac{1}{4}}
+	\sum_{r}	
+		\frac
+			{\qty(\nu_1^{(r)})^{n_1}   \qty(\nu_2^{(r)})^{n_2}}
+			{\qty(\mu_2^{(r)})^{m_2}}
+		\frac{1}{\sqrt{\Upsilon_r}} \\
+&=
+	\delta_{M,N} \,
+	\sqrt{\frac{1}{2\pi}}
+	\qty(
+		\frac{1}{n_1 (N - n_1)}
+	)^{\smallfrac{1}{4}}
+	\sum_{r}	
+		\frac
+			{\qty(\nu_1^{(r)})^{n_1}   \qty(\nu_2^{(r)})^{n_2}}
+			{\qty(\mu_2^{(r)})^{m_2}}
+		\frac{1}{\sqrt{\Upsilon_r}}
+\end{align}
+
+Using eqn. (\ref{eqn:spc2x2_unshortened_own}):
+\begin{align}
+		A_F(\smallfrac{N}{2}, \smallfrac{N}{2}, n_1, N - n_1)
+&=
+	\delta_{M,N} \,
+	\sqrt{\frac{N}{4\pi}}
+	\lambda^{-\frac{1}{4}}
+	\sum_{r}	
+		\frac
+			{\qty(\nu_1^{(r)})^{n_1}   \qty(\nu_2^{(r)})^{n_2}}
+			{\qty(\mu_2^{(r)})^{m_2}}
+		\frac{1}{\sqrt{\Upsilon_r}} \\
+&=
+	\delta_{M,N} \,
+	\sqrt{\frac{N}{4\pi}}
+	\sqrt[4]{\frac{1}{(\smallfrac{N}{2})^2} n_1 (N - n_1)}
+	\sum_{r}	
+		\frac
+			{\qty(\nu_1^{(r)})^{n_1}   \qty(\nu_2^{(r)})^{n_2}}
+			{\qty(\mu_2^{(r)})^{m_2}}
+		\frac{1}{\sqrt{\Upsilon_r}} \\
+&=
+	\delta_{M,N} \,
+	\sqrt{\frac{1}{2\pi}}
+	\sqrt[4]{\frac{1}{n_1 (N - n_1)}}
+	\sum_{r}	
+		\frac
+			{\qty(\nu_1^{(r)})^{n_1}   \qty(\nu_2^{(r)})^{n_2}}
+			{\qty(\mu_2^{(r)})^{m_2}}
+		\frac{1}{\sqrt{\Upsilon_r}}
+\end{align}
+
+\subsubsection{Determinant}
+\begin{align}
+	\tilde{\mathbb{U}}
+&=
+	-\frac{1}{\sqrt{2}}
+	\begin{pmatrix}
+		 0 &  0 \\
+		+1 & -1
+	\end{pmatrix}
+&
+	\tilde{\mathbb{U}}\transp
+&=
+	-\frac{1}{\sqrt{2}}
+	\begin{pmatrix}
+		0 & +1 \\
+		0 & -1
+	\end{pmatrix}
+\end{align}
+
+\begin{align}
+	\tilde{\mathbb{U}}\transp
+	\exp^2\qty[\diag(\iunit\vec{\theta})]
+	\tilde{\mathbb{U}}
+&=
+	\frac{-1}{\sqrt{2}}
+	\begin{pmatrix}
+		0 & +1 \\
+		0 & -1
+	\end{pmatrix}
+	\cdot
+	\begin{pmatrix}
+		1 & 0 \\
+		0 & \exp(2\iunit \theta_2)
+	\end{pmatrix}
+	\cdot
+	\frac{-1}{\sqrt{2}}
+	\begin{pmatrix}
+		 0 &  0 \\
+		+1 & -1
+	\end{pmatrix} \\
+&=
+	\frac{1}{2}
+	\begin{pmatrix}
+		0 & +\exp(2\iunit \theta_2) \\
+		0 & -\exp(2\iunit \theta_2)
+	\end{pmatrix}
+	\cdot
+	\begin{pmatrix}
+		 0 &  0 \\
+		+1 & -1
+	\end{pmatrix} \\
+&=
+	\frac{1}{2}
+	\begin{pmatrix}
+		+\exp(2\iunit \theta_2)	&	-\exp(2\iunit \theta_2) \\
+		-\exp(2\iunit \theta_2)	&	+\exp(2\iunit \theta_2)
+	\end{pmatrix}
+\\
+	\diag\qty[\exp(\Big.2\iunit\vec{\chi})]
+	-
+	\tilde{\mathbb{U}}\transp
+	\diag\qty[\exp(2\iunit\vec{\theta})]
+	\tilde{\mathbb{U}}
+&=
+	\begin{pmatrix}
+		\exp(2\iunit \chi_1) - \frac{1}{2}\exp(2\iunit \theta_2)	&
+		+\frac{1}{2}\exp(2\iunit \theta_2)
+		\\
+		+\frac{1}{2}\exp(2\iunit \theta_2)	&
+		\exp(2\iunit \chi_2) - \frac{1}{2}\exp(2\iunit \theta_2)
+	\end{pmatrix}
+\end{align}
+
+\begin{align}
+	\Upsilon
+&=
+	\frac{1}{\nu_1 \nu_2}
+	\det\qty[
+		\begin{pmatrix}
+			\nu_1^2 & 0 \\
+			0 & \nu_2^2
+		\end{pmatrix}
+		-
+		\frac{1}{2}
+		\begin{pmatrix}
+			 0 & +1 \\
+			 0 & -1
+		\end{pmatrix}
+		\begin{pmatrix}
+			1 & 0 \\
+			0 & \mu^2
+		\end{pmatrix}
+		\begin{pmatrix}
+			 0 &  0 \\
+			+1 & -1
+		\end{pmatrix}
+	] \\
+&=
+	\frac{1}{\nu_1 \nu_2}
+	\det\qty[
+		\begin{pmatrix}
+			\nu_1^2 & 0 \\
+			0 & \nu_2^2
+		\end{pmatrix}
+		-
+		\frac{1}{2}
+		\begin{pmatrix}
+			+\mu^2		&	-\mu^2 \\
+			-\mu^2		&	+\mu^2
+		\end{pmatrix}
+	]
+	\\
+&=
+	\frac{1}{\nu_1 \nu_2}
+	\det \begin{pmatrix}
+		\nu_1^2 - \frac{1}{2} \mu^2	& + \frac{1}{2} \mu^2 \\
+		+ \frac{1}{2} \mu^2					& \nu_2^2 - \frac{1}{2} \mu^2
+	\end{pmatrix} \\
+&=
+	\frac{1}{\nu_1 \nu_2}
+	\qty(\nu_1^2 - \frac{1}{2} \mu^2) %%%%%%%%%%%%%%%%%%
+	\qty(\nu_2^2 - \frac{1}{2} \mu^2)
+	-
+	\qty(\frac{1}{2} \mu^2)
+	\qty(\frac{1}{2} \mu^2) \\
+&=
+	\frac{1}{\nu_1 \nu_2} \qty(
+		  \nu_1^2 \nu_2^2 
+		- \frac{1}{2} \nu_1^2 \mu^2
+		- \frac{1}{2} \nu_2^2 \mu^2
+		+ \frac{1}{4} \mu^2
+		- \frac{1}{4} \mu^2
+	) \\
+&=
+	1 - 
+	\frac
+		{\mu^2}
+		{2}
+	\frac
+		{\nu_1^2  +  \nu_2^2}
+		{\nu_1 \nu_2}
+\end{align}
+
 \end{document}
