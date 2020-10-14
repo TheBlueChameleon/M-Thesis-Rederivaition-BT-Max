@@ -1,0 +1,804 @@
+\documentclass[
+	english,
+	a4paper,
+	fontsize=10pt,
+	parskip=half,
+	titlepage=true,
+	DIV=12,
+	final
+]{scrreprt}
+
+
+%==============================================================================%
+% PACKAGES
+%
+% Standard text formatting
+\usepackage[utf8]{inputenc}
+\usepackage{babel}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{microtype}
+\usepackage{ragged2e}
+
+\usepackage{csquotes}
+\usepackage{xspace}
+
+\usepackage{placeins}	% FloatBarrier.
+\usepackage{url}
+\usepackage[bf, format=plain]{caption}
+
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks,
+    citecolor=black,
+    filecolor=black,
+    linkcolor=black,
+    urlcolor=black
+}
+
+% gfx
+\usepackage{wrapfig}
+\usepackage{xcolor}
+
+% tables
+\usepackage{tabularx}
+\usepackage{booktabs}
+\usepackage{multicol}
+\usepackage{multirow}
+\usepackage{makecell}
+\usepackage{color, colortbl}
+
+% math
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{dsfont}
+\let\olddiv\div
+\usepackage[arrowdel]{physics}
+\usepackage{mathtools}
+
+% indexes, links, page format
+\usepackage{scrlayer-scrpage}
+
+% misc
+\usepackage[super]{nth}
+\usepackage[
+	output-decimal-marker={.},
+	input-symbols = {()},  			% do not treat "(" and ")" in any special way
+	group-digits  = true  			% guess what.
+]{siunitx}
+\usepackage{minted}
+
+%==============================================================================%
+% GLOBAL MACROS
+%
+
+% Document properties
+\newcommand{\myName}{Stefan Hartinger\xspace}
+\newcommand{\myTitle}{Master Thesis Notes: Dealing with more than three modes\xspace}
+
+\addtokomafont{labelinglabel}{\sffamily}
+
+% Text abbreviations
+\newcommand*{\ie}{i.\,e.\xspace}
+\newcommand*{\eg}{e.\,g.\xspace}
+
+% Misc Symbols
+\newcommand*{\thus}{\ensuremath{\rightarrow}\xspace}
+\newcommand*{\Thus}{\ensuremath{\Rightarrow}\xspace}
+
+% Tables
+\newcommand*{\tabcrlf}{\\ \hline}			% actually still allows for optional argument
+
+% Math
+\newcommand*{\numberthis}{\addtocounter{equation}{1}\tag{\theequation}}
+
+\newcommand*{\smallfrac}  [2]{\ensuremath{{}^        {#1} \!/_        {#2}}}
+\newcommand*{\smallfracrm}[2]{\ensuremath{{}^{\mathrm{#1}}\!/_{\mathrm{#2}}}}
+
+\newcommand*{\transp}{\ensuremath{^\intercal}}
+
+\newcommand*{\iunit}{\ensuremath{\mathrm{i}}}
+
+\newcommand*{\setNaturals} {\ensuremath{\mathds{N}}}
+\newcommand*{\setIntegers} {\ensuremath{\mathds{Z}}}
+\newcommand*{\setReals}    {\ensuremath{\mathds{R}}}
+\newcommand*{\setRationals}{\ensuremath{\mathds{Q}}}
+\newcommand*{\setComplex}  {\ensuremath{\mathds{C}}}
+
+\newcommand*{\Lag}{\ensuremath{\mathcal{L}}\xspace}
+\newcommand*{\Ham}{\ensuremath{\mathcal{H}}\xspace}
+
+%\newcommand*{\Poisson}[2]{\ensuremath{\left\{ {#1}, {#2} \right\}}}
+% physics has \pb which is poisson bracket
+% also use alias acom: anticommutator, which is exactly the same.
+
+\newcommand*{\equalCond}{  \mathop{=}\limits^!  }
+
+\DeclareMathOperator{\arsinh}{arsinh}
+\DeclareMathOperator{\diag}{diag}
+
+\newcommand*{\DD}[1]{\ensuremath{\text{D}\vec{#1}\;}}
+\newcommand*{\set}[1]{\ensuremath{\{#1\}}}
+
+%==============================================================================%
+% GLOBAL PARAMTERS
+%
+
+\title{\myTitle}
+\author{\myName}
+\date{\today}
+
+% header, footer
+\clearpairofpagestyles
+	\cfoot
+		[\pagemark]
+		{\pagemark}
+	\ohead
+		[\myTitle, \myName]
+		{\myTitle, \myName}
+\pagestyle{scrheadings}
+
+%==============================================================================%
+% THE REAL STUFF
+%	
+\begin{document}
+\tableofcontents
+\newpage
+
+\chapter{The Exact Probability Amplitude in the $K=3$ Case}
+\section{Multinomial Coefficient}
+\begin{align}
+	\mqty(N \\ k_1, k_2, \ldots k_M)
+&\coloneqq
+	\frac
+		{N!}
+		{\prod_{j=1}^{M} k_j!}
+\end{align}
+
+Note that, for $\sum_j k_j = N$, this will yield an integer. From this, we also get the statement for $\sum_j k_j \leq N$. This is due to $N!$ containing all possible factors, not only primes. It is not possible to \enquote{divide out} all prime factors with the restrictions on $k_j$.
+
+Simple case: Assume $N = p_1 + p_2$, with $p_j$: prime. Then:
+\begin{align}
+	\mqty(N \\ p_1, p_2)
+&=
+	\frac{(p_1 + p_2)!}{p_1! \; p_2!}
+=
+	\frac
+		{2 \cdot \ldots \cdot p_1 \cdot \ldots \cdot p_2 \cdot \ldots \cdot (p_1 + p_2)}
+		{(2 \cdot \ldots \cdot p_1) \; (2 \cdot \ldots \cdot p_2)}
+\end{align}
+
+The prime factors $p_1, p_2$ are exactly cancelled. All other prime factors of $p_j!$ will be in $N!$, either directly or as integer multiples. It freaks me out, and I can't really proove it, but it is sound -- this will always give an integer.
+
+
+\section{Starting Point: Generic Formula}
+This is a transcription of eqn. (96) in Max thesis paper.
+
+Assuming a $K \times K$ system. Should be compatible with zero occupancies (though not explicitly checked; the $2 \times 2$ implementation is compatible).
+
+\begin{align}
+\nonumber
+	A_F(\vec{m}, \vec{n})
+&=
+	\frac
+		{\sqrt{\prod_j m_j! \, n_j!}}
+		{N!}
+	\mqty(
+		N \\
+		m_1, m_2, \ldots, m_K
+	) \\ 
+\nonumber
+&	\sum_{\nu_1^1 = 0}^{n_1}
+	\sum_{\nu_2^1 = 0}^{n_1 - \nu_1^1}
+	\ldots
+	\sum_{\nu_{K-1}^1 = 0}^{n_1 - \nu_1^1 - \ldots - \nu_{K-2}^1} \\
+\nonumber
+&	\sum_{\nu_1^2 = 0}^{n_2}
+	\sum_{\nu_2^2 = 0}^{n_2 - \nu_1^2}
+	\ldots
+	\sum_{\nu_{K-1}^2 = 0}^{n_2 - \nu_1^2 - \ldots - \nu_{K-2}^2} \\
+\nonumber
+&	\ldots \\
+\nonumber
+&	\sum_{\nu_1^K = 0}^{n_K}
+	\sum_{\nu_2^K = 0}^{n_K - \nu_1^K}
+	\ldots
+	\sum_{\nu_{K-1}^K = 0}^{n_K - \nu_1^K - \ldots - \nu_{K-2}^K} \\
+\nonumber
+&\quad
+	\prod_{j=1}^{K-1}
+		\Theta\qty(
+			m_j -
+			 {\textstyle \sum_{l=1}^{K} \nu_j^l}
+		)
+		\Theta\qty[
+			m_K - 
+			{\textstyle \qty(\sum_{l=1}^{K}
+				n_l - 
+				\qty(
+					\sum_{o=1}^{K-1} \nu_o^l
+				))
+			}
+		] \\
+\nonumber
+&\qquad\qquad
+		\mqty(
+			m_j \\
+			\nu_j^1, \nu_j^2, \ldots, \nu_j^K
+		)
+		\mqty(
+			m_K \\
+			\qty(n_1 - {
+				\textstyle \sum_{o=1}^{K-1} \nu_o^1
+			}),
+			\qty(n_2 - {
+				\textstyle \sum_{o=1}^{K-1} \nu_o^2
+			}),
+			\ldots,
+			\qty(n_K - {
+				\textstyle \sum_{o=1}^{K-1} \nu_o^K
+			})
+		) \\
+&\qquad\qquad
+	\prod_{l=1}^K
+	\prod_{o=1}^{K-1}
+		u_{o,l}^{\nu_o^l}
+		u_{K,l}^{n_l - \sum_{p=1}^{K-1} \nu_p^l}
+\end{align}
+
+
+\section{Notes on Implementation}
+Provide a function \texttt{bigInt multinomial(int, vector<int>)}. With this, the prefactor can be written as \texttt{sqrt(lambda) / factorial(N) * multinomial(N, m)}.
+
+There is no way to absorb all the summations into one \texttt{for}-loop. If there were, the entire problem would fall into a different class and I'd be rid of my thesis. Yes, there are $\mathcal{O}(N^2)$ summations.
+
+
+
+\section{Specialization: $K=3$}
+\begin{align}
+\nonumber
+	A_F(\vec{m}, \vec{n})
+&=
+	\frac
+		{\sqrt{\prod_j m_j! \, n_j!}}
+		{N!}
+	\mqty(
+		N \\
+		m_1, m_2, m_3
+	) \\ 
+\nonumber
+&	\sum_{\nu_1^1 = 0}^{n_1}
+	\sum_{\nu_2^1 = 0}^{n_1 - \nu_1^1}
+	\sum_{\nu_1^2 = 0}^{n_2}
+	\sum_{\nu_2^2 = 0}^{n_2 - \nu_1^2}
+	\sum_{\nu_1^3 = 0}^{n_3}
+	\sum_{\nu_2^3 = 0}^{n_3 - \nu_1^3} \\
+\nonumber
+&\quad
+	\prod_{j=1}^{2}
+		\Theta\qty(
+			m_j -
+			 {\textstyle \sum_{l=1}^{3} \nu_j^l}
+		)
+		\Theta\qty[
+			m_3 - 
+			{\textstyle \qty(\sum_{l=1}^3
+				n_l - 
+				\qty(
+					\sum_{o=1}^2 \nu_o^l
+				))
+			}
+		] \\
+\nonumber
+&\qquad\qquad
+		\mqty(
+			m_j \\
+			\nu_j^1, \nu_j^2, \nu_j^3
+		)
+		\mqty(
+			m_3 \\
+			\qty(n_1 - {
+				\textstyle \sum_{o=1}^2 \nu_o^1
+			}),
+			\qty(n_2 - {
+				\textstyle \sum_{o=1}^2 \nu_o^2
+			}),
+			\qty(n_K - {
+				\textstyle \sum_{o=1}^2 \nu_o^3
+			})
+		) \\
+&\qquad\qquad
+	\prod_{l=1}^3
+	\prod_{o=1}^2
+		u_{o,l}^{\nu_o^l}
+		u_{3,l}^{n_l - \sum_{p=1}^2 \nu_p^l}
+\end{align}
+
+
+\chapter{Exact Phases in the $K=3$ case}
+{\color{blue} I tried to find an analytical solution the the phase retrieval problem for three modes as a means to control the PRA results or really only select relevant data points. However, the attempts below proved unpractical. I kept it as a source for ideas / as documentation.}
+
+\section{Failed Attempt: Linear Equation}
+{\color{red} The approach below was ultimatively shown to be unusable, but formed the basis for the viable but unwieldy quadratic attempt.}
+
+\subsection{Finding a linear equation}
+Start from Fourier-Link (eqn. 1.24 in 04: redo), bring into $= 0$-form and do mod-square of equation.\\
+Get (for freely choosable $l \in \{1,2,3\}$):
+\begin{align}
+	0
+&=
+	\qty[
+		\sum_{j,k=1}^3
+			\sqrt{m_k m_j}  \;
+			u_{kl} u_{jl}^* \;
+			\exp[\Big. \iunit(\theta_k - \theta_j)]
+	] - n_l
+	\label{eqn:FourierModSquare} \\
+&=
+	\qty[
+		\sum_{k=1}^3
+			m_k
+			\underbrace{|u_{kl}|^2}_{= \smallfrac{1}{N}}
+	] +
+	\qty[
+		\sum_{k=1}^3
+		\sum_{j=k+1}^3
+			\sqrt{m_k m_j}  \;
+			u_{kl} u_{jl}^* \;
+			\qty[
+				\exp(\Big. \iunit(\theta_k - \theta_j)) +
+				\exp(\Big. \iunit(\theta_j - \theta_k))
+			]
+	]	- n_l \\
+&=
+	1 + 
+	\qty[
+		\sum_{k=1}^3
+		\sum_{j=k+1}^3
+			\sqrt{m_k m_j}  \;
+			u_{kl} u_{jl}^* \;
+			2 \cosh(\Big. \iunit(\theta_k - \theta_j))
+	]	- n_l
+\end{align}
+(note that $\mathbb{U}$ is symmetric -- cf \url{https://en.wikipedia.org/wiki/DFT_matrix}).
+
+Do temporary renaming: call $x_{kj} \coloneqq 2 \cosh(\Big. \iunit(\theta_k - \theta_j))$, with $x_{kj} = x_{jk}$ (property of $\cosh$) and $x \in \setComplex$.
+
+Find:
+\begin{align}
+	n_l - 1
+&=
+	\qty[
+		\sum_{k=1}^3
+		\sum_{j=k+1}^3
+			\sqrt{m_k m_j}  \;
+			u_{kl} u_{jl}^* \;
+			x_{kj}
+	]
+\end{align}
+
+I.\;e.: get \emph{three} equations ($l=1,2,3$) for \emph{three} unknowns (off-diagonal elements of $x_{jk}$). \Thus system can be solved for the three $x$'s. Together with fixing $\theta_1 = 0$ this solution should even be unique in variables $\theta_k$.
+
+Compact form:
+\begin{align}
+	C_l
+&=
+	\sum_{k=1}^3
+	\sum_{j=k+1}^3
+		a^{(l)}_{kj} x_{kj}
+=
+	\mathbb{A}^{(l)} : \mathbb{X} \\
+&=
+	a^{(l)}_{12} x_{12} +
+	a^{(l)}_{13} x_{13} +
+	a^{(l)}_{23} x_{23}
+	\label{eqn:matEqnPrecursor}
+\end{align}
+
+where $\mathbb{M}_1 : \mathbb{M}_2$ denotes the \emph{matrix scalar product} (as in math. modelling, Summer Term 2020) and $\mathbb{A}^{(l)}$ is a $3 \times 3$ upper triangular matrix where the main diagonal is zeros only. The equations (\ref{eqn:matEqnPrecursor}) (for $l = 1, 2, 3$) can hence be written as:
+\begin{align}
+	\vec{C}
+&=
+	\mathbb{B} \vec{x}
+\end{align}
+where
+\begin{align*}
+	\vec{C}
+&=
+	\mqty(n_l - \qty[
+		\sum_{k=1}^3
+			m_k
+			|u_{kl}|^2
+	])_{l=1,2,3}
+=
+	\mqty( \big. n_l - 1)_{l=1,2,3}
+&
+	a^{(l)}_{kj}
+&=
+	\sqrt{m_k m_j}  \; u_{kl} u_{jl}^*
+\\
+	\mathbb{B}
+&\coloneqq
+	\mqty(
+		a^{(1)}_{12} & a^{(1)}_{13} & a^{(1)}_{23} \\
+		a^{(2)}_{12} & a^{(2)}_{13} & a^{(2)}_{23} \\
+		a^{(3)}_{12} & a^{(3)}_{13} & a^{(3)}_{23}
+	)
+&
+	\vec{x}
+&\coloneqq
+	\mqty(x_{12} \\ x_{13} \\ x_{23})
+\end{align*}
+
+{\color{red}
+$\det(\mathbb{B}) = 0$, \ie the system cannot be solved. Regard the defintion of $a_{jk}^{(l)}$: the rows of $\mathbb{B}$ are linearly dependent, so this is not only a matter of introducing some exceptions but an overall issue.
+}
+
+\subsection{Going back from cosh-variables to phases}
+{\color{blue} This seems fleshed out so far and can be used, should I ever solve for the $x_{kj}$ variables. However I think it has low numerical accuracy.}
+
+For $z \in \setComplex$, $\cosh^{-1}(z)$ has up to four solutions:
+
+\begin{equation}
+	\cosh^{-1}(z) = \log[ \sqrt{z - 1} \sqrt{z + 1} + z ]
+\end{equation}
+(cf. \url{https://www.wolframalpha.com/input/?i=acosh%28x+%2B+iy%29})
+
+If $\sqrt{z}$ is a solution to $z^2 = c$, then so is $-\sqrt{z}$. The product of the two square roots can only have either of two signs, so we get to
+\begin{equation}
+	\cosh^{-1}(z) = \log[ {\color{blue}\pm} \sqrt{z - 1} \sqrt{z + 1} + z ]
+\end{equation}
+
+Finally, $\cosh$ is symmetric, hence we get another $\pm$:
+\begin{equation}
+	\cosh^{-1}(z) = {\color{blue}\pm} \log[ {\color{blue}\pm} \sqrt{z - 1} \sqrt{z + 1} + z ]
+\end{equation}
+
+This gives:
+\begin{align}
+	\theta_k - \theta_j = \mp \iunit \log\qty[
+		\pm \frac{1}{2} \qty( 
+			\sqrt{x_{kj} - 1} \sqrt{x_{kj} + 1} + x_{kj} 
+	)]
+\end{align}
+
+We expect purely real phases $\theta_k, \theta_j$ which imposes a restriction on $x_{kj}$ that can be used to check correctness.
+
+Since $\theta_1 \coloneqq 0$, we directly get $\theta_2 = -\iunit \cosh^{-1}(\smallfrac{1}{2} \; x_{12})$. The same condition allows to find four values for $\theta_3 = -\iunit \cosh^{-1}(x_{13})$.
+
+From these, four values for $\theta_3$ should coincide with the \emph{sixteen} values found from 
+\[ \theta_3 = \theta_2^{(r)} + \iunit \cosh^{-1}( \smallfrac{1}{2} \; x_{23}) \]
+
+{\color{red} however, we usually expect \emph{six} solutions...}
+
+\subsection{Numerical Stability}
+I expect accuracy issues when dealing with trignometric functions. In particular, I only need the $(\mu, \nu) = (\exp(\iunit \theta), \exp(\iunit \chi))$ variables. Hence it is convenient, to solve not for $\theta$, but for $\mu$. {\color{red} The below section was not finished and I kept running into issues; put some effort into the equations before implementing}
+
+Above considerations still hold when realizing:
+
+\begin{align}
+	x_{kj}
+=
+	\cosh(\iunit (\theta_k - \theta_j))
+&=
+	\frac{1}{2} \qty[ \Big.
+		\exp(+\iunit \theta_k) \exp(-\iunit \theta_j) +
+		\exp(+\iunit \theta_j) \exp(-\iunit \theta_k)
+	] \\
+&=
+	\frac{1}{2} \qty[
+		\mu_k \mu_j^* +
+		\mu_j \mu_k^*
+	]
+\end{align}
+giving a quadratic equation (in complex variables):
+
+\begin{align}
+	x_{kj} \mu_j
+&=
+	\frac{1}{2} \qty[
+		\mu_k \underbrace{\abs{\mu_j}^2}_{=1} +
+		\mu_j^2 \mu_k^*
+	]
+\\
+	0
+&=
+	\frac{\mu_k^*}{2} \mu_j^2 +
+	(\frac{\mu_k}{2} - x_{kj}) \mu_j
+%=
+%	\mu_j \qty(
+%		\frac{\mu_k^*}{2} \mu_j +
+%		\frac{\mu_k}{2} + x_{kj}
+%	)
+%=
+%	\mu_j \qty[\big. x_{kj} + \Re(\mu_k) ]
+\\
+	\mu_j
+&=
+	\frac{1}{\mu_k^*} \qty[
+		\pm (\frac{\mu_k}{2} - x_{kj}) - (\frac{\mu_k}{2} - x_{kj})
+	]
+\end{align}
+
+With $\mu_1 = \mu_1^* = 1$, this again allows to find $\mu_2$:
+\begin{align}
+	\mu_2^+ &= 0 \\
+	\mu_2^- &= \frac{-\mu_1 - 2 x_{12}}{\mu_1} = -1 - 2 x_{12}
+\end{align}
+
+and so:
+\begin{align}
+	\mu_3
+\end{align}
+
+\section{Quadratic Attempt}
+{\color{blue} This attempt can be shown to be solveable and, I think, yields all possible solutions. I didn't finish it because it's too unwieldy and prone to numerical errors.}
+
+\subsection{Formulating and Solving the System}
+Start from eqn. (\ref{eqn:matEqnPrecursor}) and compute the \emph{square}:
+
+\begin{align}
+	C_l^2
+=
+	(n_l - 1)^2
+&=
+	\qty( \big.
+	a^{(l)}_{12} x_{12} +
+	a^{(l)}_{13} x_{13} +
+	a^{(l)}_{23} x_{23}
+	)^2 \\
+&=
+	\nonumber
+	(a^{(l)}_{12})^2 (x_{12})^2 +
+	(a^{(l)}_{13})^2 (x_{13})^2 +
+	(a^{(l)}_{23})^2 (x_{23})^2 \\
+	&\qquad
+	2 a^{(l)}_{12} a^{(l)}_{13} x_{12} x_{13} +
+	2 a^{(l)}_{12} a^{(l)}_{23} x_{12} x_{23} +
+	2 a^{(l)}_{13} a^{(l)}_{23} x_{13} x_{23}
+\end{align}
+
+Relabel:
+\begin{align*}
+	x_{12} &\thus x_1 &
+	x_{13} &\thus x_2 &
+	x_{23} &\thus x_3
+\\
+	a_{12}^{(l)} &\thus a_1^{(l)} &
+	a_{13}^{(l)} &\thus a_2^{(l)} &
+	a_{23}^{(l)} &\thus a_3^{(l)}
+\end{align*}
+
+Begin again with resolving the system for $x_i$:
+\begin{align}
+	0
+&=
+	\qty(a_1^{(l)})^2 x_1^2 +
+	\qty(a_2^{(l)})^2 x_2^2 +
+	\qty(a_3^{(l)})^2 x_3^2 +
+	a_1^{(l)}a_2^{(l)} x_1 x_2 +
+	a_1^{(l)}a_3^{(l)} x_1 x_3 +
+	a_2^{(l)}a_3^{(l)} x_2 x_3 -
+	C_l^2
+	\label{eqn:sysQuadratic}
+\end{align}
+
+Temporarily regard $x_1$ as the sole variable, pick $l=1$, get form:
+\begin{align}
+	0
+&=
+	\qty(a_1^{(1)})^2 x_1^2 +
+	\beta_1 x_1 +
+	\gamma_1
+\\
+	\beta_1
+&=
+	a_1^{(1)}a_2^{(1)} x_2 +
+	a_1^{(1)}a_3^{(1)} x_3
+\\
+	\gamma_1
+&=
+	\qty(a_2^{(1)})^2 x_2^2 +
+	\qty(a_3^{(1)})^2 x_3^2 +
+	a_2^{(1)}a_3^{(1)} x_2 x_3 -
+	C_1^2
+\end{align}
+
+With solution of quadratic equation:
+\begin{align}
+	x_1^{\pm}
+&=
+	\frac
+		{-\beta_1 \pm \sqrt{\beta_1^2 - 4 \qty(a_1^{(1)})^2 \gamma_1}}
+		{2 \qty(a_1^{(1)})^2}
+\end{align}
+
+Plug back into system (\ref{eqn:sysQuadratic}), resolve for $x_2$ in $l=2$:
+\begin{align}
+	0
+&=
+	\qty(a_2^{(2)})^2 x_2^2 +
+	\beta_2 x_2 +
+	\gamma_2
+\\
+	\beta_2
+&=
+	a_1^{(2)}a_2^{(2)} x_1 +
+	a_2^{(2)}a_3^{(2)} x_3
+\\
+	\gamma_2
+&=
+	\qty(a_1^{(2)})^2 x_1^2 +
+	\qty(a_3^{(2)})^2 x_3^2 +
+	a_2^{(1)}a_3^{(1)} x_2 x_3 -
+	C_2^2
+\end{align}
+
+and use expression for $x_1^{\pm}$:
+\begin{align}
+	\beta_2^\pm
+&=
+	a_1^{(2)}a_2^{(2)} x_1 +
+	a_2^{(2)}a_3^{(2)} x_3
+\end{align}
+
+{\color{blue} You will find a new system with $x_1$ effectively removed, but already too ugly to really want to do that. But it \emph{is} possible to solve this with a free parameter $x_3$. Again you'll end up with a $x_2^{(r_2)}, r_2 \in \{1, \ldots, R_2\}$ as a function of $x_3$ (possibly a higher order polynomial). Do it a third time and you get a monster for $x_3^{(r_3)}, r_3 \in \{1, \ldots, R_3\}$, which will be really nasty to solve. Get a total of $2 \cdot R_2 \cdot R_3$ possible solutions.
+
+The same path can be followed to solve the phase retrieval problem for any number of modes $K$.}
+
+
+
+\subsection{Random Notes}
+Using natural indices (starting at 1):
+\begin{align}
+	u_{jk}
+&=
+	\exp(-2\pi\iunit \frac{(j-1)(k-1)}{N})
+\\
+	u_{kl} u_{jl}^*
+&=
+	\exp(-2\pi\iunit \frac{(k-1)(l-1)}{N})  \exp(+2\pi\iunit \frac{(j-1)(l-1)}{N}) \\
+&=
+	\exp(+2\pi\iunit \frac{(j-k)(l-1)}{N})
+=
+	u_{(j-k+1), l}^*
+\end{align}
+
+\subsection{Faulty Approach}
+{\color{red} This is based on the form in (\ref{eqn:sysQuadratic}), but I forgot about the square terms, which are not zero... maybe it can be used, anyway}
+
+Eliminate the mixed terms with the $l$ constants $C_l$: \\
+\begin{align}
+	x_{12} x_{13}
+&=
+	\frac
+		{1}
+		{2 a^{(1)}_{12} a^{(1)}_{13}} \qty( \Big.
+			C_1^2 -
+			2 a^{(1)}_{12} a^{(1)}_{23} x_{12} x_{23} -
+			2 a^{(1)}_{13} a^{(1)}_{23} x_{13} x_{23}
+		)
+\\
+	{\color{blue} x_{12} x_{23}}
+&=
+	\frac
+		{1}
+		{2 a^{(2)}_{12} a^{(2)}_{23}} \qty( \Big.
+			C_2^2 -
+			2 a^{(2)}_{12} a^{(2)}_{13} x_{12} x_{13} -
+			2 a^{(2)}_{13} a^{(2)}_{23} x_{13} x_{23}
+		)
+\\
+&=
+	\frac
+		{1}
+		{2 a^{(2)}_{12} a^{(2)}_{23}} \qty( \Big.
+			C_2^2 -
+			2 a^{(2)}_{12} a^{(2)}_{13} 
+				\frac
+						{1}
+						{2 a^{(1)}_{12} a^{(1)}_{13}} \qty( \Big.
+							C_1^2 -
+							2 a^{(1)}_{12} a^{(1)}_{23} {\color{blue} x_{12} x_{23}} -
+							2 a^{(1)}_{13} a^{(1)}_{23} x_{13} x_{23}
+						)
+			-
+			2 a^{(2)}_{13} a^{(2)}_{23} x_{13} x_{23}
+		)
+\\
+&=
+	\frac
+		{1}
+		{2 a^{(2)}_{12} a^{(2)}_{23}} \qty( \Big.
+			C_2^2 -
+			2 a^{(2)}_{12} a^{(2)}_{13} 
+				\frac
+						{1}
+						{2 a^{(1)}_{12} a^{(1)}_{13}} \qty( \Big.
+							C_1^2 -
+							2 a^{(1)}_{13} a^{(1)}_{23} x_{13} x_{23}
+						)
+			- 2 a^{(2)}_{12} a^{(2)}_{13} {\color{blue} x_{12} x_{23}}
+			- 2 a^{(2)}_{13} a^{(2)}_{23} x_{13} x_{23}
+	)
+\\
+	\qty(
+		1 + 
+		\frac
+			{a^{(2)}_{12} a^{(2)}_{13}}
+			{a^{(2)}_{12} a^{(2)}_{23}}
+	) {\color{blue} x_{12} x_{23}}
+&=
+	\frac
+		{1}
+		{2 a^{(2)}_{12} a^{(2)}_{23}} \qty( \Big.
+			C_2^2 -
+			2 a^{(2)}_{12} a^{(2)}_{13} 
+				\frac
+						{1}
+						{2 a^{(1)}_{12} a^{(1)}_{13}} \qty( \Big.
+							C_1^2 -
+							2 a^{(1)}_{13} a^{(1)}_{23} {\color{olive} x_{13} x_{23}}
+						)
+			- 2 a^{(2)}_{13} a^{(2)}_{23} {\color{olive} x_{13} x_{23}}
+	)
+\\
+	{\color{blue} x_{12} x_{23}}
+&=
+	\underbrace{	\frac
+		{1}
+		{2 a^{(2)}_{12} a^{(2)}_{23}
+			\qty(
+				1 +
+				\frac 
+				  {a^{(2)}_{12} a^{(2)}_{13}}
+					{a^{(2)}_{12} a^{(2)}_{23}}
+			)
+		}}_{\beta_1}
+	\qty( \Big.
+		\underbrace{
+			C_2^2 -
+			2 a^{(2)}_{12} a^{(2)}_{13} 
+				\frac
+					{C_1^2}
+					{2 a^{(1)}_{12} a^{(1)}_{13}} 
+		}_{\beta_2}
+			-
+			\underbrace{\qty( \Big.
+				\frac
+					{a^{(1)}_{13} a^{(1)}_{23}}
+					{a^{(1)}_{12} a^{(1)}_{13}} 
+				- 2 a^{(2)}_{13} a^{(2)}_{23}
+			)}_{\beta_3}
+		{\color{olive} x_{13} x_{23}}
+	) \\
+&=
+	\beta_1 \beta_2 - \beta_1 \beta_3 {\color{olive} x_{13} x_{23}}
+\end{align}
+
+\subsection{Cross Terms solution}
+{\color{blue} Assuming the cross terms $x_{kj} x_{pq} = x_s x_t$ are accessible, below you find a means to get to the individual $x_s$}
+
+Start from a system of form:
+\begin{align}
+	x_1 x_2 &= \alpha_3 &
+	x_2 x_3 &= \alpha_1 &
+	x_3 x_1 &= \alpha_2
+\end{align}
+
+which allows:
+\begin{align}
+	x_1 &= \frac{\alpha_3}{x_2} &
+	x_2 &= \frac{\alpha_1}{x_3} &
+	x_3 &= \frac{\alpha_2}{x_1}
+\\
+	\Thus
+	x_1 &= \frac{\alpha_3}{\alpha_1} x_3 = \frac{\alpha_3}{\alpha_1} \frac{\alpha_2}{x_1}
+\\
+	\Thus
+	x_1^2 &= \frac{\alpha_2 \alpha_3}{\alpha_1} &
+	x_1 &= \pm \sqrt{\frac{\alpha_2 \alpha_3}{\alpha_1}}
+\end{align}
+
+So we get two solutions for $x_1 = x_{12}$ and from each of them four solutions for $\theta_2$ for a total of eight values for $\theta_2$.
+\end{document}
