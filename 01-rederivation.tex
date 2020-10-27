@@ -1678,7 +1678,9 @@ and write $\exp$ as its Taylor expansion:
 =
 	\sum_{k=1}^{\infty}
 		\frac{1}{k!}
-		\underbrace{ \exp( \vec{x}_0\transp \, \mathbb{U} \, \vec{y}_0 ) }_{=\exp(a_0) = 1}
+		\underbrace{ 
+			\exp( \vec{x}_0\transp \, \mathbb{U} \, \vec{y}_0 )
+		}_{=\exp(a_0) = 1}
 		\qty( \vec{x}\transp \, \mathbb{U} \, \vec{y} - 0 )^{k}
 	\\
 &=
@@ -1707,7 +1709,7 @@ and write $\exp$ as its Taylor expansion:
 		\qty( 
 			\sum_{r=1}^{K}
 			\sum_{c=1}^{L}
-			x_c \; u_{r,c} \; y_r
+			x_r \; u_{r,c} \; y_c
 		)^{k}
 \end{align}
 and note that summands vanish where exponent $k$ less than order of derivative $m_i, n_i$:
@@ -1721,16 +1723,16 @@ and note that summands vanish where exponent $k$ less than order of derivative $
 		\frac{m_j !}{k!}
 			\sum_{r=1}^{K}
 			\sum_{c=1}^{L}
-		\qty(x_c)^{k - m_j}
-		\qty(u_{r,c} \; y_r)^{k}
+		\qty(x_r)^{k - m_j}
+		\qty(u_{r,c} \; y_c)^{k}
 	\\
 &=
 	\sum^{\infty}_{k=\max(m_j, n_j)}
 		\frac{m_j ! n_j !}{k!}
 			\sum_{r=1}^{K}
 			\sum_{c=1}^{L}
-				\qty(x_c)^{k - m_j}
-				\qty(y_r)^{k - n_j}
+				\qty(x_r)^{k - m_j}
+				\qty(y_c)^{k - n_j}
 				\qty(u_{r,c})^{k}
 \end{align}
 get:
@@ -1745,10 +1747,29 @@ get:
 		\qty( 
 			\sum_{r=1}^{K}
 			\sum_{c=1}^{L}
-				\qty(x_c)^{k - m_j}
-				\qty(y_r)^{k - n_j}
+				\qty(x_r)^{k - m_j}
+				\qty(y_c)^{k - n_j}
 				\qty(u_{r,c})^{k}
 		)
+\end{align}
+
+Note that $\vec{x} = \vec{y} = \vec{0}$, so only those summands survive where $k - m_j = 0$ or $k - n_j = 0$. (Apparently, $0^0 = 1$, here.) Together with evaluating the product over $j$ we get:
+\begin{align}
+	A_F
+&=
+	\qty(
+		\prod_{j=1}^{K}
+			\frac
+				{\sqrt{m_j! \; n_j!}}
+				{N!}
+	)
+	\qty( 
+		\sum_{r=1}^{K}
+		\sum_{c=1}^{L}
+			\qty(x_r)^{N}
+			\qty(y_c)^{N}
+			\qty(u_{r,c})^{N}
+	)
 \end{align}
 
 \item cf.:
@@ -1758,42 +1779,10 @@ get:
 	\qty( 
 			\sum_{r=1}^{K}
 			\sum_{c=1}^{L}
-			x_c \; u_{r,c} \; y_r
+			x_r \; u_{r,c} \; y_c
 		)^{N}
 \end{align*}
 
-
-\item {\color{red} I'm stuck here. I guess apply the product and neglect all summands other than $k=N$.
-	With $\sum_j m_j = M = N$ this gives:}
-\begin{align}
-	A_F
-&\approx
-	\frac
-		{\prod_{j=1}^{K} \sqrt{m_j! \; n_j!}}
-		{(N!)^K}
-	\qty( 
-		\sum_{r=1}^{K}
-		\sum_{c=1}^{L}
-			\qty(x_c)^{KN - N}
-			\qty(y_r)^{KN - N}
-			\qty(u_{r,c})^{KN}
-	) \\
-&=
-	\prod_{j=1}^{K}
-		\frac
-			{\sqrt{m_j! \; n_j!}}
-			{N!}
-		\qty(
-			\sum_{r=1}^{K}
-			\sum_{c=1}^{L}
-				\qty(x_c)^{N-1}
-				\qty(y_r)^{N-1}
-				\qty(u_{r,c})^{N}
-		)
-\end{align}
-	{\color{red} which is already pretty close to q.e.d. Assume the Statement holds, anyway. 
-	(cf. question marks above)}
-\item {\color{red} I have no clue in how far dimensionality $K \neq L$ is compatible with that.}
 \end{itemize}
 
 \subsection{Multinomial Theorem}
@@ -1831,7 +1820,7 @@ Statement
 \begin{align}
 	\qty( \vec{x}\transp \; \mathbb{U} \; \vec{y} )^{N}
 &=
-	\sum_{\sum_{k_j}^K = N}
+	\sum_{\sum_j^K k_j = N}
 		\begin{pmatrix}
 			N \\ k_1, \ldots, k_K
 		\end{pmatrix}
@@ -1849,12 +1838,12 @@ Statement
 
 Identities:
 \begin{align}
-	m_j &= k_j
+	m_j &= \sum_{{\color{blue} k=1}}^{L} \mu_{{\color{blue} k}}^{(t)} = k_j
 &
-	n_j &= \sum_{{\color{blue}} t=1}^{K} \mu_{j}^{{\color{blue} (t)}}
+	n_j &= \sum_{{\color{blue} t=1}}^{K} \mu_{j}^{{\color{blue} (t)}}
 	\label{eqn:sumIndexIdentitiesO1}
 \\
-	m_j &= \sum_{{\color{blue}} j=1}^{L} \mu_{{\color{blue} j}}^{(t)} = k_j
+	m_j &= k_j
 	\label{eqn:sumIndexIdentitiesO2}
 \end{align}
 

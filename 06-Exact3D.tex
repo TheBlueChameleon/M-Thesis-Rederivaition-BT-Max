@@ -74,7 +74,7 @@
 
 % Document properties
 \newcommand{\myName}{Stefan Hartinger\xspace}
-\newcommand{\myTitle}{Master Thesis Notes: Dealing with more than three modes\xspace}
+\newcommand{\myTitle}{Master Thesis Notes: Dealing with more than two modes\xspace}
 
 \addtokomafont{labelinglabel}{\sffamily}
 
@@ -205,27 +205,14 @@ Assuming a $K \times K$ system. Should be compatible with zero occupancies (thou
 	\ldots
 	\sum_{\nu_{K-1}^K = 0}^{n_K - \nu_1^K - \ldots - \nu_{K-2}^K} \\
 \nonumber
-&\quad
-	\prod_{j=1}^{K-1}
-		\Theta\qty(
-			m_j -
-			 {\textstyle \sum_{l=1}^{K} \nu_j^l}
-		)
+&\qquad
 		\Theta\qty[
-			m_K - 
-			{\textstyle \qty(\sum_{l=1}^{K}
-				n_l - 
-				\qty(
+			m_K - N + 
+			{\textstyle \qty(
+					\sum_{l=1}^{K}
 					\sum_{o=1}^{K-1} \nu_o^l
-				))
-			}
-		] \\
-\nonumber
-&\qquad\qquad
-		\mqty(
-			m_j \\
-			\nu_j^1, \nu_j^2, \ldots, \nu_j^K
-		)
+			)}
+		]
 		\mqty(
 			m_K \\
 			\qty(n_1 - {
@@ -239,11 +226,24 @@ Assuming a $K \times K$ system. Should be compatible with zero occupancies (thou
 				\textstyle \sum_{o=1}^{K-1} \nu_o^K
 			})
 		) \\
+\nonumber
 &\qquad\qquad
-	\prod_{l=1}^K
-	\prod_{o=1}^{K-1}
-		u_{o,l}^{\nu_o^l}
+	\prod_{j=1}^{K-1}
+		\Theta\qty(
+			m_j -
+			 {\textstyle \sum_{l=1}^{K} \nu_j^l}
+		)
+		\mqty(
+			m_j \\
+			\nu_j^1, \nu_j^2, \ldots, \nu_j^K
+		) \\
+\nonumber
+&\qquad\qquad \\
+&\qquad\qquad
+	\prod_{l=1}^K 
 		u_{K,l}^{n_l - \sum_{p=1}^{K-1} \nu_p^l}
+		\prod_{o=1}^{K-1}
+			u_{o,l}^{\nu_o^l}
 \end{align}
 
 
